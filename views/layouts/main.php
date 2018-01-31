@@ -50,6 +50,8 @@ AppAsset::register($this);
                     ['label' => 'Edit Kepala Kantor', 'url' => ['/kepala/create']],
                     '<li class="divider"></li>',
                     ['label' => 'Edit Bendahara', 'url' => ['/bendahara/create']],
+                    '<li class="divider"></li>',
+                    ['label' => 'Edit PPK', 'url' => ['/ppk/create']],
                 ],
             ],
             ['label' => 'About', 'url' => ['/site/about']],
