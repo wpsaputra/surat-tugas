@@ -18,7 +18,7 @@ class PegawaiSearch extends Pegawai
     public function rules()
     {
         return [
-            [['nip', 'flag_kepala', 'flag_bendahara', 'flag_pensiun', 'id_instansi'], 'integer'],
+            [['nip', 'flag_pensiun', 'id_instansi'], 'integer'],
             [['nama', 'pangkat', 'jabatan'], 'safe'],
         ];
     }
@@ -60,8 +60,6 @@ class PegawaiSearch extends Pegawai
         // grid filtering conditions
         $query->andFilterWhere([
             'nip' => $this->nip,
-            'flag_kepala' => $this->flag_kepala,
-            'flag_bendahara' => $this->flag_bendahara,
             'flag_pensiun' => $this->flag_pensiun,
             'id_instansi' => $this->id_instansi,
         ]);

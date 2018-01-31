@@ -39,7 +39,15 @@ AppAsset::register($this);
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
             ['label' => 'Home', 'url' => ['/site/index']],
-            ['label' => 'Pegawai', 'url' => ['/pegawai/index']],
+            // ['label' => 'Pegawai', 'url' => ['/pegawai/index']],
+            [
+                'label' => 'Pegawai',
+                'items' => [
+                    ['label' => 'Tambah Pegawai', 'url' => ['/pegawai/create']],
+                    '<li class="divider"></li>',
+                    ['label' => 'Daftar Pegawai', 'url' => ['/pegawai/index']],
+                ],
+            ],
             ['label' => 'About', 'url' => ['/site/about']],
             ['label' => 'Contact', 'url' => ['/site/contact']],
             Yii::$app->user->isGuest ? (

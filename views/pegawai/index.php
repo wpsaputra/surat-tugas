@@ -29,9 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'nama',
             'pangkat',
             'jabatan',
-            'flag_kepala',
-            //'flag_bendahara',
-            //'flag_pensiun',
+            'flag_pensiun',
             //'id_instansi',
 
             ['class' => 'yii\grid\ActionColumn'],

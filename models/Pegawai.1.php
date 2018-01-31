@@ -13,12 +13,11 @@ use yii\db\ActiveRecord;
  * @property string $nama
  * @property string $pangkat
  * @property string $jabatan
+ * @property int $flag_kepala
+ * @property int $flag_bendahara
  * @property int $flag_pensiun
  * @property int $id_instansi
  *
- * @property FlagBendahara[] $flagBendaharas
- * @property FlagKepala[] $flagKepalas
- * @property FlagPpk[] $flagPpks
  * @property Instansi $instansi
  * @property SuratTugas[] $suratTugas
  * @property SuratTugas[] $suratTugas0
@@ -30,8 +29,6 @@ class Pegawai extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
-    const SCENARIO_ADMIN = 'admin';
-
     public static function tableName()
     {
         return '{{%pegawai}}';
@@ -50,6 +47,37 @@ class Pegawai extends \yii\db\ActiveRecord
                     return Yii::$app->user->identity->id_instansi;
                 },
             ],
+            "auto_fill_flag_kepala"=>[
+                'class' => AttributeBehavior::className(),
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => 'flag_kepala',
+                    ActiveRecord::EVENT_BEFORE_UPDATE => 'flag_kepala',
+                ],
+                'value' => function ($event) {
+                    return 0;
+                },
+            ],
+            "auto_fill_flag_bendahara"=>[
+                'class' => AttributeBehavior::className(),
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => 'flag_bendahara',
+                    ActiveRecord::EVENT_BEFORE_UPDATE => 'flag_bendahara',
+                ],
+                'value' => function ($event) {
+                    return 0;
+                },
+            ],
+            "auto_fill_flag_pensiun"=>[
+                'class' => AttributeBehavior::className(),
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => 'flag_pensiun',
+                    ActiveRecord::EVENT_BEFORE_UPDATE => 'flag_pensiun',
+                ],
+                'value' => function ($event) {
+                    return 0;
+                },
+            ]
+
             
         ];
     }
@@ -60,14 +88,13 @@ class Pegawai extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['nip', 'nama', 'pangkat', 'jabatan', 'flag_pensiun'], 'required'],
-            [['nip', 'flag_pensiun', 'id_instansi'], 'integer'],
+            [['nip', 'nama', 'pangkat', 'jabatan'], 'required'],
+            [['nip', 'flag_kepala', 'flag_bendahara', 'flag_pensiun', 'id_instansi'], 'integer'],
             [['nama'], 'string', 'max' => 37],
             [['pangkat'], 'string', 'max' => 28],
             [['jabatan'], 'string', 'max' => 65],
             [['nip'], 'unique'],
             [['id_instansi'], 'exist', 'skipOnError' => true, 'targetClass' => Instansi::className(), 'targetAttribute' => ['id_instansi' => 'id']],
-            [['id_instansi'], 'required', 'on'=>self::SCENARIO_ADMIN],
         ];
     }
 
@@ -81,33 +108,11 @@ class Pegawai extends \yii\db\ActiveRecord
             'nama' => 'Nama',
             'pangkat' => 'Pangkat',
             'jabatan' => 'Jabatan',
+            'flag_kepala' => 'Flag Kepala',
+            'flag_bendahara' => 'Flag Bendahara',
             'flag_pensiun' => 'Flag Pensiun',
             'id_instansi' => 'Id Instansi',
         ];
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getFlagBendaharas()
-    {
-        return $this->hasMany(FlagBendahara::className(), ['nip' => 'nip']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getFlagKepalas()
-    {
-        return $this->hasMany(FlagKepala::className(), ['nip' => 'nip']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getFlagPpks()
-    {
-        return $this->hasMany(FlagPpk::className(), ['nip' => 'nip']);
     }
 
     /**

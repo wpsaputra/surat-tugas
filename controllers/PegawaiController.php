@@ -8,6 +8,7 @@ use app\models\PegawaiSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\HttpException;
 
 /**
  * PegawaiController implements the CRUD actions for Pegawai model.
@@ -37,6 +38,11 @@ class PegawaiController extends Controller
     {
         $searchModel = new PegawaiSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        
+        // Only show pegawai based on curent user instansi
+        if(Yii::$app->user->identity->role!=99){
+            $dataProvider->query->where(['id_instansi' => Yii::$app->user->identity->id_instansi]);
+        }
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -52,8 +58,16 @@ class PegawaiController extends Controller
      */
     public function actionView($id)
     {
+        $model = $this->findModel($id);
+        // Only admin or user with same instansi can view or update pegawai
+        if(Yii::$app->user->identity->role!=99){
+            if(Yii::$app->user->identity->id_instansi!=$model->id_instansi){
+                throw new HttpException(403, "You are not allowed to perform this action");
+            }
+        }
+
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
         ]);
     }
 
@@ -65,6 +79,11 @@ class PegawaiController extends Controller
     public function actionCreate()
     {
         $model = new Pegawai();
+        // Only admin can change pegawai instansi otherwise auto_fill_instansi_with_user
+        if(Yii::$app->user->identity->role==99){
+            $model->setScenario(Pegawai::SCENARIO_ADMIN);
+            $model->detachBehavior("auto_fill_instansi_with_user");
+        }
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->nip]);
@@ -85,6 +104,18 @@ class PegawaiController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        // Only show pegawai based on cuurent user instansi
+        if(Yii::$app->user->identity->role==99){
+            $model->setScenario(Pegawai::SCENARIO_ADMIN);
+            $model->detachBehavior("auto_fill_instansi_with_user");
+        }
+
+        // Only admin or user with same instansi can view or update pegawai
+        if(Yii::$app->user->identity->role!=99){
+            if(Yii::$app->user->identity->id_instansi!=$model->id_instansi){
+                throw new HttpException(403, "You are not allowed to perform this action");
+            }
+        }
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->nip]);
@@ -104,8 +135,15 @@ class PegawaiController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $model = $this->findModel($id);
+        // Only admin or user with same instansi can view or update pegawai
+        if(Yii::$app->user->identity->role!=99){
+            if(Yii::$app->user->identity->id_instansi!=$model->id_instansi){
+                throw new HttpException(403, "You are not allowed to perform this action");
+            }
+        }
 
+        $model->delete();
         return $this->redirect(['index']);
     }
 

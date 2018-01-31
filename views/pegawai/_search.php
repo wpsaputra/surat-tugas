@@ -23,11 +23,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'jabatan') ?>
 
-    <?= $form->field($model, 'flag_kepala') ?>
-
-    <?php // echo $form->field($model, 'flag_bendahara') ?>
-
-    <?php // echo $form->field($model, 'flag_pensiun') ?>
+    <?= $form->field($model, 'flag_pensiun') ?>
 
     <?php // echo $form->field($model, 'id_instansi') ?>
 
