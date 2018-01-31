@@ -2,17 +2,17 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use yii\helpers\ArrayHelper;
-use app\models\Instansi;
 use kartik\select2\Select2;
+use yii\helpers\ArrayHelper;
 use app\models\Pegawai;
+use app\models\Instansi;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\FlagKepala */
+/* @var $model app\models\FlagBendahara */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="flag-kepala-form">
+<div class="flag-bendahara-form">
 
     <?php $form = ActiveForm::begin(); ?>
 
@@ -20,7 +20,7 @@ use app\models\Pegawai;
     <?= $form->field($model, 'nip')->widget(Select2::classname(), [
         // 'data' => $data,
         'data' => ArrayHelper::map(Pegawai::find()->where(["id_instansi" => Yii::$app->user->identity->id_instansi])->all(),'nip','nama'),
-        'options' => ['placeholder' => 'Pilih kepala kantor saat ini ...'],
+        'options' => ['placeholder' => 'Pilih bendahara saat ini ...'],
         'pluginOptions' => [
             'allowClear' => true
         ],
