@@ -54,8 +54,32 @@ AppAsset::register($this);
                     ['label' => 'Edit PPK', 'url' => ['/ppk/create']],
                 ],
             ],
-            ['label' => 'About', 'url' => ['/site/about']],
-            ['label' => 'Contact', 'url' => ['/site/contact']],
+            [
+                'label' => 'Pembebanan Anggaran',
+                'items' => [
+                    ['label' => 'Kelola Program', 'url' => ['/program/index']],
+                    '<li class="divider"></li>',
+                    ['label' => 'Kelola Kegiatan', 'url' => ['/kegiatan/index']],
+                    '<li class="divider"></li>',
+                    ['label' => 'Kelola Output', 'url' => ['/output/index']],
+                    '<li class="divider"></li>',
+                    ['label' => 'Kelola Komponen', 'url' => ['/komponen/index']],
+                ],
+            ],
+            [
+                'label' => 'Surat Tugas',
+                'items' => [
+                    ['label' => 'Kelola Program', 'url' => ['/program/index']],
+                    '<li class="divider"></li>',
+                    ['label' => 'Kelola Kegiatan', 'url' => ['/kegiatan/index']],
+                    '<li class="divider"></li>',
+                    ['label' => 'Kelola Output', 'url' => ['/output/index']],
+                    '<li class="divider"></li>',
+                    ['label' => 'Kelola Komponen', 'url' => ['/komponen/index']],
+                ],
+            ],
+            // ['label' => 'About', 'url' => ['/site/about']],
+            // ['label' => 'Contact', 'url' => ['/site/contact']],
             Yii::$app->user->isGuest ? (
                 ['label' => 'Login', 'url' => ['/site/login']]
             ) : (
