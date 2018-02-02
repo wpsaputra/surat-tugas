@@ -9,6 +9,7 @@ use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
+use PhpOffice\PhpWord\TemplateProcessor;
 
 class SiteController extends Controller
 {
@@ -121,6 +122,10 @@ class SiteController extends Controller
      */
     public function actionAbout()
     {
+        $templateProcessor = new TemplateProcessor('template/template.docx');
+        $templateProcessor->setValue('Name', 'John Doe');
+        $templateProcessor->setValue(array('City', 'Street'), array('Detroit', '12th Street'));
+        $templateProcessor->saveAs("template/tes.docx");
         return $this->render('about');
     }
 }
