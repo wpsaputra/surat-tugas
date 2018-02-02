@@ -67,15 +67,11 @@ AppAsset::register($this);
                 ],
             ],
             [
-                'label' => 'Surat Tugas',
+                'label' => 'Surat Tugas & Kwitansi',
                 'items' => [
-                    ['label' => 'Kelola Program', 'url' => ['/program/index']],
+                    ['label' => 'Kelola Surat Tugas & SPD', 'url' => ['/program/index']],
                     '<li class="divider"></li>',
-                    ['label' => 'Kelola Kegiatan', 'url' => ['/kegiatan/index']],
-                    '<li class="divider"></li>',
-                    ['label' => 'Kelola Output', 'url' => ['/output/index']],
-                    '<li class="divider"></li>',
-                    ['label' => 'Kelola Komponen', 'url' => ['/komponen/index']],
+                    ['label' => 'Kelola Kwitansi', 'url' => ['/kegiatan/index']],
                 ],
             ],
             // ['label' => 'About', 'url' => ['/site/about']],
