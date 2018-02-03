@@ -20,7 +20,9 @@
         "yiisoft/yii2-swiftmailer": "~2.0.0",
         "kartik-v/yii2-widget-typeahead": "*",
         "kartik-v/yii2-widget-select2": "@dev",
-        "phpoffice/phpword": "^0.14.0"
+        "phpoffice/phpword": "^0.14.0",
+        "wbraganca/yii2-dynamicform": "dev-master",
+        "mootensai/yii2-relation-trait": "dev-master"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

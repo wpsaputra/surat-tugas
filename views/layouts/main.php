@@ -69,7 +69,7 @@ AppAsset::register($this);
             [
                 'label' => 'Surat Tugas & Kwitansi',
                 'items' => [
-                    ['label' => 'Kelola Surat Tugas & SPD', 'url' => ['/program/index']],
+                    ['label' => 'Kelola Surat Tugas & SPD', 'url' => ['/stspd/index']],
                     '<li class="divider"></li>',
                     ['label' => 'Kelola Kwitansi', 'url' => ['/kegiatan/index']],
                 ],
