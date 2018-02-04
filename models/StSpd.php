@@ -45,6 +45,7 @@ use Yii;
  */
 class StSpd extends \yii\db\ActiveRecord
 {
+    use \mootensai\relation\RelationTrait;
     /**
      * @inheritdoc
      */

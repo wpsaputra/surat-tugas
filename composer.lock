@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "8f9bc0a8ec557664677d48aeb536078a",
+    "content-hash": "766385ce2e20f20c9b5606f139a94428",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -63,6 +63,28 @@
                 "url": "https://api.github.com/repos/jquery/jquery-dist/zipball/77d2a51d0520d2ee44173afdf4e40a9201f5964e",
                 "reference": "77d2a51d0520d2ee44173afdf4e40a9201f5964e",
                 "shasum": null
+            },
+            "type": "bower-asset",
+            "license": [
+                "MIT"
+            ]
+        },
+        {
+            "name": "bower-asset/jquery-ui",
+            "version": "1.12.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/components/jqueryui.git",
+                "reference": "44ecf3794cc56b65954cc19737234a3119d036cc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/components/jqueryui/zipball/44ecf3794cc56b65954cc19737234a3119d036cc",
+                "reference": "44ecf3794cc56b65954cc19737234a3119d036cc",
+                "shasum": null
+            },
+            "require": {
+                "bower-asset/jquery": ">=1.6"
             },
             "type": "bower-asset",
             "license": [
@@ -215,6 +237,53 @@
             "time": "2017-06-03T02:28:16+00:00"
         },
         {
+            "name": "kartik-v/dependent-dropdown",
+            "version": "v1.4.8",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kartik-v/dependent-dropdown.git",
+                "reference": "1349e7f5816a65e89bc227098386aac5b2c89363"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://files.phpcomposer.com/files/kartik-v/dependent-dropdown/1349e7f5816a65e89bc227098386aac5b2c89363.zip",
+                "reference": "1349e7f5816a65e89bc227098386aac5b2c89363",
+                "shasum": ""
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.4.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "kartik\\plugins\\depdrop\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Kartik Visweswaran",
+                    "email": "kartikv2@gmail.com",
+                    "homepage": "http://www.krajee.com/"
+                }
+            ],
+            "description": "A multi level dependent dropdown JQuery plugin that allows nested dependencies.",
+            "homepage": "https://github.com/kartik-v/dependent-dropdown",
+            "keywords": [
+                "dependent",
+                "dropdown",
+                "jquery",
+                "option",
+                "select"
+            ],
+            "time": "2017-08-01T11:43:55+00:00"
+        },
+        {
             "name": "kartik-v/yii2-krajee-base",
             "version": "v1.8.9",
             "source": {
@@ -264,6 +333,55 @@
                 "yii2"
             ],
             "time": "2017-09-29T06:18:14+00:00"
+        },
+        {
+            "name": "kartik-v/yii2-widget-depdrop",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kartik-v/yii2-widget-depdrop.git",
+                "reference": "6918ca6f7d7be153c80f6aa9c261f9b333293e9c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://files.phpcomposer.com/files/kartik-v/yii2-widget-depdrop/6918ca6f7d7be153c80f6aa9c261f9b333293e9c.zip",
+                "reference": "6918ca6f7d7be153c80f6aa9c261f9b333293e9c",
+                "shasum": ""
+            },
+            "require": {
+                "kartik-v/dependent-dropdown": "~1.4",
+                "kartik-v/yii2-krajee-base": "~1.7"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "kartik\\depdrop\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Kartik Visweswaran",
+                    "email": "kartikv2@gmail.com",
+                    "homepage": "http://www.krajee.com/"
+                }
+            ],
+            "description": "Widget that enables setting up dependent dropdowns with nested dependencies (sub repo split from yii2-widgets)",
+            "homepage": "https://github.com/kartik-v/yii2-widget-depdrop",
+            "keywords": [
+                "dependent",
+                "dropdown",
+                "extension",
+                "form",
+                "jquery",
+                "plugin",
+                "widget",
+                "yii2"
+            ],
+            "time": "2016-01-10 17:30:48"
         },
         {
             "name": "kartik-v/yii2-widget-select2",
@@ -667,7 +785,7 @@
         },
         {
             "name": "symfony/css-selector",
-            "version": "v3.4.3",
+            "version": "v3.4.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/css-selector.git",
@@ -720,7 +838,7 @@
         },
         {
             "name": "symfony/dom-crawler",
-            "version": "v3.4.3",
+            "version": "v3.4.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/dom-crawler.git",
@@ -776,16 +894,16 @@
         },
         {
             "name": "symfony/polyfill-mbstring",
-            "version": "v1.6.0",
+            "version": "v1.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-mbstring.git",
-                "reference": "2ec8b39c38cb16674bbf3fea2b6ce5bf117e1296"
+                "reference": "78be803ce01e55d3491c1397cf1c64beb9c1b63b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://files.phpcomposer.com/files/symfony/polyfill-mbstring/2ec8b39c38cb16674bbf3fea2b6ce5bf117e1296.zip",
-                "reference": "2ec8b39c38cb16674bbf3fea2b6ce5bf117e1296",
+                "url": "https://files.phpcomposer.com/files/symfony/polyfill-mbstring/78be803ce01e55d3491c1397cf1c64beb9c1b63b.zip",
+                "reference": "78be803ce01e55d3491c1397cf1c64beb9c1b63b",
                 "shasum": ""
             },
             "require": {
@@ -797,7 +915,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.6-dev"
+                    "dev-master": "1.7-dev"
                 }
             },
             "autoload": {
@@ -831,7 +949,7 @@
                 "portable",
                 "shim"
             ],
-            "time": "2017-10-11T12:05:26+00:00"
+            "time": "2018-01-30T19:27:44+00:00"
         },
         {
             "name": "wbraganca/yii2-dynamicform",
@@ -1076,6 +1194,52 @@
                 "yii2"
             ],
             "time": "2016-12-20T13:26:02+00:00"
+        },
+        {
+            "name": "yiisoft/yii2-jui",
+            "version": "2.0.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/yiisoft/yii2-jui.git",
+                "reference": "ce45c16d4fbbe7d1c516d8d0e8311e07f6138eed"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://files.phpcomposer.com/files/yiisoft/yii2-jui/ce45c16d4fbbe7d1c516d8d0e8311e07f6138eed.zip",
+                "reference": "ce45c16d4fbbe7d1c516d8d0e8311e07f6138eed",
+                "shasum": ""
+            },
+            "require": {
+                "bower-asset/jquery-ui": "~1.12.1",
+                "yiisoft/yii2": "~2.0.4"
+            },
+            "type": "yii2-extension",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "yii\\jui\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Qiang Xue",
+                    "email": "qiang.xue@gmail.com"
+                }
+            ],
+            "description": "The Jquery UI extension for the Yii framework",
+            "keywords": [
+                "jQuery UI",
+                "yii2"
+            ],
+            "time": "2017-11-25T15:32:29+00:00"
         },
         {
             "name": "yiisoft/yii2-swiftmailer",
@@ -3677,8 +3841,9 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "kartik-v/yii2-widget-select2": 20,
+        "mootensai/yii2-relation-trait": 20,
         "wbraganca/yii2-dynamicform": 20,
-        "mootensai/yii2-relation-trait": 20
+        "kartik-v/yii2-widget-depdrop": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

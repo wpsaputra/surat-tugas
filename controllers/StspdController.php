@@ -8,6 +8,7 @@ use app\models\StSpdSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use app\models\StSpdAnggota;
 
 /**
  * StspdController implements the CRUD actions for StSpd model.
@@ -64,15 +65,28 @@ class StspdController extends Controller
      */
     public function actionCreate()
     {
-        $model = new StSpd();
+        // $model = new StSpd();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        // if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        //     return $this->redirect(['view', 'id' => $model->id]);
+        // }
+
+        // return $this->render('create', [
+        //     'model' => $model,
+        // ]);
+
+        $model = new StSpd();
+        $modelsAnggota = [new StSpdAnggota];
+
+        if ($model->loadAll(Yii::$app->request->post()) && $model->saveAll()) {
             return $this->redirect(['view', 'id' => $model->id]);
+        } else {
+            return $this->render('create', [
+                'model' => $model,
+                'modelsAnggota' => (empty($modelsAnggota)) ? [new StSpdAnggota] : $modelsAnggota
+            ]);
         }
 
-        return $this->render('create', [
-            'model' => $model,
-        ]);
     }
 
     /**
@@ -84,15 +98,27 @@ class StspdController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        // $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        // if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        //     return $this->redirect(['view', 'id' => $model->id]);
+        // }
+
+        // return $this->render('update', [
+        //     'model' => $model,
+        // ]);
+
+        $model = $this->findModel($id);;
+        $modelsAnggota = $model->stSpdAnggotas;
+
+        if ($model->loadAll(Yii::$app->request->post()) && $model->saveAll()) {
             return $this->redirect(['view', 'id' => $model->id]);
+        } else {
+            return $this->render('create', [
+                'model' => $model,
+                'modelsAnggota' => (empty($modelsAnggota)) ? [new StSpdAnggota] : $modelsAnggota
+            ]);
         }
-
-        return $this->render('update', [
-            'model' => $model,
-        ]);
     }
 
     /**

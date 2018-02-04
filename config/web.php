@@ -51,8 +51,21 @@ $config = [
             ],
         ],
         */
+
+        'assetManager' => [
+            'bundles' => [
+                'wbraganca\dynamicform\DynamicFormAsset' => [
+                    'sourcePath' => '@app/web/js',
+                    'js' => [
+                        'yii2-dynamic-form.js'
+                    ],
+                ],
+            ],
+        ],
+
     ],
     'params' => $params,
+    
 ];
 
 if (YII_ENV_DEV) {

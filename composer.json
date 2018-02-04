@@ -21,8 +21,10 @@
         "kartik-v/yii2-widget-typeahead": "*",
         "kartik-v/yii2-widget-select2": "@dev",
         "phpoffice/phpword": "^0.14.0",
+        "mootensai/yii2-relation-trait": "dev-master",
         "wbraganca/yii2-dynamicform": "dev-master",
-        "mootensai/yii2-relation-trait": "dev-master"
+        "yiisoft/yii2-jui": "^2.0",
+        "kartik-v/yii2-widget-depdrop": "@dev"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",
