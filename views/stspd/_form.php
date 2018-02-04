@@ -17,6 +17,8 @@ use app\models\Kegiatan;
 use app\models\Output;
 use app\models\Komponen;
 use app\models\Kendaraan;
+use app\models\Akun;
+use app\models\Instansi;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\StSpd */
@@ -120,7 +122,12 @@ foreach ($arr_bendahara as $key => $value) {
 
                         <div class="row">
                             <div class="col-sm-6">
-                                <?= $form->field($modelAnggota, "[{$index}]nip_anggota")->textInput(['maxlength' => true]) ?>
+                                <!-- <?= $form->field($modelAnggota, "[{$index}]nip_anggota")->textInput(['maxlength' => true]) ?> -->
+                                <?= $form->field($modelAnggota, "[{$index}]nip_anggota")->dropDownList(
+                                    ArrayHelper::map(Pegawai::find()->where(["id_instansi" => Yii::$app->user->identity->id_instansi])->all(),'nip','nama'),
+                                    ['prompt'=>'Pilih pegawai ...']
+                                )?>
+
                             </div>
                             <div class="col-sm-6">
                                 <?= $form->field($modelAnggota, "[{$index}]nomor_spd")->textInput(['maxlength' => true]) ?>
@@ -154,12 +161,16 @@ foreach ($arr_bendahara as $key => $value) {
         'options' => ['class' => 'form-control']
     ]) ?>
 
-    <?= $form->field($model, 'tingkat_perjalanan_dinas')->textInput(['maxlength' => true]) ?>
+    <!-- <?= $form->field($model, 'tingkat_perjalanan_dinas')->textInput(['maxlength' => true]) ?> -->
+    <?= $form->field($model, "tingkat_perjalanan_dinas")->dropDownList(
+        ["B"=>"B", "C"=>"C"],
+        ['prompt'=>'Pilih tingkat perjalanan dinas ...']
+    )?>
 
     <!-- <?= $form->field($model, 'id_kendaraan')->textInput() ?> -->
     <?= $form->field($model, 'id_kendaraan')->widget(Select2::classname(), [
         'data' => ArrayHelper::map(Kendaraan::find()->all(),'id','nama_kendaraan'),
-        'options' => ['placeholder' => 'Pilih program ...'],
+        'options' => ['placeholder' => 'Pilih kendaraan ...'],
         'pluginOptions' => [
             'allowClear' => true
         ],
@@ -199,16 +210,14 @@ foreach ($arr_bendahara as $key => $value) {
     <!-- <?= $form->field($model, 'kode_komponen')->textInput() ?> -->
     <?= $form->field($model, 'kode_komponen')->widget(Select2::classname(), [
         'data' => ArrayHelper::map(Komponen::find()->all(),'id','uraian'),
-        'options' => ['placeholder' => 'Pilih Output ...'],
+        'options' => ['placeholder' => 'Pilih Komponen ...'],
         'pluginOptions' => [
             'allowClear' => true
         ],
     ]);
     ?>
 
-    <?= $form->field($model, 'st_path')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'id_instansi')->textInput() ?>
+    <!-- <?= $form->field($model, 'st_path')->textInput(['maxlength' => true]) ?> -->
 
     <!-- <?= $form->field($model, 'nip_kepala')->textInput(['maxlength' => true]) ?> -->
     <?= $form->field($model, 'nip_kepala')->widget(Select2::classname(), [
@@ -240,7 +249,25 @@ foreach ($arr_bendahara as $key => $value) {
     ]);
     ?>
 
-    <?= $form->field($model, 'id_akun')->textInput() ?>
+    <!-- <?= $form->field($model, 'id_akun')->textInput() ?> -->
+    <?= $form->field($model, 'id_akun')->widget(Select2::classname(), [
+        'data' => ArrayHelper::map(Akun::find()->all(),'id','uraian'),
+        'options' => ['placeholder' => 'Pilih akun ...'],
+        'pluginOptions' => [
+            'allowClear' => true
+        ],
+    ]);
+    ?>
+
+    <!-- <?= $form->field($model, 'id_instansi')->textInput() ?> -->
+    <?php
+        if(Yii::$app->user->identity->role==99){
+            echo $form->field($model, 'id_instansi')->dropDownList(
+                ArrayHelper::map(Instansi::find()->all(),'id','instansi'),
+                ['prompt'=>'Pilih Instansi Pegawai']
+            );
+        } 
+    ?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

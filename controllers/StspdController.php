@@ -78,6 +78,12 @@ class StspdController extends Controller
         $model = new StSpd();
         $modelsAnggota = [new StSpdAnggota];
 
+        // Only admin can change pegawai instansi otherwise auto_fill_instansi_with_user
+        if(Yii::$app->user->identity->role==99){
+            $model->setScenario(StSpd::SCENARIO_ADMIN);
+            $model->detachBehavior("auto_fill_instansi_with_user");
+        }
+
         if ($model->loadAll(Yii::$app->request->post()) && $model->saveAll()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
@@ -111,10 +117,16 @@ class StspdController extends Controller
         $model = $this->findModel($id);;
         $modelsAnggota = $model->stSpdAnggotas;
 
+        // Only admin can change pegawai instansi otherwise auto_fill_instansi_with_user
+        if(Yii::$app->user->identity->role==99){
+            $model->setScenario(StSpd::SCENARIO_ADMIN);
+            $model->detachBehavior("auto_fill_instansi_with_user");
+        }
+
         if ($model->loadAll(Yii::$app->request->post()) && $model->saveAll()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
-            return $this->render('create', [
+            return $this->render('update', [
                 'model' => $model,
                 'modelsAnggota' => (empty($modelsAnggota)) ? [new StSpdAnggota] : $modelsAnggota
             ]);

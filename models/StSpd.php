@@ -3,6 +3,9 @@
 namespace app\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
+use yii\behaviors\AttributeBehavior;
 
 /**
  * This is the model class for table "{{%st_spd}}".
@@ -49,9 +52,80 @@ class StSpd extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
+    const SCENARIO_ADMIN = 'admin';
+
     public static function tableName()
     {
         return '{{%st_spd}}';
+    }
+
+    public function behaviors() {
+        
+        return [
+            "tanggalTerbitBeforeSave" => [
+                "class" => TimestampBehavior::className(),
+                    "attributes" => [
+                        ActiveRecord::EVENT_BEFORE_INSERT => "tanggal_terbit",
+                        ActiveRecord::EVENT_BEFORE_UPDATE => "tanggal_terbit",
+                    ],
+                    "value" => function() { return Yii::$app->formatter->asDate($this->tanggal_terbit, "Y-MM-dd"); }
+            ],
+            "tanggalTerbitAfterFind" => [
+                   "class" => TimestampBehavior::className(),
+                    "attributes" => [
+                        ActiveRecord::EVENT_AFTER_FIND => "tanggal_terbit",
+                    ],
+                    "value" => function() { return Yii::$app->formatter->asDate($this->tanggal_terbit, "MMM dd, Y"); }
+                    
+            ],
+
+            "tanggalPergiBeforeSave" => [
+                "class" => TimestampBehavior::className(),
+                    "attributes" => [
+                        ActiveRecord::EVENT_BEFORE_INSERT => "tanggal_pergi",
+                        ActiveRecord::EVENT_BEFORE_UPDATE => "tanggal_pergi",
+                    ],
+                    "value" => function() { return Yii::$app->formatter->asDate($this->tanggal_pergi, "Y-MM-dd"); }
+            ],
+            "tanggalPergiAfterFind" => [
+                   "class" => TimestampBehavior::className(),
+                    "attributes" => [
+                        ActiveRecord::EVENT_AFTER_FIND => "tanggal_pergi",
+                    ],
+                    "value" => function() { return Yii::$app->formatter->asDate($this->tanggal_pergi, "MMM dd, Y"); }
+                    
+            ],
+
+            "tanggalKembaliBeforeSave" => [
+                "class" => TimestampBehavior::className(),
+                    "attributes" => [
+                        ActiveRecord::EVENT_BEFORE_INSERT => "tanggal_kembali",
+                        ActiveRecord::EVENT_BEFORE_UPDATE => "tanggal_kembali",
+                    ],
+                    "value" => function() { return Yii::$app->formatter->asDate($this->tanggal_kembali, "Y-MM-dd"); }
+            ],
+            "tanggalKembaliAfterFind" => [
+                   "class" => TimestampBehavior::className(),
+                    "attributes" => [
+                        ActiveRecord::EVENT_AFTER_FIND => "tanggal_kembali",
+                    ],
+                    "value" => function() { return Yii::$app->formatter->asDate($this->tanggal_kembali, "MMM dd, Y"); }
+                    
+            ],
+
+            "auto_fill_instansi_with_user"=>[
+                'class' => AttributeBehavior::className(),
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => 'id_instansi',
+                    ActiveRecord::EVENT_BEFORE_UPDATE => 'id_instansi',
+                ],
+                'value' => function ($event) {
+                    return Yii::$app->user->identity->id_instansi;
+                },
+            ],
+            
+
+        ];
     }
 
     /**
@@ -60,8 +134,8 @@ class StSpd extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['nomor_st', 'tanggal_terbit', 'nip', 'nomor_spd', 'maksud', 'kota_asal', 'kota_tujuan', 'tanggal_pergi', 'tanggal_kembali', 'tingkat_perjalanan_dinas', 'id_kendaraan', 'kode_program', 'kode_kegiatan', 'kode_output', 'kode_komponen', 'id_instansi', 'nip_kepala', 'nip_ppk', 'nip_bendahara', 'id_akun'], 'required'],
-            [['tanggal_terbit', 'tanggal_pergi', 'tanggal_kembali'], 'safe'],
+            [['nomor_st', 'tanggal_terbit', 'nip', 'nomor_spd', 'maksud', 'kota_asal', 'kota_tujuan', 'tanggal_pergi', 'tanggal_kembali', 'tingkat_perjalanan_dinas', 'id_kendaraan', 'kode_program', 'kode_kegiatan', 'kode_output', 'kode_komponen', 'nip_kepala', 'nip_ppk', 'nip_bendahara', 'id_akun'], 'required'],
+            [['tanggal_terbit', 'tanggal_pergi', 'tanggal_kembali', 'id_instansi'], 'safe'],
             [['nip', 'id_kendaraan', 'kode_kegiatan', 'kode_output', 'kode_komponen', 'id_instansi', 'nip_kepala', 'nip_ppk', 'nip_bendahara', 'id_akun'], 'integer'],
             [['maksud'], 'string'],
             [['nomor_st', 'nomor_spd', 'st_path'], 'string', 'max' => 120],
@@ -80,6 +154,8 @@ class StSpd extends \yii\db\ActiveRecord
             [['nip_kepala'], 'exist', 'skipOnError' => true, 'targetClass' => Pegawai::className(), 'targetAttribute' => ['nip_kepala' => 'nip']],
             [['nip_ppk'], 'exist', 'skipOnError' => true, 'targetClass' => Pegawai::className(), 'targetAttribute' => ['nip_ppk' => 'nip']],
             [['nip_bendahara'], 'exist', 'skipOnError' => true, 'targetClass' => Pegawai::className(), 'targetAttribute' => ['nip_bendahara' => 'nip']],
+            // custom
+            [['id_instansi'], 'required', 'on'=>self::SCENARIO_ADMIN],
         ];
     }
 
