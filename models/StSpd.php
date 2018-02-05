@@ -339,49 +339,85 @@ class StSpd extends \yii\db\ActiveRecord
         }
 
         $this->st_path = "SPD-".$this->id.".docx";
-        // $templateProcessor = new TemplateProcessor('template/template.docx');
-        
-        $templateProcessor = new TemplateProcessor('template/template_st_spd_tanpa_anggota.docx');
 
-        // $templateProcessor->setValue('Name', 'John Breaker');
-        // $templateProcessor->setValue(array('City', 'Street'), array('Detroit', '12th Street'));
+        return true;
+    }
 
+    public function createDocx()
+    {
+        // set template based on anggota count
+        $count = StSpdAnggota::find()->where(['id_st_spd'=>$this->id])->count();
+        switch ($count) {
+            case 0:
+                $templateProcessor = new TemplateProcessor('template/template_st_spd_tanpa_anggota.docx');
+                break;
+            case 1:
+                $templateProcessor = new TemplateProcessor('template/template_st_spd_dengan_anggota_1.docx');
+                break;
+            case 2:
+                $templateProcessor = new TemplateProcessor('template/template_st_spd_dengan_anggota_2.docx');
+                break;
+            case 3:
+                $templateProcessor = new TemplateProcessor('template/template_st_spd_dengan_anggota_3.docx');
+                break;
+            case 4:
+                $templateProcessor = new TemplateProcessor('template/template_st_spd_dengan_anggota_4.docx');
+                break;
+            default:
+               $templateProcessor = new TemplateProcessor('template/template_st_spd_tanpa_anggota.docx');
+        }
+
+        // get attribute key & value for replace from this model 
         $arr_model_attr = array_keys($this->attributes);
         $arr_model_val = array_values($this->attributes);
-        // $templateProcessor->setValue($arr_model_attr, $arr_model_val);
 
+        // prepare array
         $arr_pegawai = Pegawai::find()->where(['nip'=>$this->nip])->asArray()->one();
         $arr_kepala = Pegawai::find()->where(['nip'=>$this->nip_kepala])->asArray()->one();
         $arr_bendahara = Pegawai::find()->where(['nip'=>$this->nip_bendahara])->asArray()->one();
         $arr_ppk = Pegawai::find()->where(['nip'=>$this->nip_ppk])->asArray()->one();
         $arr_instansi = Instansi::find()->where(['id'=>$this->instansi])->asArray()->one();
 
-        // $templateProcessor->setValue(array_keys($arr_pegawai), array_values($arr_pegawai));
+        // replace value which need formatting first
         $templateProcessor->setValue('nama_kepala', $arr_kepala['nama']);
         $templateProcessor->setValue('nama_ppk', $arr_ppk['nama']);
         $templateProcessor->setValue('id_instansi', $arr_instansi['instansi']);
         $templateProcessor->setValue('c_id_instansi', strtoupper($arr_instansi['instansi']));
         $templateProcessor->setValue('kode_output', str_pad($this->kode_output, 3, '0', STR_PAD_LEFT));
         $templateProcessor->setValue('kode_komponen', str_pad($this->kode_komponen, 3, '0', STR_PAD_LEFT));
-
         $templateProcessor->setValue('tanggal_terbit', Yii::$app->formatter->asDate($this->tanggal_terbit, "dd").' '.self::BULAN[Yii::$app->formatter->asDate($this->tanggal_terbit, "M")].' '.Yii::$app->formatter->asDate($this->tanggal_terbit, "Y"));
         $templateProcessor->setValue('tanggal_pergi', Yii::$app->formatter->asDate($this->tanggal_pergi, "dd").' '.self::BULAN[Yii::$app->formatter->asDate($this->tanggal_pergi, "M")].' '.Yii::$app->formatter->asDate($this->tanggal_terbit, "Y"));
         $templateProcessor->setValue('tanggal_kembali', Yii::$app->formatter->asDate($this->tanggal_kembali, "dd").' '.self::BULAN[Yii::$app->formatter->asDate($this->tanggal_kembali, "M")].' '.Yii::$app->formatter->asDate($this->tanggal_terbit, "Y"));
-        
 
+        // replace value from database to word without formatting first
         $templateProcessor->setValue($arr_model_attr, $arr_model_val);
         $templateProcessor->setValue(array_keys($arr_pegawai), array_values($arr_pegawai));
 
+        // replace day
         $date1 = new \DateTime($this->tanggal_pergi);
 		$date2 = new \DateTime($this->tanggal_kembali);
         $diff = $date2->diff($date1)->format("%a")+1;
-        
         $templateProcessor->setValue('x_hari', $diff." Hari");
 
-		// $text = str_replace("?x_hari?", $diff." Hari", $text);
+        // for spd with anggota
+        if($count > 0){
+            $i = 1;
+            $anggotas = StSpdAnggota::find()->where(['id_st_spd'=>$this->id])->asArray()->all();
+            foreach ($anggotas as $key => $value) {
+                $arr_anggota = Pegawai::find()->where(['nip'=>$value['nip_anggota']])->asArray()->one();
+                
+                $templateProcessor->setValue('nomor_spd_'.$i, $value['nomor_spd']);
+                $templateProcessor->setValue('nip_anggota_'.$i, $value['nip_anggota']);
+                
+                $templateProcessor->setValue('nama_anggota_'.$i, $arr_anggota['nama']);
+                $templateProcessor->setValue('pangkat_anggota_'.$i, $arr_anggota['pangkat']);
+                $templateProcessor->setValue('jabatan_anggota_'.$i, $arr_anggota['jabatan']);
 
+                $i++;
+            }
+        }
         $templateProcessor->saveAs("download/".$this->st_path);
 
-        return true;
+
     }
 }

@@ -19,6 +19,7 @@ use app\models\Komponen;
 use app\models\Kendaraan;
 use app\models\Akun;
 use app\models\Instansi;
+use app\models\StSpdAnggota;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\StSpd */
@@ -83,6 +84,8 @@ $arr_model_val = array_values($model->attributes);
 
 $bulan = [1=>'Januari', 2=>'Februari', 3=>'Maret', 4=>'April', 5=>'Mei', 6=>'Juni', 7=>'Juli', 8=>'Agustus', 9=>'September', 10=>'Oktober', 11=>'November', 12=>'Desember'];
 // print_r($bulan[Yii::$app->formatter->asDate($model->tanggal_terbit, "M")]);
+
+print_r(StSpdAnggota::find()->where(['id_st_spd'=>$model->id])->asArray()->all());
 
 ?>
 
