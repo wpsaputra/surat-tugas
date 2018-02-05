@@ -91,6 +91,7 @@ class StspdController extends Controller
         }
 
         if ($model->loadAll(Yii::$app->request->post()) && $model->saveAll()) {
+            $model->createDocx();
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
@@ -130,6 +131,7 @@ class StspdController extends Controller
         }
 
         if ($model->loadAll(Yii::$app->request->post()) && $model->saveAll()) {
+            $model->createDocx();
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
