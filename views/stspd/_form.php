@@ -71,6 +71,17 @@ foreach ($arr_bendahara as $key => $value) {
     $arr_bendahara[$key] = Pegawai::findOne($key)->nama;
 }
 
+$arr_model_attr = array_keys($model->attributes);
+$arr_model_val = array_values($model->attributes);
+
+
+// print_r($arr_model_attr);
+// print_r(Pegawai::find()->asArray()->one());
+
+// $arr_pegawai = Pegawai::find()->where(['nip'=>$model->nip])->asArray()->one();
+// print_r($arr_pegawai);
+print_r(Instansi::find()->where(['id'=>$model->instansi])->asArray()->one());
+
 ?>
 
 <div class="st-spd-form">

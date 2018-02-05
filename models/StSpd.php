@@ -6,6 +6,7 @@ use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\behaviors\AttributeBehavior;
+use PhpOffice\PhpWord\TemplateProcessor;
 
 /**
  * This is the model class for table "{{%st_spd}}".
@@ -327,5 +328,56 @@ class StSpd extends \yii\db\ActiveRecord
     public function getStSpdAnggotas()
     {
         return $this->hasMany(StSpdAnggota::className(), ['id_st_spd' => 'id']);
+    }
+    
+    // custom, generated pdf before save or insert
+    public function beforeSave($insert)
+    {
+        if (!parent::beforeSave($insert)) {
+            return false;
+        }
+
+        // ...custom code here...
+        $this->st_path = "SPD-".$this->id.".docx";
+        // $templateProcessor = new TemplateProcessor('template/template.docx');
+        
+        $templateProcessor = new TemplateProcessor('template/template_st_spd_tanpa_anggota.docx');
+        
+
+
+        // $templateProcessor->setValue('Name', 'John Breaker');
+        // $templateProcessor->setValue(array('City', 'Street'), array('Detroit', '12th Street'));
+
+        $arr_model_attr = array_keys($this->attributes);
+        $arr_model_val = array_values($this->attributes);
+        // $templateProcessor->setValue($arr_model_attr, $arr_model_val);
+
+        $arr_pegawai = Pegawai::find()->where(['nip'=>$this->nip])->asArray()->one();
+        $arr_kepala = Pegawai::find()->where(['nip'=>$this->nip_kepala])->asArray()->one();
+        $arr_bendahara = Pegawai::find()->where(['nip'=>$this->nip_bendahara])->asArray()->one();
+        $arr_ppk = Pegawai::find()->where(['nip'=>$this->nip_ppk])->asArray()->one();
+        $arr_instansi = Instansi::find()->where(['id'=>$this->instansi])->asArray()->one();
+
+        // $templateProcessor->setValue(array_keys($arr_pegawai), array_values($arr_pegawai));
+        $templateProcessor->setValue('nama_kepala', $arr_kepala['nama']);
+        $templateProcessor->setValue('nama_ppk', $arr_ppk['nama']);
+        $templateProcessor->setValue('id_instansi', $arr_instansi['instansi']);
+        $templateProcessor->setValue('c_id_instansi', strtoupper($arr_instansi['instansi']));
+        $templateProcessor->setValue('kode_output', str_pad($this->kode_output, 3, '0', STR_PAD_LEFT));
+        $templateProcessor->setValue('kode_komponen', str_pad($this->kode_komponen, 3, '0', STR_PAD_LEFT));
+
+        $templateProcessor->setValue($arr_model_attr, $arr_model_val);
+        $templateProcessor->setValue(array_keys($arr_pegawai), array_values($arr_pegawai));
+
+        // $date1 = new DateTime($model->tanggal_pergi);
+		// $date2 = new DateTime($model->tanggal_kembali);
+		// $diff = $date2->diff($date1)->format("%a")+1;
+
+		// $text = str_replace("?x_hari?", $diff." Hari", $text);
+
+
+        $templateProcessor->saveAs("download/".$this->st_path);
+
+        return true;
     }
 }
