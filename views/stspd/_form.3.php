@@ -168,7 +168,7 @@ foreach ($arr_bendahara as $key => $value) {
     <?= $form->field($model, 'tanggal_pergi')->widget(\yii\jui\DatePicker::classname(), [
         //'language' => 'ru',
         // 'dateFormat' => 'yyyy-MM-dd',
-        'options' => ['class' => 'form-control'],
+        'options' => ['class' => 'form-control']
     ]) ?>
 
     <!-- <?= $form->field($model, 'tanggal_kembali')->textInput() ?> -->

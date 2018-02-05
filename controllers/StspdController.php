@@ -82,6 +82,7 @@ class StspdController extends Controller
 
         $model = new StSpd();
         $modelsAnggota = [new StSpdAnggota];
+        $model->setScenario(StSpd::SCENARIO_INSERT);
 
         // Only admin can change pegawai instansi otherwise auto_fill_instansi_with_user
         if(Yii::$app->user->identity->role==99){

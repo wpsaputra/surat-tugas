@@ -53,6 +53,7 @@ class StSpd extends \yii\db\ActiveRecord
      * @inheritdoc
      */
     const SCENARIO_ADMIN = 'admin';
+    const SCENARIO_INSERT = 'insert';
 
     public static function tableName()
     {
@@ -156,8 +157,50 @@ class StSpd extends \yii\db\ActiveRecord
             [['nip_bendahara'], 'exist', 'skipOnError' => true, 'targetClass' => Pegawai::className(), 'targetAttribute' => ['nip_bendahara' => 'nip']],
             // custom
             [['id_instansi'], 'required', 'on'=>self::SCENARIO_ADMIN],
+            [['tanggal_pergi'], 'authenticate_t_pergi', 'on'=>self::SCENARIO_INSERT],
+            [['tanggal_kembali'], 'authenticate_t_kembali', 'on'=>self::SCENARIO_INSERT],
         ];
     }
+
+    // custom rule
+    public function authenticate_t_pergi($attribute, $params, $validator)
+	{
+		$x_tanggal_terbit = \DateTime::createFromFormat('Y-m-d', Yii::$app->formatter->asDate($this->tanggal_terbit, "Y-MM-dd"));
+		$x_tanggal_pergi = \DateTime::createFromFormat('Y-m-d', Yii::$app->formatter->asDate($this->tanggal_pergi, "Y-MM-dd"));
+		if($x_tanggal_terbit>$x_tanggal_pergi){
+			$this->addError('tanggal_pergi','Tanggal pergi harus lebih besar atau sama dengan tanggal terbit');
+		}
+
+		if(strlen($this->tanggal_terbit)>0&&strlen($this->tanggal_pergi)>0){
+			$count = Yii::$app->db->createCommand("SELECT COUNT(id) FROM su_st_spd WHERE nip=:nip AND "."'".$x_tanggal_pergi->format("Y-m-d")."'"."BETWEEN tanggal_pergi AND tanggal_kembali")
+				->bindValues(array("nip"=>$this->nip))->queryScalar();
+
+			if($count>0){
+				$this->addError('tanggal_pergi', 'Sudah Ada surat tugas dengan tanggal pergi yang sama');
+			}
+        }
+
+    }
+    
+    public function authenticate_t_kembali($attribute, $params, $validator)
+	{
+		$x_tanggal_pergi = \DateTime::createFromFormat('Y-m-d', Yii::$app->formatter->asDate($this->tanggal_pergi, "Y-MM-dd"));
+		$x_tanggal_kembali = \DateTime::createFromFormat('Y-m-d', Yii::$app->formatter->asDate($this->tanggal_kembali, "Y-MM-dd"));
+		if($x_tanggal_pergi>$x_tanggal_kembali){
+			$this->addError('tanggal_kembali','Tanggal kembali harus lebih besar sama dengan tanggal pergi');
+		}
+
+		if(strlen($this->tanggal_pergi)>0&&strlen($this->tanggal_kembali)>0){
+			$count = Yii::$app->db->createCommand("SELECT COUNT(id) FROM su_st_spd WHERE nip=:nip AND "."'".$x_tanggal_kembali->format("Y-m-d")."'"."BETWEEN tanggal_pergi AND tanggal_kembali")
+				->bindValues(array("nip"=>$this->nip))->queryScalar();
+
+			if($count>0){
+				$this->addError('tanggal_kembali', 'Sudah Ada surat tugas dengan tanggal kembali yang sama');
+			}
+
+		}
+
+	}
 
     /**
      * @inheritdoc
