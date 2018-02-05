@@ -86,17 +86,22 @@ foreach ($arr_bendahara as $key => $value) {
         'options' => ['class' => 'form-control']
     ]) ?>
 
-    <!-- <?= $form->field($model, 'nip')->textInput(['maxlength' => true]) ?> -->
-    <?= $form->field($model, 'nip')->widget(Select2::classname(), [
-        'data' => ArrayHelper::map(Pegawai::find()->where(["id_instansi" => Yii::$app->user->identity->id_instansi])->all(),'nip','nama'),
-        'options' => ['placeholder' => 'Pilih pegawai ...'],
-        'pluginOptions' => [
-            'allowClear' => true
-        ],
-    ]);
-    ?>
-    
-    <?= $form->field($model, 'nomor_spd')->textInput(['maxlength' => true]) ?>
+    <div class="row">
+        <div class="col-sm-6">
+            <!-- <?= $form->field($model, 'nip')->textInput(['maxlength' => true]) ?> -->
+            <?= $form->field($model, 'nip')->widget(Select2::classname(), [
+                'data' => ArrayHelper::map(Pegawai::find()->where(["id_instansi" => Yii::$app->user->identity->id_instansi])->all(),'nip','nama'),
+                'options' => ['placeholder' => 'Pilih pegawai ...'],
+                'pluginOptions' => [
+                    'allowClear' => true
+                ],
+            ]);
+            ?>
+        </div>
+        <div class="col-sm-6">
+            <?= $form->field($model, 'nomor_spd')->textInput(['maxlength' => true]) ?>
+        </div>
+    </div>
 
     <?php DynamicFormWidget::begin([
         // 'id' => 'dynamic-form',
@@ -160,111 +165,142 @@ foreach ($arr_bendahara as $key => $value) {
 
     <?= $form->field($model, 'maksud')->textarea(['rows' => 6]) ?>
 
-    <?= $form->field($model, 'kota_asal')->textInput(['maxlength' => true]) ?>
+    <div class="row">
+        <div class="col-sm-6">
+            <?= $form->field($model, 'kota_asal')->textInput(['maxlength' => true]) ?>
+        </div>
+        <div class="col-sm-6">
+            <?= $form->field($model, 'kota_tujuan')->textInput(['maxlength' => true]) ?>
+        </div>
+    </div>
 
-    <?= $form->field($model, 'kota_tujuan')->textInput(['maxlength' => true]) ?>
+    <div class="row">
+        <div class="col-sm-6">
+            <!-- <?= $form->field($model, 'tanggal_pergi')->textInput() ?> -->
+            <?= $form->field($model, 'tanggal_pergi')->widget(\yii\jui\DatePicker::classname(), [
+                //'language' => 'ru',
+                // 'dateFormat' => 'yyyy-MM-dd',
+                'options' => ['class' => 'form-control'],
+            ]) ?>
+        </div>
+        <div class="col-sm-6">
+            <!-- <?= $form->field($model, 'tanggal_kembali')->textInput() ?> -->
+            <?= $form->field($model, 'tanggal_kembali')->widget(\yii\jui\DatePicker::classname(), [
+                //'language' => 'ru',
+                // 'dateFormat' => 'yyyy-MM-dd',
+                'options' => ['class' => 'form-control']
+            ]) ?>
+        </div>
+    </div>
 
-    <!-- <?= $form->field($model, 'tanggal_pergi')->textInput() ?> -->
-    <?= $form->field($model, 'tanggal_pergi')->widget(\yii\jui\DatePicker::classname(), [
-        //'language' => 'ru',
-        // 'dateFormat' => 'yyyy-MM-dd',
-        'options' => ['class' => 'form-control'],
-    ]) ?>
+    <div class="row">
+        <div class="col-sm-6">
+            <!-- <?= $form->field($model, 'tingkat_perjalanan_dinas')->textInput(['maxlength' => true]) ?> -->
+            <?= $form->field($model, "tingkat_perjalanan_dinas")->dropDownList(
+                ["B"=>"B", "C"=>"C"],
+                ['prompt'=>'Pilih tingkat perjalanan dinas ...']
+            )?>
+        </div>
+        <div class="col-sm-6">
+            <!-- <?= $form->field($model, 'id_kendaraan')->textInput() ?> -->
+            <?= $form->field($model, 'id_kendaraan')->widget(Select2::classname(), [
+                'data' => ArrayHelper::map(Kendaraan::find()->all(),'id','nama_kendaraan'),
+                'options' => ['placeholder' => 'Pilih kendaraan ...'],
+                'pluginOptions' => [
+                    'allowClear' => true
+                ],
+            ]);
+            ?>
+        </div>
+    </div>
 
-    <!-- <?= $form->field($model, 'tanggal_kembali')->textInput() ?> -->
-    <?= $form->field($model, 'tanggal_kembali')->widget(\yii\jui\DatePicker::classname(), [
-        //'language' => 'ru',
-        // 'dateFormat' => 'yyyy-MM-dd',
-        'options' => ['class' => 'form-control']
-    ]) ?>
+    <div class="row">
+        <div class="col-sm-6">
+            <!-- <?= $form->field($model, 'kode_program')->textInput(['maxlength' => true]) ?> -->
+            <?= $form->field($model, 'kode_program')->widget(Select2::classname(), [
+                'data' => ArrayHelper::map(Program::find()->all(),'kode','uraian'),
+                'options' => ['placeholder' => 'Pilih program ...', 'class' => 'dependent-input form-control', 'data-next' => 'stspd-kode_kegiatan'],
+                'pluginOptions' => [
+                    'allowClear' => true
+                ],
+            ]);
+            ?>
+        </div>
+        <div class="col-sm-6">
+            <!-- <?= $form->field($model, 'kode_kegiatan')->textInput() ?> -->
+            <?= $form->field($model, 'kode_kegiatan')->widget(Select2::classname(), [
+                'data' => ArrayHelper::map(Kegiatan::find()->all(),'kode','uraian'),
+                'options' => ['placeholder' => 'Pilih kegiatan ...', 'class' => 'dependent-input form-control', 'data-next' => 'stspd-kode_output'],
+                'pluginOptions' => [
+                    'allowClear' => true
+                ],
+            ]);
+            ?>
+        </div>
+    </div>
 
-    <!-- <?= $form->field($model, 'tingkat_perjalanan_dinas')->textInput(['maxlength' => true]) ?> -->
-    <?= $form->field($model, "tingkat_perjalanan_dinas")->dropDownList(
-        ["B"=>"B", "C"=>"C"],
-        ['prompt'=>'Pilih tingkat perjalanan dinas ...']
-    )?>
-
-    <!-- <?= $form->field($model, 'id_kendaraan')->textInput() ?> -->
-    <?= $form->field($model, 'id_kendaraan')->widget(Select2::classname(), [
-        'data' => ArrayHelper::map(Kendaraan::find()->all(),'id','nama_kendaraan'),
-        'options' => ['placeholder' => 'Pilih kendaraan ...'],
-        'pluginOptions' => [
-            'allowClear' => true
-        ],
-    ]);
-    ?>
-
-    <!-- <?= $form->field($model, 'kode_program')->textInput(['maxlength' => true]) ?> -->
-    <?= $form->field($model, 'kode_program')->widget(Select2::classname(), [
-        'data' => ArrayHelper::map(Program::find()->all(),'kode','uraian'),
-        'options' => ['placeholder' => 'Pilih program ...', 'class' => 'dependent-input form-control', 'data-next' => 'stspd-kode_kegiatan'],
-        'pluginOptions' => [
-            'allowClear' => true
-        ],
-    ]);
-    ?>
-
-    <!-- <?= $form->field($model, 'kode_kegiatan')->textInput() ?> -->
-    <?= $form->field($model, 'kode_kegiatan')->widget(Select2::classname(), [
-        'data' => ArrayHelper::map(Kegiatan::find()->all(),'kode','uraian'),
-        'options' => ['placeholder' => 'Pilih kegiatan ...', 'class' => 'dependent-input form-control', 'data-next' => 'stspd-kode_output'],
-        'pluginOptions' => [
-            'allowClear' => true
-        ],
-    ]);
-    ?>
-
-    <!-- <?= $form->field($model, 'kode_output')->textInput() ?> -->
-    <?= $form->field($model, 'kode_output')->widget(Select2::classname(), [
-        'data' => ArrayHelper::map(Output::find()->all(),'kode','uraian'),
-        'options' => ['placeholder' => 'Pilih Output ...', 'class' => 'dependent-input form-control', 'data-next' => 'stspd-kode_komponen'],
-        'pluginOptions' => [
-            'allowClear' => true
-        ],
-    ]);
-    ?>
-
-    <!-- <?= $form->field($model, 'kode_komponen')->textInput() ?> -->
-    <?= $form->field($model, 'kode_komponen')->widget(Select2::classname(), [
-        'data' => ArrayHelper::map(Komponen::find()->all(),'id','uraian'),
-        'options' => ['placeholder' => 'Pilih Komponen ...'],
-        'pluginOptions' => [
-            'allowClear' => true
-        ],
-    ]);
-    ?>
+    <div class="row">
+        <div class="col-sm-6">
+            <!-- <?= $form->field($model, 'kode_output')->textInput() ?> -->
+            <?= $form->field($model, 'kode_output')->widget(Select2::classname(), [
+                'data' => ArrayHelper::map(Output::find()->all(),'kode','uraian'),
+                'options' => ['placeholder' => 'Pilih Output ...', 'class' => 'dependent-input form-control', 'data-next' => 'stspd-kode_komponen'],
+                'pluginOptions' => [
+                    'allowClear' => true
+                ],
+            ]);
+            ?>
+        </div>
+        <div class="col-sm-6">
+            <!-- <?= $form->field($model, 'kode_komponen')->textInput() ?> -->
+            <?= $form->field($model, 'kode_komponen')->widget(Select2::classname(), [
+                'data' => ArrayHelper::map(Komponen::find()->all(),'id','uraian'),
+                'options' => ['placeholder' => 'Pilih Komponen ...'],
+                'pluginOptions' => [
+                    'allowClear' => true
+                ],
+            ]);
+            ?>
+        </div>
+    </div>
 
     <!-- <?= $form->field($model, 'st_path')->textInput(['maxlength' => true]) ?> -->
 
-    <!-- <?= $form->field($model, 'nip_kepala')->textInput(['maxlength' => true]) ?> -->
-    <?= $form->field($model, 'nip_kepala')->widget(Select2::classname(), [
-        'data' => $arr_kepala,
-        'options' => ['placeholder' => 'Pilih kepala ...'],
-        'pluginOptions' => [
-            'allowClear' => true
-        ],
-    ]);
-    ?>
-
-    <!-- <?= $form->field($model, 'nip_ppk')->textInput(['maxlength' => true]) ?> -->
-    <?= $form->field($model, 'nip_ppk')->widget(Select2::classname(), [
-        'data' => $arr_ppk,
-        'options' => ['placeholder' => 'Pilih pegawai ...'],
-        'pluginOptions' => [
-            'allowClear' => true
-        ],
-    ]);
-    ?>
-
-    <!-- <?= $form->field($model, 'nip_bendahara')->textInput(['maxlength' => true]) ?> -->
-    <?= $form->field($model, 'nip_bendahara')->widget(Select2::classname(), [
-        'data' => $arr_bendahara,
-        'options' => ['placeholder' => 'Pilih pegawai ...'],
-        'pluginOptions' => [
-            'allowClear' => true
-        ],
-    ]);
-    ?>
+    <div class="row">
+        <div class="col-sm-4">
+            <!-- <?= $form->field($model, 'nip_kepala')->textInput(['maxlength' => true]) ?> -->
+            <?= $form->field($model, 'nip_kepala')->widget(Select2::classname(), [
+                'data' => $arr_kepala,
+                'options' => ['placeholder' => 'Pilih kepala ...'],
+                'pluginOptions' => [
+                    'allowClear' => true
+                ],
+            ]);
+            ?>
+        </div>
+        <div class="col-sm-4">
+            <!-- <?= $form->field($model, 'nip_ppk')->textInput(['maxlength' => true]) ?> -->
+            <?= $form->field($model, 'nip_ppk')->widget(Select2::classname(), [
+                'data' => $arr_ppk,
+                'options' => ['placeholder' => 'Pilih pegawai ...'],
+                'pluginOptions' => [
+                    'allowClear' => true
+                ],
+            ]);
+            ?>
+        </div>
+        <div class="col-sm-4">
+            <!-- <?= $form->field($model, 'nip_bendahara')->textInput(['maxlength' => true]) ?> -->
+            <?= $form->field($model, 'nip_bendahara')->widget(Select2::classname(), [
+                'data' => $arr_bendahara,
+                'options' => ['placeholder' => 'Pilih pegawai ...'],
+                'pluginOptions' => [
+                    'allowClear' => true
+                ],
+            ]);
+            ?>
+        </div>
+    </div>
 
     <!-- <?= $form->field($model, 'id_akun')->textInput() ?> -->
     <?= $form->field($model, 'id_akun')->widget(Select2::classname(), [

@@ -209,7 +209,7 @@ class StSpd extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'nomor_st' => 'Nomor St',
+            'nomor_st' => 'Nomor Surat Tugas',
             'tanggal_terbit' => 'Tanggal Terbit',
             'nip' => 'Nip',
             'nomor_spd' => 'Nomor Spd',
@@ -219,16 +219,16 @@ class StSpd extends \yii\db\ActiveRecord
             'tanggal_pergi' => 'Tanggal Pergi',
             'tanggal_kembali' => 'Tanggal Kembali',
             'tingkat_perjalanan_dinas' => 'Tingkat Perjalanan Dinas',
-            'id_kendaraan' => 'Id Kendaraan',
+            'id_kendaraan' => 'Kendaraan',
             'kode_program' => 'Kode Program',
             'kode_kegiatan' => 'Kode Kegiatan',
             'kode_output' => 'Kode Output',
             'kode_komponen' => 'Kode Komponen',
             'st_path' => 'St Path',
-            'id_instansi' => 'Id Instansi',
-            'nip_kepala' => 'Nip Kepala',
-            'nip_ppk' => 'Nip Ppk',
-            'nip_bendahara' => 'Nip Bendahara',
+            'id_instansi' => 'Nama Instansi',
+            'nip_kepala' => 'Kepala',
+            'nip_ppk' => 'PPK',
+            'nip_bendahara' => 'Bendahara',
             'id_akun' => 'Id Akun',
         ];
     }
