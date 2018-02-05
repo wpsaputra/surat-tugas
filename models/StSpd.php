@@ -55,6 +55,7 @@ class StSpd extends \yii\db\ActiveRecord
      */
     const SCENARIO_ADMIN = 'admin';
     const SCENARIO_INSERT = 'insert';
+    const BULAN = [1=>'Januari', 2=>'Februari', 3=>'Maret', 4=>'April', 5=>'Mei', 6=>'Juni', 7=>'Juli', 8=>'Agustus', 9=>'September', 10=>'Oktober', 11=>'November', 12=>'Desember'];
 
     public static function tableName()
     {
@@ -337,13 +338,10 @@ class StSpd extends \yii\db\ActiveRecord
             return false;
         }
 
-        // ...custom code here...
         $this->st_path = "SPD-".$this->id.".docx";
         // $templateProcessor = new TemplateProcessor('template/template.docx');
         
         $templateProcessor = new TemplateProcessor('template/template_st_spd_tanpa_anggota.docx');
-        
-
 
         // $templateProcessor->setValue('Name', 'John Breaker');
         // $templateProcessor->setValue(array('City', 'Street'), array('Detroit', '12th Street'));
@@ -366,15 +364,21 @@ class StSpd extends \yii\db\ActiveRecord
         $templateProcessor->setValue('kode_output', str_pad($this->kode_output, 3, '0', STR_PAD_LEFT));
         $templateProcessor->setValue('kode_komponen', str_pad($this->kode_komponen, 3, '0', STR_PAD_LEFT));
 
+        $templateProcessor->setValue('tanggal_terbit', Yii::$app->formatter->asDate($this->tanggal_terbit, "dd").' '.self::BULAN[Yii::$app->formatter->asDate($this->tanggal_terbit, "M")].' '.Yii::$app->formatter->asDate($this->tanggal_terbit, "Y"));
+        $templateProcessor->setValue('tanggal_pergi', Yii::$app->formatter->asDate($this->tanggal_pergi, "dd").' '.self::BULAN[Yii::$app->formatter->asDate($this->tanggal_pergi, "M")].' '.Yii::$app->formatter->asDate($this->tanggal_terbit, "Y"));
+        $templateProcessor->setValue('tanggal_kembali', Yii::$app->formatter->asDate($this->tanggal_kembali, "dd").' '.self::BULAN[Yii::$app->formatter->asDate($this->tanggal_kembali, "M")].' '.Yii::$app->formatter->asDate($this->tanggal_terbit, "Y"));
+        
+
         $templateProcessor->setValue($arr_model_attr, $arr_model_val);
         $templateProcessor->setValue(array_keys($arr_pegawai), array_values($arr_pegawai));
 
-        // $date1 = new DateTime($model->tanggal_pergi);
-		// $date2 = new DateTime($model->tanggal_kembali);
-		// $diff = $date2->diff($date1)->format("%a")+1;
+        $date1 = new \DateTime($this->tanggal_pergi);
+		$date2 = new \DateTime($this->tanggal_kembali);
+        $diff = $date2->diff($date1)->format("%a")+1;
+        
+        $templateProcessor->setValue('x_hari', $diff." Hari");
 
 		// $text = str_replace("?x_hari?", $diff." Hari", $text);
-
 
         $templateProcessor->saveAs("download/".$this->st_path);
 

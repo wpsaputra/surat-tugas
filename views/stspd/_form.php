@@ -80,7 +80,9 @@ $arr_model_val = array_values($model->attributes);
 
 // $arr_pegawai = Pegawai::find()->where(['nip'=>$model->nip])->asArray()->one();
 // print_r($arr_pegawai);
-print_r(Instansi::find()->where(['id'=>$model->instansi])->asArray()->one());
+
+$bulan = [1=>'Januari', 2=>'Februari', 3=>'Maret', 4=>'April', 5=>'Mei', 6=>'Juni', 7=>'Juli', 8=>'Agustus', 9=>'September', 10=>'Oktober', 11=>'November', 12=>'Desember'];
+// print_r($bulan[Yii::$app->formatter->asDate($model->tanggal_terbit, "M")]);
 
 ?>
 
