@@ -38,24 +38,7 @@ jQuery(".dynamicform_wrapper").on("afterDelete", function(e) {
 });
 ';
 
-$js2 = '$(".dependent-input").on("change", function() {
-	var value = $(this).val(),
-		obj = $(this).attr("id"),
-        next = $(this).attr("data-next");
-        console.log(next);
-	$.ajax({
-		url: "' . Yii::$app->urlManager->createUrl('stspd/get') . '",
-		data: {value: value, obj: obj},
-		type: "POST",
-		success: function(data) {
-			$("#" + next).html(data);
-		}
-	});
-});';
-
 $this->registerJS($js);
-$this->registerJS($js2);
-
 $arr_kepala = ArrayHelper::map(FlagKepala::find()->where(["id_instansi" => Yii::$app->user->identity->id_instansi])->all(),'nip','id_instansi');
 foreach ($arr_kepala as $key => $value) {
     $arr_kepala[$key] = Pegawai::findOne($key)->nama;
@@ -197,7 +180,7 @@ foreach ($arr_bendahara as $key => $value) {
     <!-- <?= $form->field($model, 'kode_program')->textInput(['maxlength' => true]) ?> -->
     <?= $form->field($model, 'kode_program')->widget(Select2::classname(), [
         'data' => ArrayHelper::map(Program::find()->all(),'kode','uraian'),
-        'options' => ['placeholder' => 'Pilih program ...', 'class' => 'dependent-input form-control', 'data-next' => 'stspd-kode_kegiatan'],
+        'options' => ['placeholder' => 'Pilih program ...'],
         'pluginOptions' => [
             'allowClear' => true
         ],
@@ -207,7 +190,7 @@ foreach ($arr_bendahara as $key => $value) {
     <!-- <?= $form->field($model, 'kode_kegiatan')->textInput() ?> -->
     <?= $form->field($model, 'kode_kegiatan')->widget(Select2::classname(), [
         'data' => ArrayHelper::map(Kegiatan::find()->all(),'kode','uraian'),
-        'options' => ['placeholder' => 'Pilih kegiatan ...', 'class' => 'dependent-input form-control', 'data-next' => 'stspd-kode_output'],
+        'options' => ['placeholder' => 'Pilih kegiatan ...'],
         'pluginOptions' => [
             'allowClear' => true
         ],
@@ -217,7 +200,7 @@ foreach ($arr_bendahara as $key => $value) {
     <!-- <?= $form->field($model, 'kode_output')->textInput() ?> -->
     <?= $form->field($model, 'kode_output')->widget(Select2::classname(), [
         'data' => ArrayHelper::map(Output::find()->all(),'kode','uraian'),
-        'options' => ['placeholder' => 'Pilih Output ...', 'class' => 'dependent-input form-control', 'data-next' => 'stspd-kode_komponen'],
+        'options' => ['placeholder' => 'Pilih Output ...'],
         'pluginOptions' => [
             'allowClear' => true
         ],

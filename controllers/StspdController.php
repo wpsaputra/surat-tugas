@@ -9,6 +9,11 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use app\models\StSpdAnggota;
+use yii\helpers\ArrayHelper;
+use yii\helpers\Html;
+use app\models\Kegiatan;
+use app\models\Output;
+use app\models\Komponen;
 
 /**
  * StspdController implements the CRUD actions for StSpd model.
@@ -162,4 +167,28 @@ class StspdController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
+
+    public function actionGet(){
+        $request = Yii::$app->request;
+        $obj = $request->post('obj');
+        $value = $request->post('value');
+        $tagOptions = ['prompt' => "=== Select ==="];
+
+        switch ($obj) {
+            case 'stspd-kode_program':
+                $data = Kegiatan::find()->where(['id_prog' => $value])->all();
+                return Html::renderSelectOptions([], ArrayHelper::map($data, 'kode', 'uraian'), $tagOptions);
+                break;
+            case 'stspd-kode_kegiatan':
+                $data = Output::find()->where(['id_kegiatan' => $value])->all();
+                return Html::renderSelectOptions([], ArrayHelper::map($data, 'kode', 'uraian'), $tagOptions);
+                break;
+            case 'stspd-kode_output':
+                $data = Komponen::find()->where(['id_output' => $value])->all();
+                return Html::renderSelectOptions([], ArrayHelper::map($data, 'id', 'uraian'), $tagOptions);
+                break;
+        }
+        
+    }
+
 }
