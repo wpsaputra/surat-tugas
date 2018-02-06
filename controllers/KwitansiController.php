@@ -8,6 +8,11 @@ use app\models\KwitansiSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use app\models\Pegawai;
+use app\models\StSpd;
+use app\models\StSpdAnggota;
+use yii\helpers\Html;
+use yii\helpers\ArrayHelper;
 
 /**
  * KwitansiController implements the CRUD actions for Kwitansi model.
@@ -123,5 +128,32 @@ class KwitansiController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    public function actionGet(){
+        $request = Yii::$app->request;
+        $obj = $request->post('obj');
+        $value = $request->post('value');
+        $tagOptions = ['prompt' => "=== Select ==="];
+
+        switch ($obj) {
+            case 'kwitansi-id_st':
+                $ketua = StSpd::find()->where(['id' => $value])->all();
+                $anggota = StSpdAnggota::find()->where(['id_st_spd' => $value])->all();
+                $arr_total_pegawai = [];
+
+                // get array nip => nama from ketua and anggota
+                foreach ($ketua as $key => $value) {
+                    $arr_total_pegawai[$value["nip"]] = Pegawai::find()->where(['nip'=>$value["nip"]])->asArray()->one()['nama'];
+                }
+
+                foreach ($anggota as $key => $value) {
+                    $arr_total_pegawai[$value["nip_anggota"]] = Pegawai::find()->where(['nip'=>$value["nip_anggota"]])->asArray()->one()['nama'];
+                }
+                
+                return Html::renderSelectOptions([], $arr_total_pegawai, $tagOptions);
+                break;
+        }
+        
     }
 }
