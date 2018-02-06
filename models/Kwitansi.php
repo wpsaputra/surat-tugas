@@ -3,6 +3,8 @@
 namespace app\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "{{%kwitansi}}".
@@ -37,6 +39,30 @@ class Kwitansi extends \yii\db\ActiveRecord
     public static function tableName()
     {
         return '{{%kwitansi}}';
+    }
+
+    public function behaviors() {
+        
+        return [
+            "tanggalBayarBeforeSave" => [
+                "class" => TimestampBehavior::className(),
+                    "attributes" => [
+                        ActiveRecord::EVENT_BEFORE_INSERT => "tanggal_bayar",
+                        ActiveRecord::EVENT_BEFORE_UPDATE => "tanggal_bayar",
+                    ],
+                    "value" => function() { return Yii::$app->formatter->asDate($this->tanggal_terbit, "Y-MM-dd"); }
+            ],
+            "tanggalBayarAfterFind" => [
+                   "class" => TimestampBehavior::className(),
+                    "attributes" => [
+                        ActiveRecord::EVENT_AFTER_FIND => "tanggal_bayar",
+                    ],
+                    "value" => function() { return Yii::$app->formatter->asDate($this->tanggal_terbit, "MMM dd, Y"); }
+                    
+            ],
+
+
+        ];
     }
 
     /**

@@ -126,7 +126,6 @@ class StSpd extends \yii\db\ActiveRecord
                     return Yii::$app->user->identity->id_instansi;
                 },
             ],
-            
 
         ];
     }
@@ -338,7 +337,10 @@ class StSpd extends \yii\db\ActiveRecord
             return false;
         }
 
-        $this->st_path = "SPD-".$this->id.".docx";
+        $nomor_st = $this->nomor_st;
+        $nomor_st = str_replace('/', '-', $nomor_st);
+        // $this->st_path = "SPD-".$this->id.".docx";
+        $this->st_path = "SPD-".$nomor_st.".docx";
 
         return true;
     }

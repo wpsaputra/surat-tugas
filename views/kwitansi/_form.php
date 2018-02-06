@@ -158,12 +158,12 @@ $this->registerJS($js);
     </div>
 
 
-    <?= $form->field($model, 'uang_harian_total')->textInput(['maxlength' => true]) ?>
+    <!-- <?= $form->field($model, 'uang_harian_total')->textInput(['maxlength' => true]) ?>
     <?= $form->field($model, 'jumlah_pdb')->textInput(['maxlength' => true]) ?>
     <?= $form->field($model, 'biaya_inap_riil_total')->textInput(['maxlength' => true]) ?>
     <?= $form->field($model, 'representasi_riil_total')->textInput(['maxlength' => true]) ?>
     <?= $form->field($model, 'jumlah_riil')->textInput(['maxlength' => true]) ?>
-    <?= $form->field($model, 'kwitansi_path')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'kwitansi_path')->textInput(['maxlength' => true]) ?> -->
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
