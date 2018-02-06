@@ -29,6 +29,9 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
+            'id_st',
+            'nip',
+            'jumlah_hari',
             'uang_harian',
             'uang_harian_total',
             'biaya_transportasi',
@@ -44,8 +47,6 @@ $this->params['breadcrumbs'][] = $this->title;
             'jumlah_riil',
             'tanggal_bayar',
             'kwitansi_path',
-            'id_st',
-            'nip',
         ],
     ]) ?>
 

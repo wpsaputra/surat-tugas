@@ -164,6 +164,7 @@ $this->registerJS($js);
     <?= $form->field($model, 'representasi_riil_total')->textInput(['maxlength' => true]) ?>
     <?= $form->field($model, 'jumlah_riil')->textInput(['maxlength' => true]) ?>
     <?= $form->field($model, 'kwitansi_path')->textInput(['maxlength' => true]) ?> -->
+    <!-- <?= $form->field($model, 'jumlah_hari')->textInput(['maxlength' => true]) ?> -->
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
