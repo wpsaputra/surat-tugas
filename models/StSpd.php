@@ -377,6 +377,7 @@ class StSpd extends \yii\db\ActiveRecord
         $arr_bendahara = Pegawai::find()->where(['nip'=>$this->nip_bendahara])->asArray()->one();
         $arr_ppk = Pegawai::find()->where(['nip'=>$this->nip_ppk])->asArray()->one();
         $arr_instansi = Instansi::find()->where(['id'=>$this->instansi])->asArray()->one();
+        $arr_kendaraan = Kendaraan::find()->where(['id'=>$this->id_kendaraan])->asArray()->one();
 
         // replace value which need formatting first
         $templateProcessor->setValue('nama_kepala', $arr_kepala['nama']);
@@ -388,6 +389,7 @@ class StSpd extends \yii\db\ActiveRecord
         $templateProcessor->setValue('tanggal_terbit', Yii::$app->formatter->asDate($this->tanggal_terbit, "dd").' '.self::BULAN[Yii::$app->formatter->asDate($this->tanggal_terbit, "M")].' '.Yii::$app->formatter->asDate($this->tanggal_terbit, "Y"));
         $templateProcessor->setValue('tanggal_pergi', Yii::$app->formatter->asDate($this->tanggal_pergi, "dd").' '.self::BULAN[Yii::$app->formatter->asDate($this->tanggal_pergi, "M")].' '.Yii::$app->formatter->asDate($this->tanggal_terbit, "Y"));
         $templateProcessor->setValue('tanggal_kembali', Yii::$app->formatter->asDate($this->tanggal_kembali, "dd").' '.self::BULAN[Yii::$app->formatter->asDate($this->tanggal_kembali, "M")].' '.Yii::$app->formatter->asDate($this->tanggal_terbit, "Y"));
+        $templateProcessor->setValue('id_kendaraan', $arr_kendaraan['nama_kendaraan']);
 
         // replace value from database to word without formatting first
         $templateProcessor->setValue($arr_model_attr, $arr_model_val);
