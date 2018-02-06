@@ -50,6 +50,7 @@ class Kwitansi extends \yii\db\ActiveRecord
             [['tanggal_bayar'], 'safe'],
             [['id_st', 'nip'], 'integer'],
             [['kwitansi_path'], 'string', 'max' => 120],
+            [['id_st', 'nip'], 'unique', 'targetAttribute' => ['id_st', 'nip']],
             [['id_st'], 'exist', 'skipOnError' => true, 'targetClass' => StSpd::className(), 'targetAttribute' => ['id_st' => 'id']],
             [['nip'], 'exist', 'skipOnError' => true, 'targetClass' => Pegawai::className(), 'targetAttribute' => ['nip' => 'nip']],
         ];
