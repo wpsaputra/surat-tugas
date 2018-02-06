@@ -71,7 +71,7 @@ AppAsset::register($this);
                 'items' => [
                     ['label' => 'Kelola Surat Tugas & SPD', 'url' => ['/stspd/index']],
                     '<li class="divider"></li>',
-                    ['label' => 'Kelola Kwitansi', 'url' => ['/kegiatan/index']],
+                    ['label' => 'Kelola Kwitansi', 'url' => ['/kwitansi/index']],
                 ],
             ],
             // ['label' => 'About', 'url' => ['/site/about']],
