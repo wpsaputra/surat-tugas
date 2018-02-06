@@ -25,7 +25,8 @@
         "wbraganca/yii2-dynamicform": "dev-master",
         "yiisoft/yii2-jui": "^2.0",
         "kartik-v/yii2-widget-depdrop": "@dev",
-        "kartik-v/yii2-widget-activeform": "@dev"
+        "kartik-v/yii2-widget-activeform": "@dev",
+        "kartik-v/yii2-widget-datepicker": "@dev"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

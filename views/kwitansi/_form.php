@@ -7,6 +7,7 @@ use app\models\StSpd;
 use yii\helpers\ArrayHelper;
 use kartik\select2\Select2;
 use app\models\Pegawai;
+use kartik\date\DatePicker;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Kwitansi */
@@ -61,10 +62,16 @@ $this->registerJS($js);
         </div>
         <div class='col-md-4'>
                 <!-- <?= $form->field($model, 'tanggal_bayar')->textInput() ?> -->
-            <?= $form->field($model, 'tanggal_bayar')->widget(\yii\jui\DatePicker::classname(), [
+            <?= $form->field($model, 'tanggal_bayar')->widget(DatePicker::classname(), [
                 //'language' => 'ru',
                 // 'dateFormat' => 'yyyy-MM-dd',
-                'options' => ['class' => 'form-control']
+                'options' => ['class' => 'form-control'],
+                'removeButton' => false,
+                'pluginOptions' => [
+                    'autoclose'=>true,
+                    // 'format' => 'mm/dd/yyyy'
+                    'format' => 'M dd, yyyy'
+                ]
             ]) ?>
         </div>
     </div>
