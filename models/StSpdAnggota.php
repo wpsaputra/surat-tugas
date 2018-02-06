@@ -34,7 +34,7 @@ class StSpdAnggota extends \yii\db\ActiveRecord
             [['nip_anggota', 'nomor_spd', 'id_st_spd'], 'required'],
             [['nip_anggota', 'id_st_spd'], 'integer'],
             [['nomor_spd'], 'string', 'max' => 120],
-            [['nomor_spd'], 'unique'],
+            [['nomor_spd', 'nip_anggota'], 'unique'],
             [['nip_anggota'], 'exist', 'skipOnError' => true, 'targetClass' => Pegawai::className(), 'targetAttribute' => ['nip_anggota' => 'nip']],
             [['id_st_spd'], 'exist', 'skipOnError' => true, 'targetClass' => StSpd::className(), 'targetAttribute' => ['id_st_spd' => 'id']],
         ];

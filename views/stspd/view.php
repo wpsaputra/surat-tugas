@@ -24,6 +24,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 'method' => 'post',
             ],
         ]) ?>
+        <a href="<?php echo Url::to('@web/download/'.$model->st_path);?>" download="<?php echo $model->st_path;?>" class="btn btn-success pull-right">
+                <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> Download ST & SPD</a>
     </p>
 
     <?= DetailView::widget([
@@ -54,10 +56,4 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]) ?>
 
-    <div class='row'>
-        <div class="col-sm-12">
-            <a href="<?php echo Url::to('@web/download/'.$model->st_path);?>" download="<?php echo $model->st_path;?>" class="btn btn-success pull-right">
-                <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> Download ST & SPD</a>
-        </div>
-    </div>
 </div>
