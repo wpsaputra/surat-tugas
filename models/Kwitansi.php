@@ -7,6 +7,7 @@ use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\behaviors\AttributeBehavior;
 use PhpOffice\PhpWord\TemplateProcessor;
+use NumberToWords\NumberToWords;
 
 /**
  * This is the model class for table "{{%kwitansi}}".
@@ -269,11 +270,53 @@ class Kwitansi extends \yii\db\ActiveRecord
             $i++;
         }
 
+        $numberToWords = new NumberToWords();
+        $numberTransformer = $numberToWords->getNumberTransformer('id');
+        $templateProcessor->setValue('terbilang_jumlah_pdb', ucwords($numberTransformer->toWords($this->jumlah_pdb)));
+        $templateProcessor->setValue('terbilang_jumlah_riil', ucwords($numberTransformer->toWords($this->jumlah_riil)));
+
         // replace value from database to word without formatting first
         $templateProcessor->setValue($arr_model_attr, $arr_model_val);
+        
+
+        // prepare array
+        $arr_st_spd = StSpd::find()->where(['id'=>$this->id_st])->asArray()->one();
 
 
+        $arr_pegawai = Pegawai::find()->where(['nip'=>$this->nip])->asArray()->one();
+        $arr_bendahara = Pegawai::find()->where(['nip'=>$arr_st_spd['nip_bendahara']])->asArray()->one();
+        $arr_ppk = Pegawai::find()->where(['nip'=>$arr_st_spd['nip_ppk']])->asArray()->one();
+        $arr_instansi = Instansi::find()->where(['id'=>$arr_st_spd['id_instansi']])->asArray()->one();
 
+        // replace value which need formatting first
+        // $templateProcessor->setValue('nama', $arr_pegawai['nama']);
+
+        $templateProcessor->setValue('nama_ppk', $arr_ppk['nama']);
+        $templateProcessor->setValue('nip_ppk', $arr_ppk['nip']);
+
+        $templateProcessor->setValue('nama_bendahara', $arr_bendahara['nama']);
+        $templateProcessor->setValue('nip_bendahara', $arr_bendahara['nip']);
+
+        $templateProcessor->setValue('tanggal_terbit', (int)Yii::$app->formatter->asDate($arr_st_spd['tanggal_terbit'], "dd").' '.self::BULAN[Yii::$app->formatter->asDate($arr_st_spd['tanggal_terbit'], "M")].' '.Yii::$app->formatter->asDate($arr_st_spd['tanggal_terbit'], "Y"));
+        $templateProcessor->setValue('kota_asal', $arr_st_spd['kota_asal']);
+        // replace day
+        $date1 = new \DateTime($arr_st_spd['tanggal_pergi']);
+		$date2 = new \DateTime($arr_st_spd['tanggal_kembali']);
+        $diff = $date2->diff($date1)->format("%a")+1;
+        $templateProcessor->setValue('x_hari', $diff." Hari");
+
+
+        $templateProcessor->setValue('id_instansi', $arr_instansi['instansi']);
+        // with formatting
+        $templateProcessor->setValue(array_keys($arr_pegawai), array_values($arr_pegawai));
+
+
+        // get & set nomor spd from st_spd or st_spd_anggota
+        $arr_st_spd_nmr = StSpd::find()->where(['id'=>$this->id_st, 'nip'=>$this->nip])->asArray()->one();
+        if(is_null($arr_st_spd_nmr)){
+            $arr_st_spd_nmr = StSpdAnggota::find()->where(['id_st_spd'=>$this->id_st, 'nip_anggota'=>$this->nip])->asArray()->one();
+        }
+        $templateProcessor->setValue('nomor_spd', $arr_st_spd_nmr['nomor_spd']);
 
         $templateProcessor->saveAs("download/".$this->kwitansi_path);
     }

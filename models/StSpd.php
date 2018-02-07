@@ -388,9 +388,9 @@ class StSpd extends \yii\db\ActiveRecord
         $templateProcessor->setValue('c_id_instansi', strtoupper($arr_instansi['instansi']));
         $templateProcessor->setValue('kode_output', str_pad($this->kode_output, 3, '0', STR_PAD_LEFT));
         $templateProcessor->setValue('kode_komponen', str_pad($this->kode_komponen, 3, '0', STR_PAD_LEFT));
-        $templateProcessor->setValue('tanggal_terbit', Yii::$app->formatter->asDate($this->tanggal_terbit, "dd").' '.self::BULAN[Yii::$app->formatter->asDate($this->tanggal_terbit, "M")].' '.Yii::$app->formatter->asDate($this->tanggal_terbit, "Y"));
-        $templateProcessor->setValue('tanggal_pergi', Yii::$app->formatter->asDate($this->tanggal_pergi, "dd").' '.self::BULAN[Yii::$app->formatter->asDate($this->tanggal_pergi, "M")].' '.Yii::$app->formatter->asDate($this->tanggal_terbit, "Y"));
-        $templateProcessor->setValue('tanggal_kembali', Yii::$app->formatter->asDate($this->tanggal_kembali, "dd").' '.self::BULAN[Yii::$app->formatter->asDate($this->tanggal_kembali, "M")].' '.Yii::$app->formatter->asDate($this->tanggal_terbit, "Y"));
+        $templateProcessor->setValue('tanggal_terbit', (int)Yii::$app->formatter->asDate($this->tanggal_terbit, "dd").' '.self::BULAN[Yii::$app->formatter->asDate($this->tanggal_terbit, "M")].' '.Yii::$app->formatter->asDate($this->tanggal_terbit, "Y"));
+        $templateProcessor->setValue('tanggal_pergi', (int)Yii::$app->formatter->asDate($this->tanggal_pergi, "dd").' '.self::BULAN[Yii::$app->formatter->asDate($this->tanggal_pergi, "M")].' '.Yii::$app->formatter->asDate($this->tanggal_terbit, "Y"));
+        $templateProcessor->setValue('tanggal_kembali', (int)Yii::$app->formatter->asDate($this->tanggal_kembali, "dd").' '.self::BULAN[Yii::$app->formatter->asDate($this->tanggal_kembali, "M")].' '.Yii::$app->formatter->asDate($this->tanggal_terbit, "Y"));
         $templateProcessor->setValue('id_kendaraan', $arr_kendaraan['nama_kendaraan']);
 
         // replace value from database to word without formatting first

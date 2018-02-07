@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "e45dfce6c84863a916e4834bf99096a4",
+    "content-hash": "d2deaf25afa4541409f184611173c0e2",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -589,6 +589,58 @@
                 "yii2"
             ],
             "time": "2015-06-28T18:05:41+00:00"
+        },
+        {
+            "name": "kwn/number-to-words",
+            "version": "1.2.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kwn/number-to-words.git",
+                "reference": "a876ee7bcccbfd7c3257d30e32618c908e12709a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://files.phpcomposer.com/files/kwn/number-to-words/a876ee7bcccbfd7c3257d30e32618c908e12709a.zip",
+                "reference": "a876ee7bcccbfd7c3257d30e32618c908e12709a",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4"
+            },
+            "require-dev": {
+                "codeclimate/php-test-reporter": "^0.3.0",
+                "mockery/mockery": "~0.9",
+                "phpmd/phpmd": "^2.2.0",
+                "phpunit/phpunit": "^4.8.0",
+                "squizlabs/php_codesniffer": "^2.6.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "NumberToWords\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Karol Wnuk",
+                    "email": "k.wnuk@ascetic.pl"
+                }
+            ],
+            "description": "Multi language standalone PHP number to words converter. Fully tested, open for extensions and new languages.",
+            "keywords": [
+                "angle",
+                "currency",
+                "money",
+                "number",
+                "string",
+                "to",
+                "words"
+            ],
+            "time": "2017-05-03T21:13:28+00:00"
         },
         {
             "name": "mootensai/yii2-relation-trait",

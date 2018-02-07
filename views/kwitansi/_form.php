@@ -8,6 +8,7 @@ use yii\helpers\ArrayHelper;
 use kartik\select2\Select2;
 use app\models\Pegawai;
 use kartik\date\DatePicker;
+use app\models\StSpdAnggota;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Kwitansi */
@@ -29,6 +30,13 @@ $js = '$(".dependent-input").on("change", function() {
 });';
 
 $this->registerJS($js);
+
+// print_r(StSpd::find()->where(['id'=>$model->id_st, 'nip'=>$model->nip])->asArray()->one());
+print_r(is_null((StSpdAnggota::find()->where(['id_st_spd'=>$model->id_st, 'nip_anggota'=>$model->nip])->asArray()->one())));
+print_r(((StSpdAnggota::find()->where(['id_st_spd'=>$model->id_st, 'nip_anggota'=>$model->nip])->asArray()->one())));
+
+// print_r(is_null(StSpd::find()->where(['id'=>$model->id_st, 'nip'=>$model->nip])->asArray()->one()));
+// print_r((StSpd::find()->where(['id'=>$model->id_st, 'nip'=>$model->nip])->asArray()->one()));
 
 ?>
 
