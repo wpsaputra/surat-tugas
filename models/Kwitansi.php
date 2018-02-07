@@ -249,7 +249,13 @@ class Kwitansi extends \yii\db\ActiveRecord
 
     public function createDocx()
     {
-        $templateProcessor = new TemplateProcessor('template/template_kwitansi_luar_kota.docx');
+        // prepare array
+        $arr_st_spd = StSpd::find()->where(['id'=>$this->id_st])->asArray()->one();
+        if($arr_st_spd['id_akun']==524111){
+            $templateProcessor = new TemplateProcessor('template/template_kwitansi_luar_kota.docx');
+        }else{
+            $templateProcessor = new TemplateProcessor('template/template_kwitansi_dalam_kota.docx');
+        }
         
         // get attribute key & value for replace from this model 
         $arr_model_attr = array_keys($this->attributes);
@@ -278,10 +284,6 @@ class Kwitansi extends \yii\db\ActiveRecord
         // replace value from database to word without formatting first
         $templateProcessor->setValue($arr_model_attr, $arr_model_val);
         
-
-        // prepare array
-        $arr_st_spd = StSpd::find()->where(['id'=>$this->id_st])->asArray()->one();
-
 
         $arr_pegawai = Pegawai::find()->where(['nip'=>$this->nip])->asArray()->one();
         $arr_bendahara = Pegawai::find()->where(['nip'=>$arr_st_spd['nip_bendahara']])->asArray()->one();
