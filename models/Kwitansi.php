@@ -138,6 +138,18 @@ class Kwitansi extends \yii\db\ActiveRecord
                 },
             ],
 
+            "auto_fill_kwitansi_path"=>[
+                'class' => AttributeBehavior::className(),
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => 'kwitansi_path',
+                    ActiveRecord::EVENT_BEFORE_UPDATE => 'kwitansi_path',
+                ],
+                'value' => function ($event) {
+                    $path = 'KWITANSI-'.$this->id_st.'-'.$this->nip.'.docx';
+                    return $path;
+                },
+            ],
+
 
         ];
     }
@@ -148,15 +160,43 @@ class Kwitansi extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['jumlah_hari', 'id_st', 'nip'], 'integer'],
-            [['uang_harian', 'biaya_transportasi', 'biaya_penginapan', 'hari_inap_riil', 'biaya_inap_riil', 'transport_riil', 'taksi_riil', 'representasi_riil', 'tanggal_bayar', 'id_st', 'nip'], 'required'],
-            [['uang_harian', 'uang_harian_total', 'biaya_transportasi', 'biaya_penginapan', 'jumlah_pdb', 'hari_inap_riil', 'biaya_inap_riil', 'biaya_inap_riil_total', 'transport_riil', 'taksi_riil', 'representasi_riil', 'representasi_riil_total', 'jumlah_riil'], 'number'],
+            [['jumlah_hari', 'id_st', 'nip', 'hari_inap_riil'], 'integer'],
+            [['uang_harian', 'biaya_transportasi', 'biaya_penginapan', 'biaya_inap_riil', 'transport_riil', 'taksi_riil', 'representasi_riil', 'tanggal_bayar', 'id_st', 'nip', 'hari_inap_riil'], 'required'],
+            [['uang_harian', 'uang_harian_total', 'biaya_transportasi', 'biaya_penginapan', 'jumlah_pdb', 'biaya_inap_riil', 'biaya_inap_riil_total', 'transport_riil', 'taksi_riil', 'representasi_riil', 'representasi_riil_total', 'jumlah_riil'], 'number'],
             [['tanggal_bayar'], 'safe'],
             [['kwitansi_path'], 'string', 'max' => 120],
             [['id_st', 'nip'], 'unique', 'targetAttribute' => ['id_st', 'nip']],
             [['id_st'], 'exist', 'skipOnError' => true, 'targetClass' => StSpd::className(), 'targetAttribute' => ['id_st' => 'id']],
             [['nip'], 'exist', 'skipOnError' => true, 'targetClass' => Pegawai::className(), 'targetAttribute' => ['nip' => 'nip']],
+            // custom
+            [['hari_inap_riil'], 'authenticate_hari_inap_riil'],
+            [['tanggal_bayar'], 'authenticate_tanggal_bayar'],
         ];
+    }
+
+    // custom rule
+    public function authenticate_hari_inap_riil($attribute, $params, $validator)
+	{
+        $stspd = StSpd::find()->where(['id'=>$this->id_st])->asArray()->one();
+        $date1 = new \DateTime($stspd['tanggal_pergi']);
+		$date2 = new \DateTime($stspd['tanggal_kembali']);
+        $diff = $date2->diff($date1)->format("%a")+1;
+
+        if($this->hari_inap_riil > $diff){
+            $this->addError('hari_inap_riil', 'Hari inap riil harus lebih kecil sama dengan hari perjalanan dinas ('.$diff.' hari)');
+        }
+    }
+
+    public function authenticate_tanggal_bayar($attribute, $params, $validator)
+	{
+        $stspd = StSpd::find()->where(['id'=>$this->id_st])->asArray()->one();
+        $tanggal_kembali = new \DateTime($stspd['tanggal_kembali']);
+        $tanggal_bayar = \DateTime::createFromFormat('Y-m-d', Yii::$app->formatter->asDate($this->tanggal_bayar, "Y-MM-dd"));
+
+        if($tanggal_kembali > $tanggal_bayar){
+            $tanggal = Yii::$app->formatter->asDate($stspd['tanggal_kembali'], "dd MMMM Y");
+            $this->addError('tanggal_bayar', 'Tanggal bayar harus lebih besar atau sama dengan tanggal kembali ('.$tanggal.' hari)');
+        }
     }
 
     /**
