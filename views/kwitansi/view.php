@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Kwitansi */
@@ -23,6 +24,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 'method' => 'post',
             ],
         ]) ?>
+        <a href="<?php echo Url::to('@web/download/'.$model->kwitansi_path);?>" download="<?php echo $model->kwitansi_path;?>" class="btn btn-success pull-right">
+                <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> Download Kwitansi</a>
     </p>
 
     <?= DetailView::widget([

@@ -6,6 +6,7 @@ use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\behaviors\AttributeBehavior;
+use PhpOffice\PhpWord\TemplateProcessor;
 
 /**
  * This is the model class for table "{{%kwitansi}}".
@@ -38,6 +39,8 @@ class Kwitansi extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
+    const BULAN = [1=>'Januari', 2=>'Februari', 3=>'Maret', 4=>'April', 5=>'Mei', 6=>'Juni', 7=>'Juli', 8=>'Agustus', 9=>'September', 10=>'Oktober', 11=>'November', 12=>'Desember'];
+
     public static function tableName()
     {
         return '{{%kwitansi}}';
@@ -242,4 +245,38 @@ class Kwitansi extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Pegawai::className(), ['nip' => 'nip']);
     }
+
+    public function createDocx()
+    {
+        $templateProcessor = new TemplateProcessor('template/template_kwitansi_luar_kota.docx');
+        
+        // get attribute key & value for replace from this model 
+        $arr_model_attr = array_keys($this->attributes);
+        $arr_model_val = array_values($this->attributes);
+        
+        $i = 0;
+        foreach ($arr_model_val as $key => $value) {
+            // format number with . separator
+            if(is_numeric($value) && $arr_model_attr[$i]!='nip'){
+                $arr_model_val[$key] = number_format($value, 0, ".", ".");
+            }
+
+            if($arr_model_attr[$i]=='tanggal_bayar'){
+                $arr_model_val[$key] = (int)Yii::$app->formatter->asDate($value, "dd").' '.
+                    self::BULAN[Yii::$app->formatter->asDate($value, "M")].' '.Yii::$app->formatter->asDate($value, "Y"); 
+            }
+
+            $i++;
+        }
+
+        // replace value from database to word without formatting first
+        $templateProcessor->setValue($arr_model_attr, $arr_model_val);
+
+
+
+
+        $templateProcessor->saveAs("download/".$this->kwitansi_path);
+    }
+
+
 }

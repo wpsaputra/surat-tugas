@@ -72,6 +72,7 @@ class KwitansiController extends Controller
         $model = new Kwitansi();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            $model->createDocx();
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
@@ -92,6 +93,7 @@ class KwitansiController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            $model->createDocx();
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
