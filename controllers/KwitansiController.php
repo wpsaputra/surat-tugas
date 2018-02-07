@@ -71,6 +71,17 @@ class KwitansiController extends Controller
     {
         $model = new Kwitansi();
 
+        if ($model->load(Yii::$app->request->post())) {
+            $arr_st_spd = StSpd::find()->where(['id'=>$model->id_st])->asArray()->one();
+            if($arr_st_spd['id_akun']==524111){
+                $model->setScenario(Kwitansi::SCENARIO_LUAR_KOTA);
+            }else{
+                $model->detachBehavior("auto_fill_biaya_inap_riil_total");
+                $model->detachBehavior("auto_fill_representasi_riil_total");
+                $model->detachBehavior("auto_fill_jumlah_riil");
+            }
+        }
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             $model->createDocx();
             return $this->redirect(['view', 'id' => $model->id]);

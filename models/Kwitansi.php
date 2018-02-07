@@ -40,6 +40,7 @@ class Kwitansi extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
+    const SCENARIO_LUAR_KOTA = 'luar_kota';
     const BULAN = [1=>'Januari', 2=>'Februari', 3=>'Maret', 4=>'April', 5=>'Mei', 6=>'Juni', 7=>'Juli', 8=>'Agustus', 9=>'September', 10=>'Oktober', 11=>'November', 12=>'Desember'];
 
     public static function tableName()
@@ -165,7 +166,8 @@ class Kwitansi extends \yii\db\ActiveRecord
     {
         return [
             [['jumlah_hari', 'id_st', 'nip', 'hari_inap_riil'], 'integer'],
-            [['uang_harian', 'biaya_transportasi', 'biaya_penginapan', 'biaya_inap_riil', 'transport_riil', 'taksi_riil', 'representasi_riil', 'tanggal_bayar', 'id_st', 'nip', 'hari_inap_riil'], 'required'],
+            [['uang_harian', 'tanggal_bayar', 'id_st', 'nip'], 'required'],
+            [['uang_harian', 'biaya_transportasi', 'biaya_penginapan', 'biaya_inap_riil', 'transport_riil', 'taksi_riil', 'representasi_riil', 'tanggal_bayar', 'id_st', 'nip', 'hari_inap_riil'], 'required', 'on'=>self::SCENARIO_LUAR_KOTA],
             [['uang_harian', 'uang_harian_total', 'biaya_transportasi', 'biaya_penginapan', 'jumlah_pdb', 'biaya_inap_riil', 'biaya_inap_riil_total', 'transport_riil', 'taksi_riil', 'representasi_riil', 'representasi_riil_total', 'jumlah_riil'], 'number'],
             [['tanggal_bayar'], 'safe'],
             [['kwitansi_path'], 'string', 'max' => 120],
