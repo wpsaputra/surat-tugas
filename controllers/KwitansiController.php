@@ -163,8 +163,18 @@ class KwitansiController extends Controller
                 foreach ($anggota as $key => $value) {
                     $arr_total_pegawai[$value["nip_anggota"]] = Pegawai::find()->where(['nip'=>$value["nip_anggota"]])->asArray()->one()['nama'];
                 }
+
+                if(StSpd::find()->where(['id' => $value])->asArray()->one()["id_akun"]==524111){
+                    // Luar Kota
+                    $isFieldEnabled = true;
+                }else{
+                    $isFieldEnabled = false;
+                }
+
+                $arr_response = ['pegawai'=>Html::renderSelectOptions([], $arr_total_pegawai, $tagOptions), 'isFieldEnabled'=>$isFieldEnabled];
                 
-                return Html::renderSelectOptions([], $arr_total_pegawai, $tagOptions);
+                // return Html::renderSelectOptions([], $arr_total_pegawai, $tagOptions);
+                return json_encode($arr_response);
                 break;
         }
         

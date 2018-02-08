@@ -24,7 +24,21 @@ $js = '$(".dependent-input").on("change", function() {
 		data: {value: value, obj: obj},
 		type: "POST",
 		success: function(data) {
-			$("#" + next).html(data);
+            //$("#" + next).html(data);
+            //console.log(data);
+            var parsedData = JSON.parse(data);
+            console.log(parsedData.isFieldEnabled);
+
+            $("#" + next).html(parsedData.pegawai);
+            $("#kwitansi-biaya_transportasi").prop("disabled", !parsedData.isFieldEnabled);
+            $("#kwitansi-biaya_penginapan").prop("disabled", !parsedData.isFieldEnabled);
+            $("#kwitansi-transport_riil").prop("disabled", !parsedData.isFieldEnabled);
+            $("#kwitansi-transport_riil").prop("disabled", !parsedData.isFieldEnabled);
+            $("#kwitansi-taksi_riil").prop("disabled", !parsedData.isFieldEnabled);
+            $("#kwitansi-representasi_riil").prop("disabled", !parsedData.isFieldEnabled);
+            $("#kwitansi-hari_inap_riil").prop("disabled", !parsedData.isFieldEnabled);
+            $("#kwitansi-biaya_inap_riil").prop("disabled", !parsedData.isFieldEnabled);
+
 		}
 	});
 });';
@@ -100,7 +114,8 @@ $this->registerJS($js);
                 'addon' => [ 
                     'prepend' => ['content' => 'Rp.', 'options'=>['class'=>'alert-success']],
                     'append' => ['content' => ',-', 'options'=>['style' => 'font-family: Monaco, Consolas, monospace;']],
-                ]
+                ],
+                'options' => ['class'=>'xxyz'],
             ]); ?>
         </div>
         <div class='col-sm-4'>
