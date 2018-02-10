@@ -1,6 +1,7 @@
 CKEDITOR.replace('editor1');
 CKEDITOR.instances.editor1.setData(template);
 
+
 function replaceCK(){
     var str = template;
     str = str.replace(/\?nomor_surat\?/g, $("#stspd-nomor_st").val());
@@ -24,6 +25,8 @@ function replaceCK(){
     str = str.replace(/\?akun\?/g, $("#stspd-id_akun").val());
     str = str.replace(/\?instansi\?/g, instansi);
     str = str.replace(/\?y_instansi\?/g, instansi);
+    str = str.replace(/\?pangkat\?/g, pangkat);
+    str = str.replace(/\?jabatan\?/g, jabatan);
 
     str = str.replace(/\?nip_ppk\?/g, $("#stspd-nip_ppk").val());
     str = str.replace(/\?nama_ppk\?/g, $("#stspd-nip_ppk").find("option:selected").text());
@@ -46,7 +49,20 @@ $(document).ready(function () {
         replaceCK();
     });
     $("#stspd-nip").change(function () {
-        replaceCK();
+        var value = $(this).val();
+        console.log(value);
+        $.ajax({
+            url: link,
+            data: {value: value},
+            type: "POST",
+            success: function(data) {
+                var parsedData = JSON.parse(data);
+                pangkat = parsedData['pangkat'];
+                jabatan = parsedData['jabatan'];
+                replaceCK();
+            }
+        });
+        
     });
     $("#stspd-kota_asal").change(function () {
         replaceCK();

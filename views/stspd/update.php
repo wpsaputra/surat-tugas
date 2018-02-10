@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use app\models\TemplateNew;
 use app\models\Instansi;
+use app\models\Pegawai;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\StSpd */
@@ -24,6 +25,9 @@ $this->registerJsFile(
 
 $template = json_encode(TemplateNew::find()->where(['nama' => 'spd_deprecated'])->asArray()->one()['html_text']);
 $instansi = json_encode(Instansi::find()->where(['id'=>Yii::$app->user->identity->id_instansi])->asArray()->one()['instansi']);
+$pangkat = json_encode(Pegawai::find()->where(['nip'=>$model->nip])->asArray()->one()['pangkat']);
+$jabatan = json_encode(Pegawai::find()->where(['nip'=>$model->nip])->asArray()->one()['jabatan']);
+
 
 ?>
 <div class="st-spd-update">
@@ -58,6 +62,9 @@ $instansi = json_encode(Instansi::find()->where(['id'=>Yii::$app->user->identity
 </div>
 
 <script type="text/javascript">
+var pangkat = <?= $pangkat; ?>;
+var jabatan = <?= $jabatan; ?>;
 var template = <?= $template; ?>;
 var instansi = <?= $instansi; ?>;
+var link = <?= json_encode(Yii::$app->urlManager->createUrl('stspd/getpegawai'));?>
 </script>

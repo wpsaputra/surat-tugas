@@ -15,6 +15,7 @@ use app\models\Kegiatan;
 use app\models\Output;
 use app\models\Komponen;
 use app\models\TemplateNew;
+use app\models\Pegawai;
 
 /**
  * StspdController implements the CRUD actions for StSpd model.
@@ -192,6 +193,15 @@ class StspdController extends Controller
                 return Html::renderSelectOptions([], ArrayHelper::map($data, 'id', 'uraian'), $tagOptions);
                 break;
         }
+        
+    }
+
+    public function actionGetpegawai(){
+        $request = Yii::$app->request;
+        $value = $request->post('value');
+
+        $pegawai = Pegawai::find()->where(['nip' => $value])->asArray()->one();
+        return json_encode($pegawai);
         
     }
 
