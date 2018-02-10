@@ -1,7 +1,16 @@
 <?php
 
-use yii\helpers\Url;
+/* @var $this \yii\web\View */
+/* @var $content string */
+
+use app\widgets\Alert;
+use yii\helpers\Html;
+use yii\bootstrap\Nav;
+use yii\bootstrap\NavBar;
+use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
+use yii\helpers\Url;
+use yii\web\View;
 
 AppAsset::register($this);
 $this->registerJsFile(
@@ -13,36 +22,25 @@ $this->registerJsFile(
     ['depends' => [\yii\web\JqueryAsset::className()]]
 );
 
-?>
 
+?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="<?= Yii::$app->language ?>">
 <head>
-	<title>Dashboard | Klorofil - Free Bootstrap Dashboard Template</title>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-	<!-- VENDOR CSS -->
-	<link rel="stylesheet" href="<?php echo Url::to('@web/vendor/bootstrap/css/bootstrap.min.css');?>">
-	<link rel="stylesheet" href="<?php echo Url::to('@web/vendor/font-awesome/css/font-awesome.min.css');?>">
-	<link rel="stylesheet" href="<?php echo Url::to('@web/vendor/linearicons/style.css');?>">
-	<!-- <link rel="stylesheet" href="assets/vendor/chartist/css/chartist-custom.css"> -->
-	<!-- MAIN CSS -->
-	<link rel="stylesheet" href="<?php echo Url::to('@web/css/main.css');?>">
-	<!-- FOR DEMO PURPOSES ONLY. You should remove this in your project -->
-	<!-- <link rel="stylesheet" href="assets/css/demo.css"> -->
-	<!-- GOOGLE FONTS -->
-	<!-- <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700" rel="stylesheet"> -->
-	<!-- ICONS -->
-	<link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png">
-	<link rel="icon" type="image/png" sizes="96x96" href="assets/img/favicon.png">
+    <meta charset="<?= Yii::$app->charset ?>">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<?= Html::csrfMetaTags() ?>
+    <title><?= Html::encode($this->title) ?></title>
+    <?php $this->head() ?>
 </head>
 <body>
-    <?php $this->beginBody() ?>
-	<!-- WRAPPER -->
-	<div id="wrapper">
+<?php $this->beginBody() ?>
+
+<!-- WRAPPER -->
+<div id="wrapper">
 		<!-- NAVBAR -->
 		<nav class="navbar navbar-default navbar-fixed-top">
 			<div class="brand">
@@ -137,8 +135,7 @@ $this->registerJsFile(
 		</footer>
 	</div>
 	<!-- END WRAPPER -->
-    <?php $this->endBody() ?>
+<?php $this->endBody() ?>
 </body>
 </html>
 <?php $this->endPage() ?>
-
