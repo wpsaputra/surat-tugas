@@ -20,6 +20,7 @@ use app\models\Kendaraan;
 use app\models\Akun;
 use app\models\Instansi;
 use app\models\StSpdAnggota;
+use kartik\date\DatePicker;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\StSpd */
@@ -96,10 +97,16 @@ $arr_model_val = array_values($model->attributes);
     <?= $form->field($model, 'nomor_st')->textInput(['maxlength' => true]) ?>
 
     <!-- <?= $form->field($model, 'tanggal_terbit')->textInput() ?> -->
-    <?= $form->field($model, 'tanggal_terbit')->widget(\yii\jui\DatePicker::classname(), [
+    <?= $form->field($model, 'tanggal_terbit')->widget(DatePicker::classname(), [
         //'language' => 'ru',
         // 'dateFormat' => 'yyyy-MM-dd',
-        'options' => ['class' => 'form-control']
+        'options' => ['class' => 'form-control'],
+        'removeButton' => false,
+        'pluginOptions' => [
+        'autoclose'=>true,
+        // 'format' => 'mm/dd/yyyy'
+        'format' => 'M dd, yyyy'
+        ]
     ]) ?>
 
     <div class="row">
@@ -193,18 +200,30 @@ $arr_model_val = array_values($model->attributes);
     <div class="row">
         <div class="col-sm-6">
             <!-- <?= $form->field($model, 'tanggal_pergi')->textInput() ?> -->
-            <?= $form->field($model, 'tanggal_pergi')->widget(\yii\jui\DatePicker::classname(), [
+            <?= $form->field($model, 'tanggal_pergi')->widget(DatePicker::classname(), [
                 //'language' => 'ru',
                 // 'dateFormat' => 'yyyy-MM-dd',
                 'options' => ['class' => 'form-control'],
+                'removeButton' => false,
+                'pluginOptions' => [
+                'autoclose'=>true,
+                // 'format' => 'mm/dd/yyyy'
+                'format' => 'M dd, yyyy'
+                ]
             ]) ?>
         </div>
         <div class="col-sm-6">
             <!-- <?= $form->field($model, 'tanggal_kembali')->textInput() ?> -->
-            <?= $form->field($model, 'tanggal_kembali')->widget(\yii\jui\DatePicker::classname(), [
+            <?= $form->field($model, 'tanggal_kembali')->widget(DatePicker::classname(), [
                 //'language' => 'ru',
                 // 'dateFormat' => 'yyyy-MM-dd',
-                'options' => ['class' => 'form-control']
+                'options' => ['class' => 'form-control'],
+                'removeButton' => false,
+                'pluginOptions' => [
+                'autoclose'=>true,
+                // 'format' => 'mm/dd/yyyy'
+                'format' => 'M dd, yyyy'
+                ]
             ]) ?>
         </div>
     </div>
