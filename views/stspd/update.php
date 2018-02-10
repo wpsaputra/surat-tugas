@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use app\models\TemplateNew;
+use app\models\Instansi;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\StSpd */
@@ -22,6 +23,7 @@ $this->registerJsFile(
 );
 
 $template = json_encode(TemplateNew::find()->where(['nama' => 'spd_deprecated'])->asArray()->one()['html_text']);
+$instansi = json_encode(Instansi::find()->where(['id'=>Yii::$app->user->identity->id_instansi])->asArray()->one()['instansi']);
 
 ?>
 <div class="st-spd-update">
@@ -55,6 +57,7 @@ $template = json_encode(TemplateNew::find()->where(['nama' => 'spd_deprecated'])
 
 </div>
 
-<script>
+<script type="text/javascript">
 var template = <?= $template; ?>;
+var instansi = <?= $instansi; ?>;
 </script>
