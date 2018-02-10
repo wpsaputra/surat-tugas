@@ -50,19 +50,19 @@ $this->registerJsFile(
 				<div class="navbar-btn">
 					<button type="button" class="btn-toggle-fullwidth"><i class="lnr lnr-arrow-left-circle"></i></button>
 				</div>
-				<form class="navbar-form navbar-left">
+				<!-- <form class="navbar-form navbar-left">
 					<div class="input-group">
 						<input type="text" value="" class="form-control" placeholder="Search dashboard...">
 						<span class="input-group-btn"><button type="button" class="btn btn-primary">Go</button></span>
 					</div>
-				</form>
+				</form> -->
 				<div class="navbar-btn navbar-btn-right">
 					<?php
 					if(Yii::$app->user->isGuest){
-						echo '<a class="btn btn-success update-pro" href="'.Yii::$app->urlManager->createUrl('site/login').'" title="login"><i class="fa fa-rocket"></i> <span>LOGIN</span></a>';
+						echo '<a class="btn btn-danger update-pro" href="'.Yii::$app->urlManager->createUrl('site/login').'" title="login"><i class="fa fa-rocket"></i> <span>LOGIN</span></a>';
 
 					}else{
-						echo '<a class="btn btn-success update-pro" href="'.Yii::$app->urlManager->createUrl('site/logout').'" title="logout"><i class="fa fa-rocket"></i> <span>LOGOUT ('.Yii::$app->user->identity->username.')</span></a>';
+						echo '<a class="btn btn-danger update-pro" href="'.Yii::$app->urlManager->createUrl('site/logout').'" title="logout"><i class="fa fa-rocket"></i> <span>LOGOUT ('.Yii::$app->user->identity->username.')</span></a>';
 					}
 					?>
 					

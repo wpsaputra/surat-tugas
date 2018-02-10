@@ -11,40 +11,44 @@ $this->title = 'Kwitansis';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="kwitansi-index">
+    <!-- INPUTS -->
+    <div class="panel">
+        <div class="panel-heading">
+            <h3 class="panel-title"><?= Html::encode($this->title) ?></h3>
+        </div>
+        <div class="panel-body">
+            <p>
+                <?= Html::a('Create Kwitansi', ['create'], ['class' => 'btn btn-success']) ?>
+            </p>
 
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+            <?= GridView::widget([
+                'dataProvider' => $dataProvider,
+                'filterModel' => $searchModel,
+                'columns' => [
+                    ['class' => 'yii\grid\SerialColumn'],
 
-    <p>
-        <?= Html::a('Create Kwitansi', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
+                    'id',
+                    'uang_harian',
+                    'uang_harian_total',
+                    'biaya_transportasi',
+                    'biaya_penginapan',
+                    //'jumlah_pdb',
+                    //'hari_inap_riil',
+                    //'biaya_inap_riil',
+                    //'biaya_inap_riil_total',
+                    //'transport_riil',
+                    //'taksi_riil',
+                    //'representasi_riil',
+                    //'representasi_riil_total',
+                    //'jumlah_riil',
+                    //'tanggal_bayar',
+                    //'kwitansi_path',
+                    //'id_st',
+                    //'nip',
 
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
-            'id',
-            'uang_harian',
-            'uang_harian_total',
-            'biaya_transportasi',
-            'biaya_penginapan',
-            //'jumlah_pdb',
-            //'hari_inap_riil',
-            //'biaya_inap_riil',
-            //'biaya_inap_riil_total',
-            //'transport_riil',
-            //'taksi_riil',
-            //'representasi_riil',
-            //'representasi_riil_total',
-            //'jumlah_riil',
-            //'tanggal_bayar',
-            //'kwitansi_path',
-            //'id_st',
-            //'nip',
-
-            ['class' => 'yii\grid\ActionColumn'],
-        ],
-    ]); ?>
+                    ['class' => 'yii\grid\ActionColumn'],
+                ],
+            ]); ?>
+        </div>
+    </div>
 </div>
