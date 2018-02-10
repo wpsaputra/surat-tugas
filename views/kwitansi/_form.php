@@ -57,20 +57,18 @@ $this->registerJS($js);
 <div class="kwitansi-form">
 
     <?php $form = ActiveForm::begin(); ?>
+    <!-- <?= $form->field($model, 'id_st')->textInput() ?> -->
+    <?= $form->field($model, 'id_st')->widget(Select2::classname(), [
+        'data' => ArrayHelper::map(StSpd::find()->where(["id_instansi" => Yii::$app->user->identity->id_instansi])->all(),'id','nomor_st'),
+        'options' => ['placeholder' => 'Pilih nomor surat tugas ...', 'class' => 'dependent-input form-control', 'data-next' => 'kwitansi-nip'],
+        'pluginOptions' => [
+            'allowClear' => true
+        ],
+    ]);
+    ?>
 
     <div class='row'>
-        <div class='col-md-4'>
-            <!-- <?= $form->field($model, 'id_st')->textInput() ?> -->
-            <?= $form->field($model, 'id_st')->widget(Select2::classname(), [
-                'data' => ArrayHelper::map(StSpd::find()->where(["id_instansi" => Yii::$app->user->identity->id_instansi])->all(),'id','nomor_st'),
-                'options' => ['placeholder' => 'Pilih nomor surat tugas ...', 'class' => 'dependent-input form-control', 'data-next' => 'kwitansi-nip'],
-                'pluginOptions' => [
-                    'allowClear' => true
-                ],
-            ]);
-            ?>
-        </div>
-        <div class='col-md-4'>
+        <div class='col-md-6'>
             <!-- <?= $form->field($model, 'nip')->textInput(['maxlength' => true]) ?> -->
             <?= $form->field($model, 'nip')->widget(Select2::classname(), [
                 'data' => ArrayHelper::map(Pegawai::find()->where(["id_instansi" => Yii::$app->user->identity->id_instansi])->all(),'nip','nama'),
@@ -82,7 +80,7 @@ $this->registerJS($js);
             ?>
         
         </div>
-        <div class='col-md-4'>
+        <div class='col-md-6'>
                 <!-- <?= $form->field($model, 'tanggal_bayar')->textInput() ?> -->
             <?= $form->field($model, 'tanggal_bayar')->widget(DatePicker::classname(), [
                 //'language' => 'ru',
@@ -99,7 +97,7 @@ $this->registerJS($js);
     </div>
 
     <div class='row'>
-        <div class='col-sm-4'>
+        <div class='col-sm-6'>
             <!-- <?= $form->field($model, 'uang_harian')->textInput(['maxlength' => true]) ?> -->
             <?= $form->field($model, 'uang_harian', [
                 'addon' => [ 
@@ -108,7 +106,7 @@ $this->registerJS($js);
                 ]
             ]); ?>
         </div>
-        <div class='col-sm-4'>
+        <div class='col-sm-6'>
             <!-- <?= $form->field($model, 'biaya_transportasi')->textInput(['maxlength' => true]) ?> -->
             <?= $form->field($model, 'biaya_transportasi', [
                 'addon' => [ 
@@ -118,9 +116,21 @@ $this->registerJS($js);
                 'options' => ['class'=>'xxyz'],
             ]); ?>
         </div>
-        <div class='col-sm-4'>
+    </div>
+
+    <div class='row'>
+        <div class='col-sm-6'>
             <!-- <?= $form->field($model, 'biaya_penginapan')->textInput(['maxlength' => true]) ?> -->
             <?= $form->field($model, 'biaya_penginapan', [
+                'addon' => [ 
+                    'prepend' => ['content' => 'Rp.', 'options'=>['class'=>'alert-success']],
+                    'append' => ['content' => ',-', 'options'=>['style' => 'font-family: Monaco, Consolas, monospace;']],
+                ]
+            ]); ?>
+        </div>
+        <div class='col-sm-6'>
+            <!-- <?= $form->field($model, 'transport_riil')->textInput(['maxlength' => true]) ?> -->
+            <?= $form->field($model, 'transport_riil', [
                 'addon' => [ 
                     'prepend' => ['content' => 'Rp.', 'options'=>['class'=>'alert-success']],
                     'append' => ['content' => ',-', 'options'=>['style' => 'font-family: Monaco, Consolas, monospace;']],
@@ -130,16 +140,7 @@ $this->registerJS($js);
     </div>
 
     <div class='row'>
-        <div class='col-sm-4'>
-            <!-- <?= $form->field($model, 'transport_riil')->textInput(['maxlength' => true]) ?> -->
-            <?= $form->field($model, 'transport_riil', [
-                'addon' => [ 
-                    'prepend' => ['content' => 'Rp.', 'options'=>['class'=>'alert-success']],
-                    'append' => ['content' => ',-', 'options'=>['style' => 'font-family: Monaco, Consolas, monospace;']],
-                ]
-            ]); ?>
-        </div>
-        <div class='col-sm-4'>
+        <div class='col-sm-6'>
             <!-- <?= $form->field($model, 'taksi_riil')->textInput(['maxlength' => true]) ?> -->
             <?= $form->field($model, 'taksi_riil', [
                 'addon' => [ 
@@ -148,7 +149,7 @@ $this->registerJS($js);
                 ]
             ]); ?>
         </div>
-        <div class='col-sm-4'>
+        <div class='col-sm-6'>
             <!-- <?= $form->field($model, 'representasi_riil')->textInput(['maxlength' => true]) ?> -->
             <?= $form->field($model, 'representasi_riil', [
                 'addon' => [ 

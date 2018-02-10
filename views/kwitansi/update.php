@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use app\models\StSpd;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Kwitansi */
@@ -19,6 +20,14 @@ $this->registerJsFile(
     '@web/js/kwitansi.js',
     ['depends' => [\yii\web\JqueryAsset::className()]]
 );
+
+if(StSpd::find()->where(['id' => $model->id_st])->asArray()->one()["id_akun"]==524111){
+    // Luar Kota
+    $isFieldEnabled = true;
+}else{
+    $isFieldEnabled = false;
+}
+
 ?>
 <div class="kwitansi-update">
     <div class="row">
@@ -29,7 +38,7 @@ $this->registerJsFile(
                     <h3 class="panel-title"><?= Html::encode($this->title) ?></h3>
                 </div>
                 <div class="panel-body">
-                <?= $this->render('_form', [
+                <?= $this->render('_form_update', [
                     'model' => $model,
                 ]) ?>
                 </div>
@@ -49,3 +58,8 @@ $this->registerJsFile(
     </div>
 
 </div>
+
+<script>
+var isFieldEnabled = <?= json_encode($isFieldEnabled); ?>;
+
+</script>

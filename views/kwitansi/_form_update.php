@@ -43,66 +43,37 @@ $js = '$(".dependent-input").on("change", function() {
 	});
 });';
 
-$js2 = '$( document ).ready(function() {
-    console.log( "ready!" );
-    var value = $("#kwitansi-id_st").val(),
-		obj = $("#kwitansi-id_st").attr("id"),
-        next = $("#kwitansi-id_st").attr("data-next");
-        console.log(next);
-	$.ajax({
-		url: "' . Yii::$app->urlManager->createUrl('kwitansi/get') . '",
-		data: {value: value, obj: obj},
-		type: "POST",
-		success: function(data) {
-            //$("#" + next).html(data);
-            //console.log(data);
-            var parsedData = JSON.parse(data);
-            console.log(parsedData.isFieldEnabled);
-
-            $("#kwitansi-biaya_transportasi").prop("disabled", !parsedData.isFieldEnabled);
-            $("#kwitansi-biaya_penginapan").prop("disabled", !parsedData.isFieldEnabled);
-            $("#kwitansi-transport_riil").prop("disabled", !parsedData.isFieldEnabled);
-            $("#kwitansi-transport_riil").prop("disabled", !parsedData.isFieldEnabled);
-            $("#kwitansi-taksi_riil").prop("disabled", !parsedData.isFieldEnabled);
-            $("#kwitansi-representasi_riil").prop("disabled", !parsedData.isFieldEnabled);
-            $("#kwitansi-hari_inap_riil").prop("disabled", !parsedData.isFieldEnabled);
-            $("#kwitansi-biaya_inap_riil").prop("disabled", !parsedData.isFieldEnabled);
-
-		}
-	});
-
-});
+$js2 = '
+    $("#kwitansi-biaya_transportasi").prop("disabled", !isFieldEnabled);
+    $("#kwitansi-biaya_penginapan").prop("disabled", !isFieldEnabled);
+    $("#kwitansi-transport_riil").prop("disabled", !isFieldEnabled);
+    $("#kwitansi-transport_riil").prop("disabled", !isFieldEnabled);
+    $("#kwitansi-taksi_riil").prop("disabled", !isFieldEnabled);
+    $("#kwitansi-representasi_riil").prop("disabled", !isFieldEnabled);
+    $("#kwitansi-hari_inap_riil").prop("disabled", !isFieldEnabled);
+    $("#kwitansi-biaya_inap_riil").prop("disabled", !isFieldEnabled);
 ';
 
 $this->registerJS($js);
 $this->registerJS($js2);
-
-// print_r(StSpd::find()->where(['id'=>$model->id_st, 'nip'=>$model->nip])->asArray()->one());
-// print_r(is_null((StSpdAnggota::find()->where(['id_st_spd'=>$model->id_st, 'nip_anggota'=>$model->nip])->asArray()->one())));
-// print_r(((StSpdAnggota::find()->where(['id_st_spd'=>$model->id_st, 'nip_anggota'=>$model->nip])->asArray()->one())));
-
-// print_r(is_null(StSpd::find()->where(['id'=>$model->id_st, 'nip'=>$model->nip])->asArray()->one()));
-// print_r((StSpd::find()->where(['id'=>$model->id_st, 'nip'=>$model->nip])->asArray()->one()));
 
 ?>
 
 <div class="kwitansi-form">
 
     <?php $form = ActiveForm::begin(); ?>
+    <!-- <?= $form->field($model, 'id_st')->textInput() ?> -->
+    <?= $form->field($model, 'id_st')->widget(Select2::classname(), [
+        'data' => ArrayHelper::map(StSpd::find()->where(["id_instansi" => Yii::$app->user->identity->id_instansi])->all(),'id','nomor_st'),
+        'options' => ['placeholder' => 'Pilih nomor surat tugas ...', 'class' => 'dependent-input form-control', 'data-next' => 'kwitansi-nip'],
+        'pluginOptions' => [
+            'allowClear' => true
+        ],
+    ]);
+    ?>
 
     <div class='row'>
-        <div class='col-md-4'>
-            <!-- <?= $form->field($model, 'id_st')->textInput() ?> -->
-            <?= $form->field($model, 'id_st')->widget(Select2::classname(), [
-                'data' => ArrayHelper::map(StSpd::find()->where(["id_instansi" => Yii::$app->user->identity->id_instansi])->all(),'id','nomor_st'),
-                'options' => ['placeholder' => 'Pilih nomor surat tugas ...', 'class' => 'dependent-input form-control', 'data-next' => 'kwitansi-nip'],
-                'pluginOptions' => [
-                    'allowClear' => true
-                ],
-            ]);
-            ?>
-        </div>
-        <div class='col-md-4'>
+        <div class='col-md-6'>
             <!-- <?= $form->field($model, 'nip')->textInput(['maxlength' => true]) ?> -->
             <?= $form->field($model, 'nip')->widget(Select2::classname(), [
                 'data' => ArrayHelper::map(Pegawai::find()->where(["id_instansi" => Yii::$app->user->identity->id_instansi])->all(),'nip','nama'),
@@ -114,7 +85,7 @@ $this->registerJS($js2);
             ?>
         
         </div>
-        <div class='col-md-4'>
+        <div class='col-md-6'>
                 <!-- <?= $form->field($model, 'tanggal_bayar')->textInput() ?> -->
             <?= $form->field($model, 'tanggal_bayar')->widget(DatePicker::classname(), [
                 //'language' => 'ru',
@@ -131,7 +102,7 @@ $this->registerJS($js2);
     </div>
 
     <div class='row'>
-        <div class='col-sm-4'>
+        <div class='col-sm-6'>
             <!-- <?= $form->field($model, 'uang_harian')->textInput(['maxlength' => true]) ?> -->
             <?= $form->field($model, 'uang_harian', [
                 'addon' => [ 
@@ -140,7 +111,7 @@ $this->registerJS($js2);
                 ]
             ]); ?>
         </div>
-        <div class='col-sm-4'>
+        <div class='col-sm-6'>
             <!-- <?= $form->field($model, 'biaya_transportasi')->textInput(['maxlength' => true]) ?> -->
             <?= $form->field($model, 'biaya_transportasi', [
                 'addon' => [ 
@@ -150,9 +121,21 @@ $this->registerJS($js2);
                 'options' => ['class'=>'xxyz'],
             ]); ?>
         </div>
-        <div class='col-sm-4'>
+    </div>
+
+    <div class='row'>
+        <div class='col-sm-6'>
             <!-- <?= $form->field($model, 'biaya_penginapan')->textInput(['maxlength' => true]) ?> -->
             <?= $form->field($model, 'biaya_penginapan', [
+                'addon' => [ 
+                    'prepend' => ['content' => 'Rp.', 'options'=>['class'=>'alert-success']],
+                    'append' => ['content' => ',-', 'options'=>['style' => 'font-family: Monaco, Consolas, monospace;']],
+                ]
+            ]); ?>
+        </div>
+        <div class='col-sm-6'>
+            <!-- <?= $form->field($model, 'transport_riil')->textInput(['maxlength' => true]) ?> -->
+            <?= $form->field($model, 'transport_riil', [
                 'addon' => [ 
                     'prepend' => ['content' => 'Rp.', 'options'=>['class'=>'alert-success']],
                     'append' => ['content' => ',-', 'options'=>['style' => 'font-family: Monaco, Consolas, monospace;']],
@@ -162,16 +145,7 @@ $this->registerJS($js2);
     </div>
 
     <div class='row'>
-        <div class='col-sm-4'>
-            <!-- <?= $form->field($model, 'transport_riil')->textInput(['maxlength' => true]) ?> -->
-            <?= $form->field($model, 'transport_riil', [
-                'addon' => [ 
-                    'prepend' => ['content' => 'Rp.', 'options'=>['class'=>'alert-success']],
-                    'append' => ['content' => ',-', 'options'=>['style' => 'font-family: Monaco, Consolas, monospace;']],
-                ]
-            ]); ?>
-        </div>
-        <div class='col-sm-4'>
+        <div class='col-sm-6'>
             <!-- <?= $form->field($model, 'taksi_riil')->textInput(['maxlength' => true]) ?> -->
             <?= $form->field($model, 'taksi_riil', [
                 'addon' => [ 
@@ -180,7 +154,7 @@ $this->registerJS($js2);
                 ]
             ]); ?>
         </div>
-        <div class='col-sm-4'>
+        <div class='col-sm-6'>
             <!-- <?= $form->field($model, 'representasi_riil')->textInput(['maxlength' => true]) ?> -->
             <?= $form->field($model, 'representasi_riil', [
                 'addon' => [ 
