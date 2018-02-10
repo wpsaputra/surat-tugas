@@ -33,10 +33,16 @@ try{
         <p>Kepala kantor <?= $instansi; ?> saat ini adalah <?= $kepala; ?></p>
     </div>
 
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <?= $this->render('_form', [
-        'model' => $model,
-    ]) ?>
+    <!-- INPUTS -->
+    <div class="panel">
+        <div class="panel-heading">
+            <h3 class="panel-title"><?= Html::encode($this->title) ?></h3>
+        </div>
+        <div class="panel-body">
+        <?= $this->render('_form', [
+            'model' => $model,
+        ]) ?>
+        </div>
+    </div>
 
 </div>

@@ -11,26 +11,30 @@ $this->title = 'Komponens';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="komponen-index">
+    <!-- INPUTS -->
+    <div class="panel">
+        <div class="panel-heading">
+            <h3 class="panel-title"><?= Html::encode($this->title) ?></h3>
+        </div>
+        <div class="panel-body">
+            <p>
+                <?= Html::a('Create Komponen', ['create'], ['class' => 'btn btn-success']) ?>
+            </p>
 
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+            <?= GridView::widget([
+                'dataProvider' => $dataProvider,
+                'filterModel' => $searchModel,
+                'columns' => [
+                    ['class' => 'yii\grid\SerialColumn'],
 
-    <p>
-        <?= Html::a('Create Komponen', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
+                    'id',
+                    'kode_komponen',
+                    'uraian',
+                    'id_output',
 
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
-            'id',
-            'kode_komponen',
-            'uraian',
-            'id_output',
-
-            ['class' => 'yii\grid\ActionColumn'],
-        ],
-    ]); ?>
+                    ['class' => 'yii\grid\ActionColumn'],
+                ],
+            ]); ?>
+        </div>
+    </div>
 </div>

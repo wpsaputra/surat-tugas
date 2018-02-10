@@ -11,25 +11,29 @@ $this->title = 'Outputs';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="output-index">
+    <!-- INPUTS -->
+    <div class="panel">
+        <div class="panel-heading">
+            <h3 class="panel-title"><?= Html::encode($this->title) ?></h3>
+        </div>
+        <div class="panel-body">
+            <p>
+                <?= Html::a('Create Output', ['create'], ['class' => 'btn btn-success']) ?>
+            </p>
 
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+            <?= GridView::widget([
+                'dataProvider' => $dataProvider,
+                'filterModel' => $searchModel,
+                'columns' => [
+                    ['class' => 'yii\grid\SerialColumn'],
 
-    <p>
-        <?= Html::a('Create Output', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
+                    'kode',
+                    'uraian',
+                    'id_kegiatan',
 
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
-            'kode',
-            'uraian',
-            'id_kegiatan',
-
-            ['class' => 'yii\grid\ActionColumn'],
-        ],
-    ]); ?>
+                    ['class' => 'yii\grid\ActionColumn'],
+                ],
+            ]); ?>
+        </div>
+    </div>
 </div>
