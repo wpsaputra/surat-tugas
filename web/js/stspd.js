@@ -27,6 +27,7 @@ function replaceCK(){
     str = str.replace(/\?y_instansi\?/g, instansi);
     str = str.replace(/\?pangkat\?/g, pangkat);
     str = str.replace(/\?jabatan\?/g, jabatan);
+    str = str.replace(/\?x_hari\?/g, x_hari);
 
     str = str.replace(/\?nip_ppk\?/g, $("#stspd-nip_ppk").val());
     str = str.replace(/\?nama_ppk\?/g, $("#stspd-nip_ppk").find("option:selected").text());
@@ -72,9 +73,39 @@ $(document).ready(function () {
         replaceCK();
     });
     $("#stspd-tanggal_pergi").change(function () {
+        if($("#stspd-tanggal_pergi").val().length>0 && $("#stspd-tanggal_kembali").val().length>0){
+            var tanggal_pergi = $("#stspd-tanggal_pergi").val();
+            var tanggal_kembali = $("#stspd-tanggal_kembali").val();
+            $.ajax({
+                url: link_hari,
+                data: {tanggal_pergi: tanggal_pergi, tanggal_kembali, tanggal_kembali},
+                type: "POST",
+                success: function(data) {
+                    x_hari = data + " Hari";
+                    console.log(data);
+                    replaceCK();
+                }
+            });
+
+        }
         replaceCK();
     });
     $("#stspd-tanggal_kembali").change(function () {
+        if($("#stspd-tanggal_pergi").val().length>0 && $("#stspd-tanggal_kembali").val().length>0){
+            var tanggal_pergi = $("#stspd-tanggal_pergi").val();
+            var tanggal_kembali = $("#stspd-tanggal_kembali").val();
+            $.ajax({
+                url: link_hari,
+                data: {tanggal_pergi: tanggal_pergi, tanggal_kembali, tanggal_kembali},
+                type: "POST",
+                success: function(data) {
+                    x_hari = data + " Hari";
+                    console.log(data);
+                    replaceCK();
+                }
+            });
+
+        }
         replaceCK();
     });
     $("#stspd-tingkat_perjalanan_dinas").change(function () {

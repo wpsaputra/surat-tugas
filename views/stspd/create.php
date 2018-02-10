@@ -59,9 +59,11 @@ $instansi = json_encode(Instansi::find()->where(['id'=>Yii::$app->user->identity
 </div>
 
 <script type="text/javascript">
+var x_hari = 0;
 var pangkat = '';
 var jabatan = '';
 var template = <?= $template; ?>;
 var instansi = <?= $instansi; ?>;
-var link = <?= json_encode(Yii::$app->urlManager->createUrl('stspd/getpegawai'));?>
+var link = <?= json_encode(Yii::$app->urlManager->createUrl('stspd/getpegawai'));?>;
+var link_hari = <?= json_encode(Yii::$app->urlManager->createUrl('stspd/gethari'));?>;
 </script>

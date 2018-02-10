@@ -28,6 +28,9 @@ $instansi = json_encode(Instansi::find()->where(['id'=>Yii::$app->user->identity
 $pangkat = json_encode(Pegawai::find()->where(['nip'=>$model->nip])->asArray()->one()['pangkat']);
 $jabatan = json_encode(Pegawai::find()->where(['nip'=>$model->nip])->asArray()->one()['jabatan']);
 
+$date1 = new \DateTime($model->tanggal_pergi);
+$date2 = new \DateTime($model->tanggal_kembali);
+$diff = json_encode($date2->diff($date1)->format("%a")+1);
 
 ?>
 <div class="st-spd-update">
@@ -62,9 +65,11 @@ $jabatan = json_encode(Pegawai::find()->where(['nip'=>$model->nip])->asArray()->
 </div>
 
 <script type="text/javascript">
+var x_hari = <?= $diff; ?> + " Hari";
 var pangkat = <?= $pangkat; ?>;
 var jabatan = <?= $jabatan; ?>;
 var template = <?= $template; ?>;
 var instansi = <?= $instansi; ?>;
-var link = <?= json_encode(Yii::$app->urlManager->createUrl('stspd/getpegawai'));?>
+var link = <?= json_encode(Yii::$app->urlManager->createUrl('stspd/getpegawai'));?>;
+var link_hari = <?= json_encode(Yii::$app->urlManager->createUrl('stspd/gethari'));?>;
 </script>

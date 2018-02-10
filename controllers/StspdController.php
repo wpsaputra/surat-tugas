@@ -202,6 +202,21 @@ class StspdController extends Controller
 
         $pegawai = Pegawai::find()->where(['nip' => $value])->asArray()->one();
         return json_encode($pegawai);
+    }
+
+    public function actionGethari(){
+        $request = Yii::$app->request;
+        $tanggal_pergi = $request->post('tanggal_pergi');
+        $tanggal_kembali = $request->post('tanggal_kembali');
+
+        $date1 = new \DateTime($tanggal_pergi);
+		$date2 = new \DateTime($tanggal_kembali);
+        $diff = $date2->diff($date1)->format("%a")+1;
+
+        // $pegawai = Pegawai::find()->where(['nip' => $value])->asArray()->one();
+        // return json_encode($pegawai);
+
+        return json_encode($diff);
         
     }
 
