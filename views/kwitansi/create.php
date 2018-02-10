@@ -1,6 +1,8 @@
 <?php
 
 use yii\helpers\Html;
+use yii\web\View;
+use app\models\TemplateNew;
 
 
 /* @var $this yii\web\View */
@@ -9,10 +11,23 @@ use yii\helpers\Html;
 $this->title = 'Create Kwitansi';
 $this->params['breadcrumbs'][] = ['label' => 'Kwitansis', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+
+$this->registerJsFile(
+    '@web/vendor/ckeditor/ckeditor.js',
+    ['depends' => [\yii\web\JqueryAsset::className()]]
+);
+
+$this->registerJsFile(
+    '@web/js/kwitansi.js',
+    ['depends' => [\yii\web\JqueryAsset::className()]]
+);
+
 ?>
+
+
 <div class="kwitansi-create">
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-5">
             <!-- INPUTS -->
             <div class="panel">
                 <div class="panel-heading">
@@ -25,19 +40,18 @@ $this->params['breadcrumbs'][] = $this->title;
                 </div>
             </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-7">
             <!-- INPUTS -->
             <div class="panel">
                 <div class="panel-heading">
                     <h3 class="panel-title">Preview</h3>
                 </div>
                 <div class="panel-body">
-
+                    <textarea name="editor1" id=editor1></textarea>
                 </div>
             </div>
         </div>
     </div>
 
-    
 
 </div>

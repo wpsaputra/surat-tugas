@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use app\models\TemplateNew;
 
 
 /* @var $this yii\web\View */
@@ -9,19 +10,52 @@ use yii\helpers\Html;
 $this->title = 'Create Surat Tugas & SPD';
 $this->params['breadcrumbs'][] = ['label' => 'St Spds', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+
+$this->registerJsFile(
+    '@web/vendor/ckeditor/ckeditor.js',
+    ['depends' => [\yii\web\JqueryAsset::className()]]
+);
+
+$this->registerJsFile(
+    '@web/js/stspd.js',
+    ['depends' => [\yii\web\JqueryAsset::className()]]
+);
+
+$template = json_encode(TemplateNew::find()->where(['nama' => 'spd_deprecated'])->asArray()->one()['html_text']);
+
 ?>
 <div class="st-spd-create">
-    <!-- INPUTS -->
-    <div class="panel">
-        <div class="panel-heading">
-            <h3 class="panel-title"><?= Html::encode($this->title) ?></h3>
+
+    <div class="row">
+        <div class="col-md-5">
+            <!-- INPUTS -->
+            <div class="panel">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><?= Html::encode($this->title) ?></h3>
+                </div>
+                <div class="panel-body">
+                <?= $this->render('_form', [
+                    'model' => $model,
+                    'modelsAnggota' => $modelsAnggota
+                ]) ?>
+                </div>
+            </div>
         </div>
-        <div class="panel-body">
-        <?= $this->render('_form', [
-            'model' => $model,
-            'modelsAnggota' => $modelsAnggota
-        ]) ?>
+        <div class="col-md-7">
+            <!-- INPUTS -->
+            <div class="panel">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Preview</h3>
+                </div>
+                <div class="panel-body">
+                    <textarea name="editor1" id=editor1></textarea>
+                </div>
+            </div>
         </div>
     </div>
 
 </div>
+
+<script>
+var template = <?= $template; ?>;
+</script>
