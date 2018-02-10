@@ -17,7 +17,7 @@ function replaceCK(){
     str = str.replace(/\?tanggal_pergi\?/g, $("#stspd-tanggal_pergi").val());
     str = str.replace(/\?tanggal_kembali\?/g, $("#stspd-tanggal_kembali").val());
     str = str.replace(/\?tingkat\?/g, $("#stspd-tingkat_perjalanan_dinas").val());
-    str = str.replace(/\?kendaraan\?/g, $("#stspd-id_kendaraan").val());
+    str = str.replace(/\?kendaraan\?/g, $("#stspd-id_kendaraan").find("option:selected").text());
     str = str.replace(/\?program\?/g, $("#stspd-kode_program").val());
     str = str.replace(/\?kegiatan\?/g, $("#stspd-kode_kegiatan").val());
     str = str.replace(/\?output\?/g, $("#stspd-kode_output").val());
@@ -124,6 +124,16 @@ $(document).ready(function () {
         replaceCK();
     });
     $("#stspd-kode_komponen").change(function () {
+        replaceCK();
+    });
+
+    $("#stspd-nip_kepala").change(function () {
+        replaceCK();
+    });
+    $("#stspd-nip_ppk").change(function () {
+        replaceCK();
+    });
+    $("#stspd-nip_bendahara").change(function () {
         replaceCK();
     });
 
