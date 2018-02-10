@@ -32,6 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <h3 class="panel-title">Preview</h3>
                 </div>
                 <div class="panel-body">
+
                 </div>
             </div>
         </div>
