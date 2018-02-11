@@ -179,4 +179,25 @@ class KwitansiController extends Controller
         }
         
     }
+
+    public function actionGetmulti(){
+        $request = Yii::$app->request;
+        $id_st = $request->post('id_st');
+        $nip = $request->post('tanggal_kembali');
+
+        $surat_tugas = StSpd::find()->where(['id'=>$id_st])->asArray()->one();
+        $pegawai = Pegawai::find()->where(['nip'=>$surat_tugas['nip']])->asArray()->one();
+        $bendahara = Pegawai::find()->where(['nip'=>$surat_tugas['nip_bendahara']])->asArray()->one();
+        $ppk = Pegawai::find()->where(['nip'=>$surat_tugas['nip_ppk']])->asArray()->one();
+
+        $date1 = new \DateTime($surat_tugas['tanggal_pergi']);
+		$date2 = new \DateTime($surat_tugas['tanggal_kembali']);
+        $diff = $date2->diff($date1)->format("%a")+1;
+
+        // $pegawai = Pegawai::find()->where(['nip' => $value])->asArray()->one();
+        // return json_encode($pegawai);
+
+        return json_encode(['surat_tugas'=>$surat_tugas, 'pegawai'=>$pegawai, 'bendahara'=>$bendahara, 'ppk'=>$ppk, 'hari'=>$diff]);
+        
+    }
 }

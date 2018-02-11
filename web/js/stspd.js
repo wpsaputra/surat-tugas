@@ -78,7 +78,7 @@ $(document).ready(function () {
             var tanggal_kembali = $("#stspd-tanggal_kembali").val();
             $.ajax({
                 url: link_hari,
-                data: {tanggal_pergi: tanggal_pergi, tanggal_kembali, tanggal_kembali},
+                data: {tanggal_pergi: tanggal_pergi, tanggal_kembali: tanggal_kembali},
                 type: "POST",
                 success: function(data) {
                     x_hari = data + " Hari";

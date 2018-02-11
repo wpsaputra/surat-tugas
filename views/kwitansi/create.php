@@ -22,6 +22,8 @@ $this->registerJsFile(
     ['depends' => [\yii\web\JqueryAsset::className()]]
 );
 
+$template = json_encode(TemplateNew::find()->where(['nama' => 'kwitansi_luar_kota_new'])->asArray()->one()['html_text']);
+
 ?>
 
 
@@ -55,3 +57,10 @@ $this->registerJsFile(
 
 
 </div>
+
+<script>
+var template = <?= $template; ?>;
+var link_multi = <?= json_encode(Yii::$app->urlManager->createUrl('kwitansi/getmulti'));?>;
+
+</script>
+
