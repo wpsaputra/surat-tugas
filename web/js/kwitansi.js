@@ -1,4 +1,14 @@
-CKEDITOR.replace('editor1');
+CKEDITOR.replace('editor1',{
+    on: {
+        instanceReady: function( evt ) {
+            // your stuff 
+            if($("#kwitansi-id_st").val().length>0 && $("#kwitansi-nip").val().length>0){
+                // if($("#kwitansi-id_st").val().length>0){
+                ajaxRequest();
+            }
+        }
+    }
+});
 CKEDITOR.instances.editor1.setData(template);
 var x_hari = 0;
 var tanggal_terbit = '';
@@ -58,10 +68,36 @@ function replaceCK(){
     str = str.replace(/\$\{jabatan\}/g, jabatan);
     str = str.replace(/\$\{id_instansi\}/g, id_instansi);
 
-
-
-
     CKEDITOR.instances.editor1.setData(str);
+}
+
+function ajaxRequest(){
+    var id_st = $("#kwitansi-id_st").val();
+        var nip = $("#kwitansi-nip").val();
+        $.ajax({
+            url: link_multi,
+            data: {id_st: id_st, nip: nip},
+            type: "POST",
+            success: function(data) {
+                // x_hari = data + " Hari";
+                var parsedData = JSON.parse(data);
+                x_hari = parsedData['hari'];
+                tanggal_terbit = parsedData['surat_tugas']['tanggal_terbit'];
+                kota_asal = parsedData['surat_tugas']['kota_asal'];
+                nama_bendahara = parsedData['bendahara']['nama'];
+                nip_bendahara = parsedData['bendahara']['nip'];
+                nama = parsedData['pegawai']['nama'];
+                nip = parsedData['pegawai']['nip'];
+                nama_ppk = parsedData['ppk']['nama'];
+                nip_ppk = parsedData['ppk']['nip'];
+                jabatan = parsedData['pegawai']['jabatan'];
+                id_instansi = parsedData['surat_tugas']['id_instansi'];
+
+                console.log(nip);
+
+                replaceCK();
+            }
+        });
 }
 
 
@@ -70,69 +106,17 @@ $(document).ready(function () {
     $("#kwitansi-id_st").change(function () {
         if($("#kwitansi-id_st").val().length>0 && $("#kwitansi-nip").val().length>0){
         // if($("#kwitansi-id_st").val().length>0){
-            var id_st = $("#kwitansi-id_st").val();
-            var nip = $("#kwitansi-nip").val();
-            $.ajax({
-                url: link_multi,
-                data: {id_st: id_st, nip: nip},
-                type: "POST",
-                success: function(data) {
-                    // x_hari = data + " Hari";
-                    var parsedData = JSON.parse(data);
-                    x_hari = parsedData['hari'];
-                    tanggal_terbit = parsedData['surat_tugas']['tanggal_terbit'];
-                    kota_asal = parsedData['surat_tugas']['kota_asal'];
-                    nama_bendahara = parsedData['bendahara']['nama'];
-                    nip_bendahara = parsedData['bendahara']['nip'];
-                    nama = parsedData['pegawai']['nama'];
-                    nip = parsedData['pegawai']['nip'];
-                    nama_ppk = parsedData['ppk']['nama'];
-                    nip_ppk = parsedData['ppk']['nip'];
-                    jabatan = parsedData['pegawai']['jabatan'];
-                    id_instansi = parsedData['surat_tugas']['id_instansi'];
-
-                    console.log(nip);
-
-                    replaceCK();
-                }
-            });
-
+            ajaxRequest();
         }
         replaceCK();
     });
     $("#kwitansi-nip").change(function () {
         if($("#kwitansi-nip").val().length>0 && $("#kwitansi-nip").val().length>0){
-        // if($("#kwitansi-id_st").val().length>0){
-            var id_st = $("#kwitansi-id_st").val();
-            var nip = $("#kwitansi-nip").val();
-            $.ajax({
-                url: link_multi,
-                data: {id_st: id_st, nip: nip},
-                type: "POST",
-                success: function(data) {
-                    // x_hari = data + " Hari";
-                    var parsedData = JSON.parse(data);
-                    x_hari = parsedData['hari'];
-                    tanggal_terbit = parsedData['surat_tugas']['tanggal_terbit'];
-                    kota_asal = parsedData['surat_tugas']['kota_asal'];
-                    nama_bendahara = parsedData['bendahara']['nama'];
-                    nip_bendahara = parsedData['bendahara']['nip'];
-                    nama = parsedData['pegawai']['nama'];
-                    nip = parsedData['pegawai']['nip'];
-                    nama_ppk = parsedData['ppk']['nama'];
-                    nip_ppk = parsedData['ppk']['nip'];
-                    jabatan = parsedData['pegawai']['jabatan'];
-                    id_instansi = parsedData['surat_tugas']['id_instansi'];
-
-                    console.log(nip);
-
-                    replaceCK();
-                }
-            });
-
+            ajaxRequest();
         }
         replaceCK();
     });
+
     $("#kwitansi-uang_harian").change(function () {
         replaceCK();
     });
@@ -160,5 +144,6 @@ $(document).ready(function () {
     $("#kwitansi-tanggal_bayar").change(function () {
         replaceCK();
     });
+
 
 });
