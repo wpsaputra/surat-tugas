@@ -51,8 +51,8 @@ function replaceCK(){
     str = str.replace(/\$\{kota_asal\}/g, kota_asal);
     str = str.replace(/\$\{nama_bendahara\}/g, nama_bendahara);
     str = str.replace(/\$\{nip_bendahara\}/g, nip_bendahara);
-    str = str.replace(/\$\{nama\}/g, nama);
-    str = str.replace(/\$\{nip\}/g, nip);
+    str = str.replace(/\$\{nama\}/g, $("#kwitansi-nip").find("option:selected").text());
+    str = str.replace(/\$\{nip\}/g, $("#kwitansi-nip").val());
     str = str.replace(/\$\{nama_ppk\}/g, nama_ppk);
     str = str.replace(/\$\{nip_ppk\}/g, nip_ppk);
     str = str.replace(/\$\{jabatan\}/g, jabatan);

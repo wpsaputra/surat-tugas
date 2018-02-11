@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use app\models\StSpd;
+use app\models\TemplateNew;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Kwitansi */
@@ -27,6 +28,8 @@ if(StSpd::find()->where(['id' => $model->id_st])->asArray()->one()["id_akun"]==5
 }else{
     $isFieldEnabled = false;
 }
+
+$template = json_encode(TemplateNew::find()->where(['nama' => 'kwitansi_luar_kota_new'])->asArray()->one()['html_text']);
 
 ?>
 <div class="kwitansi-update">
@@ -61,5 +64,7 @@ if(StSpd::find()->where(['id' => $model->id_st])->asArray()->one()["id_akun"]==5
 
 <script>
 var isFieldEnabled = <?= json_encode($isFieldEnabled); ?>;
+var template = <?= $template; ?>;
+var link_multi = <?= json_encode(Yii::$app->urlManager->createUrl('kwitansi/getmulti'));?>;
 
 </script>
