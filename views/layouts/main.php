@@ -62,7 +62,8 @@ $this->registerJsFile(
 						echo '<a class="btn btn-danger update-pro" href="'.Yii::$app->urlManager->createUrl('site/login').'" title="login"><i class="fa fa-rocket"></i> <span>LOGIN</span></a>';
 
 					}else{
-						echo '<a class="btn btn-danger update-pro" href="'.Yii::$app->urlManager->createUrl('site/logout').'" title="logout"><i class="fa fa-rocket"></i> <span>LOGOUT ('.Yii::$app->user->identity->username.')</span></a>';
+						echo Html::a('<i class="fa fa-rocket"></i> <span>LOGOUT ('.Yii::$app->user->identity->username.')</span>', ['site/logout'], ['data' => ['method' => 'post'], 'class'=>'btn btn-danger update-pro']);
+						// echo '<a class="btn btn-danger update-pro" href="'.Yii::$app->urlManager->createUrl('site/logout').'" title="logout"><i class="fa fa-rocket"></i> <span>LOGOUT ('.Yii::$app->user->identity->username.')</span></a>';
 					}
 					?>
 					
