@@ -194,9 +194,9 @@ class SiteController extends Controller
             $month_long = Date('F');
             $month_short = Date('M');
         }else{
-            $month = Date('m', strtotime("$month 1 2011"));
-            $month_long = Date('F', strtotime("$month 1 2011"));
-            $month_short = Date('M', strtotime("$month 1 2011"));
+            $month = Date('m', strtotime("2011-".$month."-15"));
+            $month_long = Date('F', strtotime("2011-".$month."-15"));
+            $month_short = Date('M', strtotime("2011-".$month."-15"));
         }
 
 		$sql = "SELECT s.nip AS NIP, p.nama AS NAMA, COUNT(s.nip) AS JUMLAH, SUM(DATEDIFF(s.tanggal_kembali, s.tanggal_pergi)+1) AS HARI, p.jabatan AS JABATAN
