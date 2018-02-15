@@ -20,7 +20,7 @@ $this->registerJsFile('@web/js/exporting.js', ['position' => View::POS_HEAD]);
             <!-- RECENT PURCHASES -->
             <div class="panel">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Rekapitulasi Tahunan <?= '('.Date('Y').')';?></h3>
+                    <h3 class="panel-title">Rekapitulasi Bulanan <?= '('.Date('F').' '.Date('Y').')';?></h3>
                     <!-- <div class="right">
                         <button type="button" class="btn-toggle-collapse"><i class="lnr lnr-chevron-up"></i></button>
                         <button type="button" class="btn-remove"><i class="lnr lnr-cross"></i></button>
@@ -44,7 +44,7 @@ $this->registerJsFile('@web/js/exporting.js', ['position' => View::POS_HEAD]);
                 </div>
                 <div class="panel-footer">
                     <div class="row">
-                        <div class="col-md-6"><span class="panel-note"><i class="fa fa-clock-o"></i> Last 1 year</span></div>
+                        <div class="col-md-6"><span class="panel-note"><i class="fa fa-clock-o"></i> Last 1 month</span></div>
                         <!-- <div class="col-md-6 text-right"><a href="#" class="btn btn-primary">View All Purchases</a></div> -->
                     </div>
                 </div>
@@ -55,7 +55,7 @@ $this->registerJsFile('@web/js/exporting.js', ['position' => View::POS_HEAD]);
             <!-- MULTI CHARTS -->
             <div class="panel">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Grafik Tahunan</h3>
+                    <h3 class="panel-title">Grafik Bulanan</h3>
                     <!-- <div class="right">
                         <button type="button" class="btn-toggle-collapse"><i class="lnr lnr-chevron-up"></i></button>
                         <button type="button" class="btn-remove"><i class="lnr lnr-cross"></i></button>
@@ -84,7 +84,7 @@ Highcharts.chart('chart1', {
 		text: <?php echo "'Rekap SPD Pegawai ".Instansi::findOne(Yii::$app->user->identity->id_instansi)->instansi."'"?>
 	},
 	subtitle: {
-		text: <?php echo "'Tahun ".Date('Y')."'"?>
+		text: <?php echo "'Bulan ".date('F')." Tahun ".Date('Y')."'"?>
 	},
 	xAxis: {
 		categories: [

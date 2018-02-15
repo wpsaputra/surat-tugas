@@ -133,7 +133,6 @@ class SiteController extends Controller
 
     public function actionRekapt()
     {
-
 		$sql = "SELECT s.nip AS NIP, p.nama AS NAMA, COUNT(s.nip) AS JUMLAH, SUM(DATEDIFF(s.tanggal_kembali, s.tanggal_pergi)+1) AS HARI, p.jabatan AS JABATAN
         FROM su_st_spd s INNER JOIN su_pegawai p ON s.nip=p.nip WHERE s.id_instansi=".Yii::$app->user->identity->id_instansi." AND YEAR(tanggal_terbit)=".Date('Y')." GROUP BY s.nip";
 
@@ -169,6 +168,50 @@ class SiteController extends Controller
 
 
         return $this->render('rekapt', array(
+            'model' => $model,
+            'nama' => $nama,
+            'jumlah' => $jumlah
+        ));
+
+    }
+
+    public function actionRekapb()
+    {
+		$sql = "SELECT s.nip AS NIP, p.nama AS NAMA, COUNT(s.nip) AS JUMLAH, SUM(DATEDIFF(s.tanggal_kembali, s.tanggal_pergi)+1) AS HARI, p.jabatan AS JABATAN
+				FROM su_surat_tugas s INNER JOIN su_pegawai p ON s.nip=p.nip WHERE s.id_instansi=".Yii::$app->user->identity->id_instansi." AND YEAR(tanggal_terbit)=".Date('Y')." AND MONTH(tanggal_terbit)=".date('m')." GROUP BY s.nip";
+
+        $rawData = Yii::$app->db->createCommand($sql)->getRawSql(); //or use ->queryAll(); in CArrayDataProvider
+        $count = Yii::$app->db->createCommand('SELECT COUNT(*) FROM (' . $sql . ') as count_alias')->queryScalar(); //the count
+
+
+        $model = new SqlDataProvider(array( //or $model=new CArrayDataProvider($rawData, array(... //using with querAll...
+            'sql' => $rawData,
+            'totalCount' => $count,
+
+            'sort' => array(
+                'attributes' => array(
+                    'NIP', 'NAMA', 'JUMLAH', 'HARI', 'JABATAN'
+                ),
+                'defaultOrder' => array(
+                    'JUMLAH' => SORT_DESC, //default sort value
+                ),
+            ),
+            'pagination' => array(
+                'pageSize' => 10,
+            ),
+        ));
+
+
+        $arr = $model->getModels();
+        $nama = array();
+        $jumlah = array();
+        foreach ($arr as $key=>$value){
+            $nama[] = $value["NAMA"];
+            $jumlah[] = $value["JUMLAH"];
+        }
+
+
+        return $this->render('rekapb', array(
             'model' => $model,
             'nama' => $nama,
             'jumlah' => $jumlah
