@@ -77,7 +77,16 @@ $this->registerJsFile(
 				<nav>
 					<ul class="nav">
 						<li><a href="<?=Yii::$app->urlManager->createUrl('site/index')?>" class="active"><i class="lnr lnr-home"></i> <span>Home</span></a></li>
-						<li><a href="<?=Yii::$app->urlManager->createUrl('site/rekapitulasi')?>" class=""><i class="lnr lnr-chart-bars"></i> <span>Rekapitulasi</span></a></li>
+						<!-- <li><a href="<?=Yii::$app->urlManager->createUrl('site/rekapitulasi')?>" class=""><i class="lnr lnr-chart-bars"></i> <span>Rekapitulasi</span></a></li> -->
+						<li>
+							<a href="#subRekap" data-toggle="collapse" class="collapsed"><i class="lnr lnr-chart-bars"></i> <span>Rekapitulasi</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
+							<div id="subRekap" class="collapse ">
+								<ul class="nav">
+									<li><a href="<?=Yii::$app->urlManager->createUrl('site/rekapt')?>" class="">Rekap Tahunan</a></li>
+									<li><a href="<?=Yii::$app->urlManager->createUrl('site/rekapb')?>" class="">Rekap Bulanan</a></li>
+								</ul>
+							</div>
+						</li>
 						<li>
 							<a href="#subPegawai" data-toggle="collapse" class="collapsed"><i class="lnr lnr-user"></i> <span>Pegawai</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
 							<div id="subPegawai" class="collapse ">
