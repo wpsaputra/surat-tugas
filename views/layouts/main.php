@@ -22,6 +22,24 @@ $this->registerJsFile(
     ['depends' => [\yii\web\JqueryAsset::className()]]
 );
 
+$js = '
+$("a").each(function(index, value) { 
+    if ($(this).prop("href") === window.location.href) {
+		$(this).addClass("active");
+		// $(this).addClass("active");
+
+		$(this).parent().parent().parent().parent().children("a").addClass("active").removeClass("collapsed").attr("aria-expanded","true");
+		
+		$(this).parent().parent().parent().parent().children("div").addClass("collapse in").removeClass("collapse").attr("aria-expanded","true");
+		// $(this).parent().parent().parent().parent().children("a").addClass("active");
+    }else{
+		$(this).removeClass("active");
+	}
+});
+';
+
+$this->registerJS($js);
+
 
 ?>
 <?php $this->beginPage() ?>
