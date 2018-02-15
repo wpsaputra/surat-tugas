@@ -6,6 +6,7 @@ use yii\helpers\Html;
 use yii\web\View;
 use yii\grid\GridView;
 use app\models\Instansi;
+use kartik\date\DatePicker;
 
 $this->title = 'Rekapitulasi Tahunan';
 $this->params['breadcrumbs'][] = $this->title;
@@ -13,14 +14,53 @@ $this->params['breadcrumbs'][] = $this->title;
 $this->registerJsFile('@web/js/highcharts.js', ['position' => View::POS_HEAD]);
 $this->registerJsFile('@web/js/exporting.js', ['position' => View::POS_HEAD]);
 
+$js = '$(".date").on("change", function() {
+    var date = $(this).val();
+    if(date.length>0){
+        var url      = window.location.href.split("&year=");
+        console.log(date);
+        // console.log(link);
+        // window.location = "index.php";
+        // window.location = window.location.href + "&month=" + arr_date[0] + "&year=" + arr_date[1];
+        window.location = url[0] + "&year=" + date;
+
+    }
+
+
+});';
+
+$this->registerJS($js);
+
 ?>
 <div class="site-rekapt">
+    <div class='row'>
+        <div class='col-md-12'>
+            <div style='width:300px;' class='pull-right'>
+                <?php
+                    echo DatePicker::widget([
+                        'name' => 'check_issue_date', 
+                        'value' => $year,
+                        // 'type' => DatePicker::TYPE_INPUT,
+                        'options' => ['placeholder' => 'Pilih bulan & tahun rekapitulasi ...', 'class'=>'date'],
+                        'pluginOptions' => [
+                            'autoclose' => true,
+                            'startView'=>'year',
+                            'minViewMode'=>'years',
+                            'format' => 'yyyy'
+                        ]
+                    ]);
+                ?>
+            </div>
+        </div>
+        <br/>
+        <br/>
+    </div>
     <div class="row">
         <div class="col-md-6">
             <!-- RECENT PURCHASES -->
             <div class="panel">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Rekapitulasi Tahunan <?= '('.Date('Y').')';?></h3>
+                    <h3 class="panel-title">Rekapitulasi Tahunan <?= '('.$year.')';?></h3>
                     <!-- <div class="right">
                         <button type="button" class="btn-toggle-collapse"><i class="lnr lnr-chevron-up"></i></button>
                         <button type="button" class="btn-remove"><i class="lnr lnr-cross"></i></button>
@@ -36,7 +76,11 @@ $this->registerJsFile('@web/js/exporting.js', ['position' => View::POS_HEAD]);
                         'NIP',
                         'NAMA',
                         'JABATAN',
-                        'JUMLAH',
+                        // 'JUMLAH',
+                        [
+                            'label' => 'Jumlah SPD',
+                            'attribute' => 'JUMLAH',
+                        ],
                         'HARI',
                         // ['class' => 'yii\grid\ActionColumn'],
                     ],
@@ -84,7 +128,7 @@ Highcharts.chart('chart1', {
 		text: <?php echo "'Rekap SPD Pegawai ".Instansi::findOne(Yii::$app->user->identity->id_instansi)->instansi."'"?>
 	},
 	subtitle: {
-		text: <?php echo "'Tahun ".Date('Y')."'"?>
+		text: <?php echo "'Tahun ".$year."'"?>
 	},
 	xAxis: {
 		categories: [

@@ -6,15 +6,56 @@ use yii\helpers\Html;
 use yii\web\View;
 use yii\grid\GridView;
 use app\models\Instansi;
+use kartik\date\DatePicker;
 
-$this->title = 'Rekapitulasi Tahunan';
+$this->title = 'Rekapitulasi Bulanan';
 $this->params['breadcrumbs'][] = $this->title;
 
 $this->registerJsFile('@web/js/highcharts.js', ['position' => View::POS_HEAD]);
 $this->registerJsFile('@web/js/exporting.js', ['position' => View::POS_HEAD]);
 
+$js = '$(".date").on("change", function() {
+    var arr_date = $(this).val().split(" ");
+    if(arr_date.length>1){
+        var url      = window.location.href;
+        console.log(arr_date);
+        console.log(link);
+        // window.location = "index.php";
+        // window.location = window.location.href + "&month=" + arr_date[0] + "&year=" + arr_date[1];
+        window.location = link + "&month=" + arr_date[0] + "&year=" + arr_date[1];
+
+    }
+
+
+});';
+
+$this->registerJS($js);
+// $this->registerJS($js2);
+
+
 ?>
 <div class="site-rekapt">
+    <div class='row'>
+        <div class='col-md-12'>
+            <div style='width:300px;' class='pull-right'>
+                <?php
+                    echo DatePicker::widget([
+                        'name' => 'check_issue_date', 
+                        // 'type' => DatePicker::TYPE_INPUT,
+                        'options' => ['placeholder' => 'Pilih bulan & tahun rekapitulasi ...', 'class'=>'date'],
+                        'pluginOptions' => [
+                            'autoclose' => true,
+                            'startView'=>'year',
+                            'minViewMode'=>'months',
+                            'format' => 'M yyyy'
+                        ]
+                    ]);
+                ?>
+            </div>
+        </div>
+        <br/>
+        <br/>
+    </div>
     <div class="row">
         <div class="col-md-6">
             <!-- RECENT PURCHASES -->
@@ -36,7 +77,11 @@ $this->registerJsFile('@web/js/exporting.js', ['position' => View::POS_HEAD]);
                         'NIP',
                         'NAMA',
                         'JABATAN',
-                        'JUMLAH',
+                        // 'JUMLAH',
+                        [
+                            'label' => 'Jumlah SPD',
+                            'attribute' => 'JUMLAH',
+                        ],
                         'HARI',
                         // ['class' => 'yii\grid\ActionColumn'],
                     ],
@@ -118,6 +163,7 @@ Highcharts.chart('chart1', {
 		data: [<?php echo implode(",", $jumlah)?>],
     }]
 });
+
 
 
 </script>
