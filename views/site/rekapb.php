@@ -17,12 +17,11 @@ $this->registerJsFile('@web/js/exporting.js', ['position' => View::POS_HEAD]);
 $js = '$(".date").on("change", function() {
     var arr_date = $(this).val().split(" ");
     if(arr_date.length>1){
-        var url      = window.location.href;
+        var url      = window.location.href.split("&month=");
         console.log(arr_date);
-        console.log(link);
         // window.location = "index.php";
         // window.location = window.location.href + "&month=" + arr_date[0] + "&year=" + arr_date[1];
-        window.location = link + "&month=" + arr_date[0] + "&year=" + arr_date[1];
+        window.location = url[0] + "&month=" + arr_date[0] + "&year=" + arr_date[1];
 
     }
 
@@ -40,7 +39,8 @@ $this->registerJS($js);
             <div style='width:300px;' class='pull-right'>
                 <?php
                     echo DatePicker::widget([
-                        'name' => 'check_issue_date', 
+                        'name' => 'check_issue_date',
+                        'value' => $month_short.' '.$year, 
                         // 'type' => DatePicker::TYPE_INPUT,
                         'options' => ['placeholder' => 'Pilih bulan & tahun rekapitulasi ...', 'class'=>'date'],
                         'pluginOptions' => [
@@ -61,7 +61,7 @@ $this->registerJS($js);
             <!-- RECENT PURCHASES -->
             <div class="panel">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Rekapitulasi Bulanan <?= '('.Date('F').' '.Date('Y').')';?></h3>
+                    <h3 class="panel-title">Rekapitulasi Bulanan <?= '('.$month_long.' '.$year.')';?></h3>
                     <!-- <div class="right">
                         <button type="button" class="btn-toggle-collapse"><i class="lnr lnr-chevron-up"></i></button>
                         <button type="button" class="btn-remove"><i class="lnr lnr-cross"></i></button>
@@ -129,7 +129,7 @@ Highcharts.chart('chart1', {
 		text: <?php echo "'Rekap SPD Pegawai ".Instansi::findOne(Yii::$app->user->identity->id_instansi)->instansi."'"?>
 	},
 	subtitle: {
-		text: <?php echo "'Bulan ".date('F')." Tahun ".Date('Y')."'"?>
+		text: <?php echo "'Bulan ".$month_long." Tahun ".$year."'"?>
 	},
 	xAxis: {
 		categories: [

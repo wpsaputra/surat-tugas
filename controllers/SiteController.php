@@ -183,8 +183,24 @@ class SiteController extends Controller
 
     public function actionRekapb()
     {
+        $year = Yii::$app->request->get('year');
+        if(is_null($year)){
+            $year = Date('Y');
+        }
+
+        $month = Yii::$app->request->get('month');
+        if(is_null($month)){
+            $month = Date('m');
+            $month_long = Date('F');
+            $month_short = Date('M');
+        }else{
+            $month = Date('m', strtotime("$month 1 2011"));
+            $month_long = Date('F', strtotime("$month 1 2011"));
+            $month_short = Date('M', strtotime("$month 1 2011"));
+        }
+
 		$sql = "SELECT s.nip AS NIP, p.nama AS NAMA, COUNT(s.nip) AS JUMLAH, SUM(DATEDIFF(s.tanggal_kembali, s.tanggal_pergi)+1) AS HARI, p.jabatan AS JABATAN
-				FROM su_surat_tugas s INNER JOIN su_pegawai p ON s.nip=p.nip WHERE s.id_instansi=".Yii::$app->user->identity->id_instansi." AND YEAR(tanggal_terbit)=".Date('Y')." AND MONTH(tanggal_terbit)=".date('m')." GROUP BY s.nip";
+				FROM su_surat_tugas s INNER JOIN su_pegawai p ON s.nip=p.nip WHERE s.id_instansi=".Yii::$app->user->identity->id_instansi." AND YEAR(tanggal_terbit)=".$year." AND MONTH(tanggal_terbit)=".$month." GROUP BY s.nip";
 
         $rawData = Yii::$app->db->createCommand($sql)->getRawSql(); //or use ->queryAll(); in CArrayDataProvider
         $count = Yii::$app->db->createCommand('SELECT COUNT(*) FROM (' . $sql . ') as count_alias')->queryScalar(); //the count
@@ -220,7 +236,10 @@ class SiteController extends Controller
         return $this->render('rekapb', array(
             'model' => $model,
             'nama' => $nama,
-            'jumlah' => $jumlah
+            'jumlah' => $jumlah,
+            'year' => $year,
+            'month_long' => $month_long,
+            'month_short' => $month_short
         ));
 
     }
