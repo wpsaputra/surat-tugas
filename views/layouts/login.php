@@ -41,7 +41,8 @@ AppAsset::register($this);
 								<div class="logo text-center"><img src="<?php echo Url::to('@web/img/logo-dark.png');?>" alt="Klorofil Logo"></div>
 								<p class="lead">Login to your account</p>
 							</div>
-							<form class="form-auth-small" action="index.php">
+							<?= $content; ?>
+							<!-- <form class="form-auth-small" action="index.php">
 								<div class="form-group">
 									<label for="signin-email" class="control-label sr-only">Email</label>
 									<input type="email" class="form-control" id="signin-email" value="samuel.gold@domain.com" placeholder="Email">
@@ -60,7 +61,7 @@ AppAsset::register($this);
 								<div class="bottom">
 									<span class="helper-text"><i class="fa fa-lock"></i> <a href="#">Forgot password?</a></span>
 								</div>
-							</form>
+							</form> -->
 						</div>
 					</div>
 					<div class="right">
