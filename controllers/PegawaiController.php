@@ -9,6 +9,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\HttpException;
+use yii\filters\AccessControl;
 
 /**
  * PegawaiController implements the CRUD actions for Pegawai model.
@@ -21,6 +22,19 @@ class PegawaiController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['index', 'view', 'create', 'update', 'delete'],
+                'rules' => [
+                    [
+                        // 'actions' => ['logout'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
+
+
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [

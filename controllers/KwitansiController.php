@@ -13,6 +13,7 @@ use app\models\StSpd;
 use app\models\StSpdAnggota;
 use yii\helpers\Html;
 use yii\helpers\ArrayHelper;
+use yii\filters\AccessControl;
 
 /**
  * KwitansiController implements the CRUD actions for Kwitansi model.
@@ -25,6 +26,19 @@ class KwitansiController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['index', 'view', 'create', 'update', 'delete', 'get', 'getmulti'],
+                'rules' => [
+                    [
+                        // 'actions' => ['logout'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
+
+
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [

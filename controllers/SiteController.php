@@ -23,10 +23,10 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['logout'],
+                'only' => ['logout', 'index', 'rekapt', 'rekapb'],
                 'rules' => [
                     [
-                        'actions' => ['logout'],
+                        // 'actions' => ['logout'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -105,32 +105,32 @@ class SiteController extends Controller
      *
      * @return Response|string
      */
-    public function actionContact()
-    {
-        $model = new ContactForm();
-        if ($model->load(Yii::$app->request->post()) && $model->contact(Yii::$app->params['adminEmail'])) {
-            Yii::$app->session->setFlash('contactFormSubmitted');
+    // public function actionContact()
+    // {
+    //     $model = new ContactForm();
+    //     if ($model->load(Yii::$app->request->post()) && $model->contact(Yii::$app->params['adminEmail'])) {
+    //         Yii::$app->session->setFlash('contactFormSubmitted');
 
-            return $this->refresh();
-        }
-        return $this->render('contact', [
-            'model' => $model,
-        ]);
-    }
+    //         return $this->refresh();
+    //     }
+    //     return $this->render('contact', [
+    //         'model' => $model,
+    //     ]);
+    // }
 
     /**
      * Displays about page.
      *
      * @return string
      */
-    public function actionAbout()
-    {
-        $templateProcessor = new TemplateProcessor('template/template.docx');
-        $templateProcessor->setValue('Name', 'John Doe');
-        $templateProcessor->setValue(array('City', 'Street'), array('Detroit', '12th Street'));
-        $templateProcessor->saveAs("template/tes.docx");
-        return $this->render('about');
-    }
+    // public function actionAbout()
+    // {
+    //     $templateProcessor = new TemplateProcessor('template/template.docx');
+    //     $templateProcessor->setValue('Name', 'John Doe');
+    //     $templateProcessor->setValue(array('City', 'Street'), array('Detroit', '12th Street'));
+    //     $templateProcessor->saveAs("template/tes.docx");
+    //     return $this->render('about');
+    // }
 
     public function actionRekapt()
     {

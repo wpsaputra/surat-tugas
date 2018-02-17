@@ -16,6 +16,7 @@ use app\models\Output;
 use app\models\Komponen;
 use app\models\TemplateNew;
 use app\models\Pegawai;
+use yii\filters\AccessControl;
 
 /**
  * StspdController implements the CRUD actions for StSpd model.
@@ -28,6 +29,19 @@ class StspdController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['index', 'view', 'create', 'update', 'delete', 'get', 'getpegawai', 'gethari'],
+                'rules' => [
+                    [
+                        // 'actions' => ['logout'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
+
+
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
