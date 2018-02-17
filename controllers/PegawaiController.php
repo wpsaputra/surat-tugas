@@ -41,7 +41,7 @@ class PegawaiController extends Controller
         
         // Only show pegawai based on curent user instansi
         if(Yii::$app->user->identity->role!=99){
-            $dataProvider->query->where(['id_instansi' => Yii::$app->user->identity->id_instansi]);
+            $dataProvider->query->andFilterWhere(['id_instansi' => Yii::$app->user->identity->id_instansi]);
         }
 
         return $this->render('index', [

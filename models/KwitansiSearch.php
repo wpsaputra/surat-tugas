@@ -15,6 +15,10 @@ class KwitansiSearch extends Kwitansi
     /**
      * @inheritdoc
      */
+
+    public $nomor_st, $id_instansi;
+
+
     public function rules()
     {
         return [
