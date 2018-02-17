@@ -97,7 +97,8 @@ class KwitansiSearch extends Kwitansi
         ]);
 
         $query->andFilterWhere(['like', 'kwitansi_path', $this->kwitansi_path])
-            ->andFilterWhere(['like', 'kwitansi_path', $this->kwitansi_path]);
+            ->andFilterWhere(['like', 'su_st_spd.nomor_st', $this->nomor_st])
+            ->andFilterWhere(['like', 'su_st_spd.id_instansi', $this->nomor_st]);
 
         return $dataProvider;
     }
