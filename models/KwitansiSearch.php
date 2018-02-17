@@ -25,6 +25,8 @@ class KwitansiSearch extends Kwitansi
             [['id', 'id_st', 'nip'], 'integer'],
             [['uang_harian', 'uang_harian_total', 'biaya_transportasi', 'biaya_penginapan', 'jumlah_pdb', 'hari_inap_riil', 'biaya_inap_riil', 'biaya_inap_riil_total', 'transport_riil', 'taksi_riil', 'representasi_riil', 'representasi_riil_total', 'jumlah_riil'], 'number'],
             [['tanggal_bayar', 'kwitansi_path'], 'safe'],
+            // custom
+            [['nomor_st', 'id_instansi'], 'safe'],
         ];
     }
 
