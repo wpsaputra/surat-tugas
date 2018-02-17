@@ -48,13 +48,24 @@ class KwitansiSearch extends Kwitansi
      */
     public function search($params)
     {
-        $query = Kwitansi::find();
+        $query = Kwitansi::find()->joinWith('st');
 
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
+
+        //custom
+        $dataProvider->sort->attributes['nomor_st'] = [
+            'asc' => ['su_st_spd.nomor_st' => SORT_ASC],
+            'desc' => ['su_st_spd.nomor_st' => SORT_DESC],
+        ];
+
+        $dataProvider->sort->attributes['id_instansi'] = [
+            'asc' => ['su_st_spd.id_instansi' => SORT_ASC],
+            'desc' => ['su_st_spd.id_instansi' => SORT_DESC],
+        ];
 
         $this->load($params);
 
@@ -85,7 +96,8 @@ class KwitansiSearch extends Kwitansi
             'nip' => $this->nip,
         ]);
 
-        $query->andFilterWhere(['like', 'kwitansi_path', $this->kwitansi_path]);
+        $query->andFilterWhere(['like', 'kwitansi_path', $this->kwitansi_path])
+            ->andFilterWhere(['like', 'kwitansi_path', $this->kwitansi_path]);
 
         return $dataProvider;
     }
