@@ -43,7 +43,37 @@ $js = '$(".dependent-input").on("change", function() {
 	});
 });';
 
+$js2 = '$( document ).ready(function() {
+	var value = $("#kwitansi-id_st").val(),
+		obj = $("#kwitansi-id_st").attr("id"),
+        next = $("#kwitansi-id_st").attr("data-next");
+        console.log(next);
+	$.ajax({
+		url: "' . Yii::$app->urlManager->createUrl('kwitansi/get') . '",
+		data: {value: value, obj: obj},
+		type: "POST",
+		success: function(data) {
+            //$("#" + next).html(data);
+            //console.log(data);
+            var parsedData = JSON.parse(data);
+            console.log(parsedData.isFieldEnabled);
+
+            $("#" + next).html(parsedData.pegawai);
+            $("#kwitansi-biaya_transportasi").prop("disabled", !parsedData.isFieldEnabled);
+            $("#kwitansi-biaya_penginapan").prop("disabled", !parsedData.isFieldEnabled);
+            $("#kwitansi-transport_riil").prop("disabled", !parsedData.isFieldEnabled);
+            $("#kwitansi-transport_riil").prop("disabled", !parsedData.isFieldEnabled);
+            $("#kwitansi-taksi_riil").prop("disabled", !parsedData.isFieldEnabled);
+            $("#kwitansi-representasi_riil").prop("disabled", !parsedData.isFieldEnabled);
+            $("#kwitansi-hari_inap_riil").prop("disabled", !parsedData.isFieldEnabled);
+            $("#kwitansi-biaya_inap_riil").prop("disabled", !parsedData.isFieldEnabled);
+
+		}
+	});
+});';
+
 $this->registerJS($js);
+$this->registerJS($js2);
 
 // print_r(StSpd::find()->where(['id'=>$model->id_st, 'nip'=>$model->nip])->asArray()->one());
 // print_r(is_null((StSpdAnggota::find()->where(['id_st_spd'=>$model->id_st, 'nip_anggota'=>$model->nip])->asArray()->one())));
