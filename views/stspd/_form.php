@@ -146,7 +146,7 @@ $arr_model_val = array_values($model->attributes);
     <div class="panel panel-default">
         <div class="panel-heading">
             <i class="fa fa-envelope"></i> Anggota
-            <button type="button" class="pull-right add-item btn btn-success btn-xs"><i class="fa fa-plus"></i> Tambah anggota</button>
+            <button type="button" class="pull-right add-item btn btn-success btn-xs" style="color:#41B314"><i class="fa fa-plus"></i> Tambah anggota</button>
             <div class="clearfix"></div>
         </div>
         <div class="panel-body container-items"><!-- widgetContainer -->
@@ -154,7 +154,7 @@ $arr_model_val = array_values($model->attributes);
                 <div class="item panel panel-default"><!-- widgetBody -->
                     <div class="panel-heading">
                         <span class="panel-title-address">Anggota: <?= ($index + 1) ?></span>
-                        <button type="button" class="pull-right remove-item btn btn-danger btn-xs"><i class="fa fa-minus"></i></button>
+                        <button type="button" class="pull-right remove-item btn btn-danger btn-xs" style="color:#d9534f;"><i class="fa fa-minus"></i></button>
                         <div class="clearfix"></div>
                     </div>
                     <div class="panel-body">
