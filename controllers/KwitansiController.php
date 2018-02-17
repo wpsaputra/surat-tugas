@@ -43,6 +43,11 @@ class KwitansiController extends Controller
         $searchModel = new KwitansiSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
+        // Only show pegawai based on curent user instansi
+        if(Yii::$app->user->identity->role!=99){
+            $dataProvider->query->andFilterWhere(['id_instansi' => Yii::$app->user->identity->id_instansi]);
+        }
+
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
