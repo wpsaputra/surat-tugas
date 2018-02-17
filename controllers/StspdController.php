@@ -46,6 +46,11 @@ class StspdController extends Controller
         $searchModel = new StSpdSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
+        // Only show pegawai based on curent user instansi
+        if(Yii::$app->user->identity->role!=99){
+            $dataProvider->query->where(['id_instansi' => Yii::$app->user->identity->id_instansi]);
+        }
+
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,

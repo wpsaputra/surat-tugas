@@ -28,6 +28,19 @@ $this->params['breadcrumbs'][] = $this->title;
                     ['class' => 'yii\grid\SerialColumn'],
 
                     'id',
+                    'st.nomor_st',
+                    'st.id_instansi',
+                    // [
+                    //     'attribute' => 'st',
+                    //     'label' => 'Nomor Surat Tugas',
+                    //     'value' => 'st.nomor_st'
+                    // ],
+
+                    // [
+                    //     'attribute' => 'st',
+                    //     'label' => 'Nama Instansi',
+                    //     'value' => 'st.id_instansi'
+                    // ],
                     'uang_harian',
                     'uang_harian_total',
                     'biaya_transportasi',

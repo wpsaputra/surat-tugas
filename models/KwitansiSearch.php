@@ -15,12 +15,18 @@ class KwitansiSearch extends Kwitansi
     /**
      * @inheritdoc
      */
+    // public $st;
+    public $nomor_st;
+    public $id_instansi;
+
     public function rules()
     {
         return [
             [['id', 'id_st', 'nip'], 'integer'],
             [['uang_harian', 'uang_harian_total', 'biaya_transportasi', 'biaya_penginapan', 'jumlah_pdb', 'hari_inap_riil', 'biaya_inap_riil', 'biaya_inap_riil_total', 'transport_riil', 'taksi_riil', 'representasi_riil', 'representasi_riil_total', 'jumlah_riil'], 'number'],
             [['tanggal_bayar', 'kwitansi_path'], 'safe'],
+            // custom
+            [['nomor_st', 'id_instansi'], 'safe'],
         ];
     }
 
@@ -42,13 +48,35 @@ class KwitansiSearch extends Kwitansi
      */
     public function search($params)
     {
-        $query = Kwitansi::find();
+        $query = Kwitansi::find()->joinWith('st');
 
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
+
+        // custom
+        $dataProvider->sort->attributes['st.nomor_st'] = [
+            'asc' => ['su_st_spd.nomor_st' => SORT_ASC],
+            'desc' => ['su_st_spd.nomor_st' => SORT_DESC],
+        ];
+
+        $dataProvider->sort->attributes['st.id_instansi'] = [
+            'asc' => ['su_st_spd.id_instansi' => SORT_ASC],
+            'desc' => ['su_st_spd.id_instansi' => SORT_DESC],
+        ];
+
+        // $dataProvider->sort->attributes['st'] = [
+        //     'asc' => ['su_st_spd.nomor_st' => SORT_ASC],
+        //     'desc' => ['su_st_spd.nomor_st' => SORT_DESC],
+        // ];
+
+        // $dataProvider->sort->attributes['st'] = [
+        //     'asc' => ['su_st_spd.id_instansi' => SORT_ASC],
+        //     'desc' => ['su_st_spd.id_instansi' => SORT_DESC],
+        // ];
+
 
         $this->load($params);
 
@@ -77,9 +105,13 @@ class KwitansiSearch extends Kwitansi
             'tanggal_bayar' => $this->tanggal_bayar,
             'id_st' => $this->id_st,
             'nip' => $this->nip,
+            // custom
+            // 'st' => $this->st,
         ]);
 
-        $query->andFilterWhere(['like', 'kwitansi_path', $this->kwitansi_path]);
+        $query->andFilterWhere(['like', 'kwitansi_path', $this->kwitansi_path])
+            ->andFilterWhere(['like', 'su_st_spd.nomor_st', $this->nomor_st])
+            ->andFilterWhere(['like', 'su_st_spd.id_instansi', $this->id_instansi]);
 
         return $dataProvider;
     }

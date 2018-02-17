@@ -241,6 +241,11 @@ class Kwitansi extends \yii\db\ActiveRecord
         return $this->hasOne(StSpd::className(), ['id' => 'id_st']);
     }
 
+    public function getStnomorst()
+    {
+        return $this->st->nomor_st;
+    }
+
     /**
      * @return \yii\db\ActiveQuery
      */
