@@ -62,7 +62,7 @@ class StspdController extends Controller
 
         // Only show pegawai based on curent user instansi
         if(Yii::$app->user->identity->role!=99){
-            $dataProvider->query->andFilterWhere(['id_instansi' => Yii::$app->user->identity->id_instansi]);
+            $dataProvider->query->andFilterWhere(['su_st_spd.id_instansi' => Yii::$app->user->identity->id_instansi]);
         }
 
         return $this->render('index', [

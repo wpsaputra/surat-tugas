@@ -33,9 +33,19 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= DetailView::widget([
             'model' => $model,
             'attributes' => [
-                'id',
-                'id_st',
+                // 'id',
+                // 'id_st',
+                [
+                    'attribute' => 'id_st',
+                    'label' => 'Nomor Surat Tugas',
+                    'value' => $model->st->nomor_st,
+                ],
                 'nip',
+                [
+                    'attribute' => 'nama_pegawai',
+                    'label' => 'Nama Pegawai',
+                    'value' => $model->nip0->nama,
+                ],
                 'jumlah_hari',
                 'uang_harian',
                 'uang_harian_total',
@@ -51,7 +61,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'representasi_riil_total',
                 'jumlah_riil',
                 'tanggal_bayar',
-                'kwitansi_path',
+                // 'kwitansi_path',
             ],
         ]) ?>
         </div>

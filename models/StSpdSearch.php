@@ -15,11 +15,15 @@ class StSpdSearch extends StSpd
     /**
      * @inheritdoc
      */
+    public $nama_pegawai;
+    
     public function rules()
     {
         return [
             [['id', 'nip', 'id_kendaraan', 'kode_kegiatan', 'kode_output', 'kode_komponen', 'id_instansi', 'nip_kepala', 'nip_ppk', 'nip_bendahara', 'id_akun'], 'integer'],
             [['nomor_st', 'tanggal_terbit', 'nomor_spd', 'maksud', 'kota_asal', 'kota_tujuan', 'tanggal_pergi', 'tanggal_kembali', 'tingkat_perjalanan_dinas', 'kode_program', 'st_path'], 'safe'],
+             // custom
+             [['nama_pegawai'], 'safe'],
         ];
     }
 
@@ -41,13 +45,19 @@ class StSpdSearch extends StSpd
      */
     public function search($params)
     {
-        $query = StSpd::find();
+        $query = StSpd::find()->joinWith('nip0');
 
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
+
+        // custom
+        $dataProvider->sort->attributes['nama_pegawai'] = [
+            'asc' => ['su_pegawai.nama' => SORT_ASC],
+            'desc' => ['su_pegawai.nama' => SORT_DESC],
+        ];
 
         $this->load($params);
 
@@ -68,7 +78,7 @@ class StSpdSearch extends StSpd
             'kode_kegiatan' => $this->kode_kegiatan,
             'kode_output' => $this->kode_output,
             'kode_komponen' => $this->kode_komponen,
-            'id_instansi' => $this->id_instansi,
+            'su_st_spd.id_instansi' => $this->id_instansi,
             'nip_kepala' => $this->nip_kepala,
             'nip_ppk' => $this->nip_ppk,
             'nip_bendahara' => $this->nip_bendahara,
@@ -82,6 +92,7 @@ class StSpdSearch extends StSpd
             ->andFilterWhere(['like', 'kota_tujuan', $this->kota_tujuan])
             ->andFilterWhere(['like', 'tingkat_perjalanan_dinas', $this->tingkat_perjalanan_dinas])
             ->andFilterWhere(['like', 'kode_program', $this->kode_program])
+            ->andFilterWhere(['like', 'su_pegawai.nama', $this->nama_pegawai])
             ->andFilterWhere(['like', 'st_path', $this->st_path]);
 
         return $dataProvider;

@@ -16,7 +16,7 @@ class KwitansiSearch extends Kwitansi
      * @inheritdoc
      */
 
-    public $nomor_st, $id_instansi;
+    public $nomor_st, $id_instansi, $nama_pegawai;
 
 
     public function rules()
@@ -26,7 +26,7 @@ class KwitansiSearch extends Kwitansi
             [['uang_harian', 'uang_harian_total', 'biaya_transportasi', 'biaya_penginapan', 'jumlah_pdb', 'hari_inap_riil', 'biaya_inap_riil', 'biaya_inap_riil_total', 'transport_riil', 'taksi_riil', 'representasi_riil', 'representasi_riil_total', 'jumlah_riil'], 'number'],
             [['tanggal_bayar', 'kwitansi_path'], 'safe'],
             // custom
-            [['nomor_st', 'id_instansi'], 'safe'],
+            [['nomor_st', 'id_instansi', 'nama_pegawai', 'nip'], 'safe'],
         ];
     }
 
@@ -48,7 +48,7 @@ class KwitansiSearch extends Kwitansi
      */
     public function search($params)
     {
-        $query = Kwitansi::find()->joinWith('st');
+        $query = Kwitansi::find()->joinWith(['st', 'nip0']);
 
         // add conditions that should always apply here
 
@@ -65,6 +65,11 @@ class KwitansiSearch extends Kwitansi
         $dataProvider->sort->attributes['id_instansi'] = [
             'asc' => ['su_st_spd.id_instansi' => SORT_ASC],
             'desc' => ['su_st_spd.id_instansi' => SORT_DESC],
+        ];
+
+        $dataProvider->sort->attributes['nama_pegawai'] = [
+            'asc' => ['su_pegawai.nama' => SORT_ASC],
+            'desc' => ['su_pegawai.nama' => SORT_DESC],
         ];
 
         $this->load($params);
@@ -93,12 +98,13 @@ class KwitansiSearch extends Kwitansi
             'jumlah_riil' => $this->jumlah_riil,
             'tanggal_bayar' => $this->tanggal_bayar,
             'id_st' => $this->id_st,
-            'nip' => $this->nip,
+            'su_kwitansi.nip' => $this->nip,
         ]);
 
         $query->andFilterWhere(['like', 'kwitansi_path', $this->kwitansi_path])
             ->andFilterWhere(['like', 'su_st_spd.nomor_st', $this->nomor_st])
-            ->andFilterWhere(['like', 'su_st_spd.id_instansi', $this->id_instansi]);
+            ->andFilterWhere(['like', 'su_st_spd.id_instansi', $this->id_instansi])
+            ->andFilterWhere(['like', 'su_pegawai.nama', $this->nama_pegawai]);
 
         return $dataProvider;
     }
