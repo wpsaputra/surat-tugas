@@ -17,12 +17,14 @@ $this->registerJsFile('@web/js/exporting.js', ['position' => View::POS_HEAD]);
 $js = '$(".date").on("change", function() {
     var date = $(this).val();
     if(date.length>0){
-        var url      = window.location.href.split("&year=");
+        // var url      = window.location.href.split("&year=");
+        var url      = window.location.href.split("?year=");
         console.log(date);
         // console.log(link);
         // window.location = "index.php";
         // window.location = window.location.href + "&month=" + arr_date[0] + "&year=" + arr_date[1];
-        window.location = url[0] + "&year=" + date;
+        // window.location = url[0] + "&year=" + date;
+        window.location = url[0] + "?year=" + date;
 
     }
 
