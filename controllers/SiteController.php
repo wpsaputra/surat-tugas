@@ -12,6 +12,7 @@ use app\models\ContactForm;
 use PhpOffice\PhpWord\TemplateProcessor;
 use yii\data\SqlDataProvider;
 use yii\data\Sort;
+use yii\web\HttpException;
 
 class SiteController extends Controller
 {
@@ -135,10 +136,14 @@ class SiteController extends Controller
     public function actionRekapt()
     {
         $year = Yii::$app->request->get('year');
+        if(!is_numeric($year)&&!is_null($year)){
+            throw new HttpException(403, "Invalid parameters value.");
+        }
+
         if(is_null($year)){
             $year = Date('Y');
         }
-
+        
 		$sql = "SELECT s.nip AS NIP, p.nama AS NAMA, COUNT(s.nip) AS JUMLAH, SUM(DATEDIFF(s.tanggal_kembali, s.tanggal_pergi)+1) AS HARI, p.jabatan AS JABATAN
         FROM su_st_spd s INNER JOIN su_pegawai p ON s.nip=p.nip WHERE s.id_instansi=".Yii::$app->user->identity->id_instansi." AND YEAR(tanggal_terbit)=".$year." GROUP BY s.nip";
 
@@ -185,6 +190,10 @@ class SiteController extends Controller
     public function actionRekapb()
     {
         $year = Yii::$app->request->get('year');
+        if(!is_numeric($year)&&!is_null($year)){
+            throw new HttpException(403, "Invalid parameters value.");
+        }
+
         if(is_null($year)){
             $year = Date('Y');
         }
@@ -195,6 +204,9 @@ class SiteController extends Controller
             $month_long = Date('F');
             $month_short = Date('M');
         }else{
+            if (!in_array($month, ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Des'])) {
+                throw new HttpException(403, "Invalid parameters value.");
+            }
             $month = Date('m', strtotime("2011-".$month."-15"));
             $month_long = Date('F', strtotime("2011-".$month."-15"));
             $month_short = Date('M', strtotime("2011-".$month."-15"));
