@@ -25,11 +25,16 @@ $this->registerJsFile(
 if(StSpd::find()->where(['id' => $model->id_st])->asArray()->one()["id_akun"]==524111){
     // Luar Kota
     $isFieldEnabled = true;
+    $template = json_encode(TemplateNew::find()->where(['nama' => 'kwitansi_luar_kota_new'])->asArray()->one()['html_text']);
 }else{
     $isFieldEnabled = false;
+    $template = json_encode(TemplateNew::find()->where(['nama' => 'kwitansi_dalam_kota_new'])->asArray()->one()['html_text']);
 }
 
-$template = json_encode(TemplateNew::find()->where(['nama' => 'kwitansi_luar_kota_new'])->asArray()->one()['html_text']);
+$template_luar_kota = json_encode(TemplateNew::find()->where(['nama' => 'kwitansi_luar_kota_new'])->asArray()->one()['html_text']);
+$template_dalam_kota = json_encode(TemplateNew::find()->where(['nama' => 'kwitansi_dalam_kota_new'])->asArray()->one()['html_text']);
+
+
 
 ?>
 <div class="kwitansi-update">
@@ -65,6 +70,8 @@ $template = json_encode(TemplateNew::find()->where(['nama' => 'kwitansi_luar_kot
 <script>
 var isFieldEnabled = <?= json_encode($isFieldEnabled); ?>;
 var template = <?= $template; ?>;
+var template_luar_kota = <?= $template_luar_kota; ?>;
+var template_dalam_kota = <?= $template_dalam_kota; ?>;
 var link_multi = <?= json_encode(Yii::$app->urlManager->createUrl('kwitansi/getmulti'));?>;
 
 </script>

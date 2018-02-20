@@ -39,6 +39,14 @@ $js = '$(".dependent-input").on("change", function() {
             $("#kwitansi-hari_inap_riil").prop("disabled", !parsedData.isFieldEnabled);
             $("#kwitansi-biaya_inap_riil").prop("disabled", !parsedData.isFieldEnabled);
 
+            if(parsedData.isFieldEnabled){
+                template = template_luar_kota;
+            }else{
+                template = template_dalam_kota;
+            }
+
+            replaceCK();
+
 		}
 	});
 });';
