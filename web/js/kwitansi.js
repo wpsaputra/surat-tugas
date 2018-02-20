@@ -26,6 +26,7 @@ var id_instansi = '';
 
 function replaceCK(){
     var str = template;
+    // console.log(str);
     str = str.replace(/\$\{nomor_spd\}/g, $("#kwitansi-id_st").find("option:selected").text());
     str = str.replace(/\$\{uang_harian\}/g, $("#kwitansi-uang_harian").val());
     str = str.replace(/\$\{biaya_transportasi\}/g, $("#kwitansi-biaya_transportasi").val());
