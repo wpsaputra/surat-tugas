@@ -149,10 +149,10 @@ class StSpd extends \yii\db\ActiveRecord
             [['id_akun'], 'exist', 'skipOnError' => true, 'targetClass' => Akun::className(), 'targetAttribute' => ['id_akun' => 'id']],
             [['nip'], 'exist', 'skipOnError' => true, 'targetClass' => Pegawai::className(), 'targetAttribute' => ['nip' => 'nip']],
             [['id_kendaraan'], 'exist', 'skipOnError' => true, 'targetClass' => Kendaraan::className(), 'targetAttribute' => ['id_kendaraan' => 'id']],
-            [['kode_program'], 'exist', 'skipOnError' => true, 'targetClass' => Program::className(), 'targetAttribute' => ['kode_program' => 'kode']],
-            [['kode_kegiatan'], 'exist', 'skipOnError' => true, 'targetClass' => Kegiatan::className(), 'targetAttribute' => ['kode_kegiatan' => 'kode']],
-            [['kode_output'], 'exist', 'skipOnError' => true, 'targetClass' => Output::className(), 'targetAttribute' => ['kode_output' => 'kode']],
-            [['kode_komponen'], 'exist', 'skipOnError' => true, 'targetClass' => Komponen::className(), 'targetAttribute' => ['kode_komponen' => 'id']],
+            [['kode_program'], 'exist', 'skipOnError' => true, 'targetClass' => TProgram::className(), 'targetAttribute' => ['kode_program' => 'id']],
+            [['kode_kegiatan'], 'exist', 'skipOnError' => true, 'targetClass' => TGiat::className(), 'targetAttribute' => ['kode_kegiatan' => 'id']],
+            [['kode_output'], 'exist', 'skipOnError' => true, 'targetClass' => TOutput::className(), 'targetAttribute' => ['kode_output' => 'id']],
+            [['kode_komponen'], 'exist', 'skipOnError' => true, 'targetClass' => TKomponen::className(), 'targetAttribute' => ['kode_komponen' => 'id']],
             [['nip_kepala'], 'exist', 'skipOnError' => true, 'targetClass' => Pegawai::className(), 'targetAttribute' => ['nip_kepala' => 'nip']],
             [['nip_ppk'], 'exist', 'skipOnError' => true, 'targetClass' => Pegawai::className(), 'targetAttribute' => ['nip_ppk' => 'nip']],
             [['nip_bendahara'], 'exist', 'skipOnError' => true, 'targetClass' => Pegawai::className(), 'targetAttribute' => ['nip_bendahara' => 'nip']],
@@ -271,7 +271,8 @@ class StSpd extends \yii\db\ActiveRecord
      */
     public function getKodeProgram()
     {
-        return $this->hasOne(Program::className(), ['kode' => 'kode_program']);
+        // return $this->hasOne(Program::className(), ['kode' => 'kode_program']);
+        return $this->hasOne(TProgram::className(), ['id' => 'kode_program']);
     }
 
     /**
@@ -279,7 +280,8 @@ class StSpd extends \yii\db\ActiveRecord
      */
     public function getKodeKegiatan()
     {
-        return $this->hasOne(Kegiatan::className(), ['kode' => 'kode_kegiatan']);
+        // return $this->hasOne(Kegiatan::className(), ['kode' => 'kode_kegiatan']);
+        return $this->hasOne(TGiat::className(), ['id' => 'kode_kegiatan']);
     }
 
     /**
@@ -287,7 +289,8 @@ class StSpd extends \yii\db\ActiveRecord
      */
     public function getKodeOutput()
     {
-        return $this->hasOne(Output::className(), ['kode' => 'kode_output']);
+        // return $this->hasOne(Output::className(), ['kode' => 'kode_output']);
+        return $this->hasOne(TOutput::className(), ['id' => 'kode_output']);
     }
 
     /**
@@ -295,7 +298,8 @@ class StSpd extends \yii\db\ActiveRecord
      */
     public function getKodeKomponen()
     {
-        return $this->hasOne(Komponen::className(), ['id' => 'kode_komponen']);
+        // return $this->hasOne(Komponen::className(), ['id' => 'kode_komponen']);
+        return $this->hasOne(TKomponen::className(), ['id' => 'kode_komponen']);
     }
 
     /**
@@ -380,14 +384,27 @@ class StSpd extends \yii\db\ActiveRecord
         $arr_ppk = Pegawai::find()->where(['nip'=>$this->nip_ppk])->asArray()->one();
         $arr_instansi = Instansi::find()->where(['id'=>$this->instansi])->asArray()->one();
         $arr_kendaraan = Kendaraan::find()->where(['id'=>$this->id_kendaraan])->asArray()->one();
+        
+        $arr_program = TProgram::find()->where(['id'=>$this->kode_program])->asArray()->one();
+        $arr_kegiatan = TGiat::find()->where(['id'=>$this->kode_kegiatan])->asArray()->one();
+        $arr_output = TOutput::find()->where(['id'=>$this->kode_output])->asArray()->one();
+        $arr_komponen = TKomponen::find()->where(['id'=>$this->kode_komponen])->asArray()->one();
+
+
 
         // replace value which need formatting first
         $templateProcessor->setValue('nama_kepala', $arr_kepala['nama']);
         $templateProcessor->setValue('nama_ppk', $arr_ppk['nama']);
         $templateProcessor->setValue('id_instansi', $arr_instansi['instansi']);
         $templateProcessor->setValue('c_id_instansi', strtoupper($arr_instansi['instansi']));
-        $templateProcessor->setValue('kode_output', str_pad($this->kode_output, 3, '0', STR_PAD_LEFT));
-        $templateProcessor->setValue('kode_komponen', str_pad($this->kode_komponen, 3, '0', STR_PAD_LEFT));
+
+        // $templateProcessor->setValue('kode_output', str_pad($this->kode_output, 3, '0', STR_PAD_LEFT));
+        // $templateProcessor->setValue('kode_komponen', str_pad($this->kode_komponen, 3, '0', STR_PAD_LEFT));
+        $templateProcessor->setValue('kode_program', $arr_program['kddept'].'.'.$arr_program['kdunit'].'.'.$arr_program['kdprogram']);
+        $templateProcessor->setValue('kode_kegiatan', $arr_kegiatan['kdgiat']);
+        $templateProcessor->setValue('kode_output', $arr_output['kdoutput']);
+        $templateProcessor->setValue('kode_komponen', $arr_komponen['kdkmpnen']);
+        
         $templateProcessor->setValue('tanggal_terbit', (int)Yii::$app->formatter->asDate($this->tanggal_terbit, "dd").' '.self::BULAN[Yii::$app->formatter->asDate($this->tanggal_terbit, "M")].' '.Yii::$app->formatter->asDate($this->tanggal_terbit, "Y"));
         $templateProcessor->setValue('tanggal_pergi', (int)Yii::$app->formatter->asDate($this->tanggal_pergi, "dd").' '.self::BULAN[Yii::$app->formatter->asDate($this->tanggal_pergi, "M")].' '.Yii::$app->formatter->asDate($this->tanggal_terbit, "Y"));
         $templateProcessor->setValue('tanggal_kembali', (int)Yii::$app->formatter->asDate($this->tanggal_kembali, "dd").' '.self::BULAN[Yii::$app->formatter->asDate($this->tanggal_kembali, "M")].' '.Yii::$app->formatter->asDate($this->tanggal_terbit, "Y"));

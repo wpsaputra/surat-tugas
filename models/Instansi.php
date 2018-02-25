@@ -15,8 +15,13 @@ use Yii;
  * @property string $email
  * @property string $homepage
  * @property int $id_spd
+ * @property int $unit_kerja
  *
+ * @property FlagBendahara[] $flagBendaharas
+ * @property FlagKepala[] $flagKepalas
+ * @property FlagPpk[] $flagPpks
  * @property Pegawai[] $pegawais
+ * @property StSpd[] $stSpds
  * @property SuratTugas[] $suratTugas
  */
 class Instansi extends \yii\db\ActiveRecord
@@ -35,8 +40,8 @@ class Instansi extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id'], 'required'],
-            [['id', 'id_spd'], 'integer'],
+            [['id', 'unit_kerja'], 'required'],
+            [['id', 'id_spd', 'unit_kerja'], 'integer'],
             [['instansi', 'homepage'], 'string', 'max' => 30],
             [['alamat'], 'string', 'max' => 82],
             [['telepon'], 'string', 'max' => 22],
@@ -60,7 +65,32 @@ class Instansi extends \yii\db\ActiveRecord
             'email' => 'Email',
             'homepage' => 'Homepage',
             'id_spd' => 'Id Spd',
+            'unit_kerja' => 'Unit Kerja',
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getFlagBendaharas()
+    {
+        return $this->hasMany(FlagBendahara::className(), ['id_instansi' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getFlagKepalas()
+    {
+        return $this->hasMany(FlagKepala::className(), ['id_instansi' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getFlagPpks()
+    {
+        return $this->hasMany(FlagPpk::className(), ['id_instansi' => 'id']);
     }
 
     /**
@@ -69,6 +99,14 @@ class Instansi extends \yii\db\ActiveRecord
     public function getPegawais()
     {
         return $this->hasMany(Pegawai::className(), ['id_instansi' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getStSpds()
+    {
+        return $this->hasMany(StSpd::className(), ['id_instansi' => 'id']);
     }
 
     /**

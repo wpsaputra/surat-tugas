@@ -21,6 +21,7 @@ use app\models\Akun;
 use app\models\Instansi;
 use app\models\StSpdAnggota;
 use kartik\date\DatePicker;
+use app\models\TProgram;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\StSpd */
@@ -56,7 +57,7 @@ $js2 = '$(".dependent-input").on("change", function() {
 });';
 
 $this->registerJS($js);
-$this->registerJS($js2);
+// $this->registerJS($js2);
 
 $arr_kepala = ArrayHelper::map(FlagKepala::find()->where(["id_instansi" => Yii::$app->user->identity->id_instansi])->all(),'nip','id_instansi');
 foreach ($arr_kepala as $key => $value) {
@@ -87,6 +88,39 @@ $arr_model_val = array_values($model->attributes);
 // print_r($bulan[Yii::$app->formatter->asDate($model->tanggal_terbit, "M")]);
 
 // print_r(StSpdAnggota::find()->where(['id_st_spd'=>$model->id])->asArray()->all());
+
+// New Program, kegiatan, output, komponen
+$thang = Date('Y');
+$kdsatker = Instansi::find()->where(['id'=> Yii::$app->user->identity->id_instansi])->asArray()->one()['unit_kerja'];
+
+$prg = Yii::$app->db->createCommand("SELECT *, CONCAT(thang, '.', kddept, '.', kdunit, '.', kdprogram) AS prg FROM `su_d_item` WHERE thang='".$thang."' AND kdsatker='".$kdsatker."' GROUP BY prg")->queryAll();
+$imp = "'" . implode( "','", (ArrayHelper::getColumn($prg, 'prg')) ) . "'";
+$arr_prg = Yii::$app->db->createCommand("SELECT a.* FROM (SELECT *, CONCAT(thang, '.', kddept, '.', kdunit, '.', kdprogram) AS prg FROM `su_t_program`) a WHERE a.prg IN (".$imp.")")->queryAll();
+// print_r($prg);
+// print_r($imp);
+// print_r($arr_prg);
+
+$keg = Yii::$app->db->createCommand("SELECT *, CONCAT(thang, '.', kddept, '.', kdunit, '.', kdprogram, '.', kdgiat) AS keg FROM `su_d_item` WHERE thang='".$thang."' AND kdsatker='".$kdsatker."' GROUP BY keg")->queryAll();
+$imp = "'" . implode( "','", (ArrayHelper::getColumn($keg, 'keg')) ) . "'";
+$arr_keg = Yii::$app->db->createCommand("SELECT a.* FROM (SELECT *, CONCAT(thang, '.', kddept, '.', kdunit, '.', kdprogram, '.', kdgiat) AS keg FROM `su_t_giat`) a WHERE a.keg IN (".$imp.")")->queryAll();
+// print_r($keg);
+// print_r($imp);
+// print_r($arr_keg);
+
+$output = Yii::$app->db->createCommand("SELECT *, CONCAT(thang, '.', kdgiat, '.', kdoutput) AS output FROM `su_d_item` WHERE thang='".$thang."' AND kdsatker='".$kdsatker."' GROUP BY output")->queryAll();
+$imp = "'" . implode( "','", (ArrayHelper::getColumn($output, 'output')) ) . "'";
+$arr_output = Yii::$app->db->createCommand("SELECT a.* FROM (SELECT *, CONCAT(thang, '.', kdgiat, '.', kdoutput) AS output FROM `su_t_output`) a WHERE a.output IN (".$imp.")")->queryAll();
+// print_r($output);
+// print_r($imp);
+// print_r($arr_output);
+
+$komponen = Yii::$app->db->createCommand("SELECT *, CONCAT(thang, '.', kddept, '.', kdunit, '.', kdprogram, '.', kdgiat, '.', kdoutput, '.', kdkmpnen) AS komponen FROM `su_d_item` WHERE thang='".$thang."' AND kdsatker='".$kdsatker."' GROUP BY komponen")->queryAll();
+$imp = "'" . implode( "','", (ArrayHelper::getColumn($komponen, 'komponen')) ) . "'";
+$arr_komponen = Yii::$app->db->createCommand("SELECT a.* FROM (SELECT *, CONCAT(thang, '.', kddept, '.', kdunit, '.', kdprogram, '.', kdgiat, '.', kdoutput, '.', kdkmpnen) AS komponen FROM `su_t_komponen`) a WHERE a.komponen IN (".$imp.")")->queryAll();
+// print_r($komponen);
+// print_r($imp);
+// print_r($arr_komponen);
+
 
 ?>
 
@@ -253,7 +287,8 @@ $arr_model_val = array_values($model->attributes);
         <div class="col-sm-6">
             <!-- <?= $form->field($model, 'kode_program')->textInput(['maxlength' => true]) ?> -->
             <?= $form->field($model, 'kode_program')->widget(Select2::classname(), [
-                'data' => ArrayHelper::map(Program::find()->all(),'kode','uraian'),
+                // 'data' => ArrayHelper::map(Program::find()->all(),'kode','uraian'),
+                'data' => ArrayHelper::map($arr_prg,'id','nmprogram'),
                 'options' => ['placeholder' => 'Pilih program ...', 'class' => 'dependent-input form-control', 'data-next' => 'stspd-kode_kegiatan'],
                 'pluginOptions' => [
                     'allowClear' => true
@@ -264,7 +299,8 @@ $arr_model_val = array_values($model->attributes);
         <div class="col-sm-6">
             <!-- <?= $form->field($model, 'kode_kegiatan')->textInput() ?> -->
             <?= $form->field($model, 'kode_kegiatan')->widget(Select2::classname(), [
-                'data' => ArrayHelper::map(Kegiatan::find()->all(),'kode','uraian'),
+                // 'data' => ArrayHelper::map(Kegiatan::find()->all(),'kode','uraian'),
+                'data' => ArrayHelper::map($arr_keg,'id','nmgiat'),
                 'options' => ['placeholder' => 'Pilih kegiatan ...', 'class' => 'dependent-input form-control', 'data-next' => 'stspd-kode_output'],
                 'pluginOptions' => [
                     'allowClear' => true
@@ -278,7 +314,8 @@ $arr_model_val = array_values($model->attributes);
         <div class="col-sm-6">
             <!-- <?= $form->field($model, 'kode_output')->textInput() ?> -->
             <?= $form->field($model, 'kode_output')->widget(Select2::classname(), [
-                'data' => ArrayHelper::map(Output::find()->all(),'kode','uraian'),
+                // 'data' => ArrayHelper::map(Output::find()->all(),'kode','uraian'),
+                'data' => ArrayHelper::map($arr_output,'id','nmoutput'),
                 'options' => ['placeholder' => 'Pilih Output ...', 'class' => 'dependent-input form-control', 'data-next' => 'stspd-kode_komponen'],
                 'pluginOptions' => [
                     'allowClear' => true
@@ -289,7 +326,8 @@ $arr_model_val = array_values($model->attributes);
         <div class="col-sm-6">
             <!-- <?= $form->field($model, 'kode_komponen')->textInput() ?> -->
             <?= $form->field($model, 'kode_komponen')->widget(Select2::classname(), [
-                'data' => ArrayHelper::map(Komponen::find()->all(),'id','uraian'),
+                // 'data' => ArrayHelper::map(Komponen::find()->all(),'id','uraian'),
+                'data' => ArrayHelper::map($arr_komponen,'id','nmkmpnen'),
                 'options' => ['placeholder' => 'Pilih Komponen ...'],
                 'pluginOptions' => [
                     'allowClear' => true
