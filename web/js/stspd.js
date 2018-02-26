@@ -18,10 +18,12 @@ function replaceCK(){
     str = str.replace(/\?tanggal_kembali\?/g, $("#stspd-tanggal_kembali").val());
     str = str.replace(/\?tingkat\?/g, $("#stspd-tingkat_perjalanan_dinas").val());
     str = str.replace(/\?kendaraan\?/g, $("#stspd-id_kendaraan").find("option:selected").text());
-    str = str.replace(/\?program\?/g, $("#stspd-kode_program").val());
-    str = str.replace(/\?kegiatan\?/g, $("#stspd-kode_kegiatan").val());
-    str = str.replace(/\?output\?/g, $("#stspd-kode_output").val());
-    str = str.replace(/\?komponen\?/g, $("#stspd-kode_komponen").val());
+    
+    str = str.replace(/\?program\?/g, $("#stspd-kode_program :selected").text().substring(1,10));
+    str = str.replace(/\?kegiatan\?/g, $("#stspd-kode_kegiatan :selected").text().substring(1,5));
+    str = str.replace(/\?output\?/g, $("#stspd-kode_output :selected").text().substring(1,4));
+    str = str.replace(/\?komponen\?/g, $("#stspd-kode_komponen :selected").text().substring(1,4));
+    
     str = str.replace(/\?akun\?/g, $("#stspd-id_akun").val());
     str = str.replace(/\?instansi\?/g, instansi);
     str = str.replace(/\?y_instansi\?/g, instansi);
