@@ -65,7 +65,7 @@ $this->registerJS($js);
 		<!-- NAVBAR -->
 		<nav class="navbar navbar-default navbar-fixed-top">
 			<div class="brand">
-				<a href="index.html"><img src="<?php echo Url::to('@web/img/logo-dark.png');?>" alt="Klorofil Logo" class="img-responsive logo"></a>
+				<a href="<?=Yii::$app->urlManager->createUrl('site/index')?>"><img src="<?php echo Url::to('@web/img/logo-dark.png');?>" alt="Klorofil Logo" class="img-responsive logo"></a>
 			</div>
 			<div class="container-fluid">
 				<div class="navbar-btn">
@@ -141,7 +141,7 @@ $this->registerJS($js);
 								</ul>
 							</div>
 						</li>
-						<li><a href="<?=Yii::$app->urlManager->createUrl('site/help')?>" class=""><i class="lnr lnr-book"></i> <span>Help</span></a></li>
+						<li><a href="<?=Yii::$app->urlManager->createUrl('site/faq')?>" class=""><i class="lnr lnr-book"></i> <span>FAQ</span></a></li>
 					</ul>
 				</nav>
 			</div>
