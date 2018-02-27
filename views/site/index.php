@@ -51,6 +51,11 @@ try{
     $count_bulanan = "Undefined";
 }
 
+if($kepala=='Undefined'||$ppk=='Undefined'||$bendahara=='Undefined'){
+    Yii::$app->getSession()->setFlash(
+        'error','Kepala / Bendahara / PPK belum disetting. Silahkan edit kepala/bendahara/ppk di menu Pegawai'
+    );
+}
 
 
 ?>

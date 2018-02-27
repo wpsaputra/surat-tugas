@@ -13,6 +13,8 @@ use PhpOffice\PhpWord\TemplateProcessor;
 use yii\data\SqlDataProvider;
 use yii\data\Sort;
 use yii\web\HttpException;
+use app\models\User;
+use app\models\PasswordForm;
 
 class SiteController extends Controller
 {
@@ -261,4 +263,48 @@ class SiteController extends Controller
         ));
 
     }
+
+    public function actionChangepassword(){
+        $model = new PasswordForm;
+        $modeluser = User::find()->where([
+            'id'=>Yii::$app->user->id
+        ])->one();
+      
+        if($model->load(Yii::$app->request->post())){
+            if($model->validate()){
+                try{
+                    $modeluser->password = $_POST['PasswordForm']['newpass'];
+                    if($modeluser->save()){
+                        Yii::$app->getSession()->setFlash(
+                            'success','Password changed'
+                        );
+                        return $this->redirect(['index']);
+                    }else{
+                        Yii::$app->getSession()->setFlash(
+                            'error','Password not changed'
+                        );
+                        return $this->redirect(['index']);
+                    }
+                }catch(Exception $e){
+                    Yii::$app->getSession()->setFlash(
+                        'error',"{$e->getMessage()}"
+                    );
+                    return $this->render('changepassword',[
+                        'model'=>$model
+                    ]);
+                }
+            }else{
+                return $this->render('changepassword',[
+                    'model'=>$model
+                ]);
+            }
+        }else{
+            return $this->render('changepassword',[
+                'model'=>$model
+            ]);
+        }
+    }
+
+
+
 }

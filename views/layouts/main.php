@@ -141,6 +141,7 @@ $this->registerJS($js);
 								</ul>
 							</div>
 						</li>
+						<li><a href="<?=Yii::$app->urlManager->createUrl('site/changepassword')?>" class=""><i class="lnr lnr-cog"></i> <span>Ubah Password</span></a></li>
 						<li><a href="<?=Yii::$app->urlManager->createUrl('site/faq')?>" class=""><i class="lnr lnr-book"></i> <span>FAQ</span></a></li>
 					</ul>
 				</nav>
@@ -152,6 +153,7 @@ $this->registerJS($js);
 			<!-- MAIN CONTENT -->
 			<div class="main-content">
 				<div class="container-fluid">
+				<?= Alert::widget() ?>
 				<?= $content ?>
 				</div>
 			</div>
