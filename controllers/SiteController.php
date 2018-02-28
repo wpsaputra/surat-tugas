@@ -26,7 +26,7 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['logout', 'index', 'rekapt', 'rekapb'],
+                'only' => ['logout', 'index', 'rekapt', 'rekapb', 'changepassword'],
                 'rules' => [
                     [
                         // 'actions' => ['logout'],
