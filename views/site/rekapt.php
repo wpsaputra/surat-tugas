@@ -69,24 +69,26 @@ $this->registerJS($js);
                     </div> -->
                 </div>
                 <div class="panel-body">
-                <?= GridView::widget([
-                    'dataProvider' => $model,
-                    'filterModel' => null,
-                    'columns' => [
-                        ['class' => 'yii\grid\SerialColumn'],
+                    <div style="overflow: auto; overflow-y: hidden; Height:?">
+                        <?= GridView::widget([
+                            'dataProvider' => $model,
+                            'filterModel' => null,
+                            'columns' => [
+                                ['class' => 'yii\grid\SerialColumn'],
 
-                        'NIP',
-                        'NAMA',
-                        'JABATAN',
-                        // 'JUMLAH',
-                        [
-                            'label' => 'Jumlah SPD',
-                            'attribute' => 'JUMLAH',
-                        ],
-                        'HARI',
-                        // ['class' => 'yii\grid\ActionColumn'],
-                    ],
-                ]); ?>
+                                'NIP',
+                                'NAMA',
+                                'JABATAN',
+                                // 'JUMLAH',
+                                [
+                                    'label' => 'Jumlah SPD',
+                                    'attribute' => 'JUMLAH',
+                                ],
+                                'HARI',
+                                // ['class' => 'yii\grid\ActionColumn'],
+                            ],
+                        ]); ?>
+                    </div>
                 </div>
                 <div class="panel-footer">
                     <div class="row">
