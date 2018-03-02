@@ -20,52 +20,53 @@ $this->params['breadcrumbs'][] = $this->title;
             <p>
                 <?= Html::a('Create Kwitansi', ['create'], ['class' => 'btn btn-success']) ?>
             </p>
+            <div style="overflow: auto; overflow-y: hidden; Height:?">
+                <?= GridView::widget([
+                    'dataProvider' => $dataProvider,
+                    'filterModel' => $searchModel,
+                    'columns' => [
+                        ['class' => 'yii\grid\SerialColumn'],
 
-            <?= GridView::widget([
-                'dataProvider' => $dataProvider,
-                'filterModel' => $searchModel,
-                'columns' => [
-                    ['class' => 'yii\grid\SerialColumn'],
+                        // 'id',
+                        [
+                            'attribute' => 'nomor_st',
+                            'label' => 'Nomor Surat Tugas',
+                            'value' => 'st.nomor_st'
+                        ],
+                        'nip',
+                        [
+                            'attribute' => 'nama_pegawai',
+                            'label' => 'Nama Pegawai',
+                            'value' => 'nip0.nama'
+                        ],
+                        [
+                            'attribute' => 'id_instansi',
+                            'label' => 'Id Instansi',
+                            'value' => 'st.id_instansi'
+                        ],
+                        'uang_harian',
+                        'uang_harian_total',
+                        // 'biaya_transportasi',
+                        // 'biaya_penginapan',
+                        
+                        //'jumlah_pdb',
+                        //'hari_inap_riil',
+                        //'biaya_inap_riil',
+                        //'biaya_inap_riil_total',
+                        //'transport_riil',
+                        //'taksi_riil',
+                        //'representasi_riil',
+                        //'representasi_riil_total',
+                        //'jumlah_riil',
+                        //'tanggal_bayar',
+                        //'kwitansi_path',
+                        //'id_st',
+                        //'nip',
 
-                    // 'id',
-                    [
-                        'attribute' => 'nomor_st',
-                        'label' => 'Nomor Surat Tugas',
-                        'value' => 'st.nomor_st'
+                        ['class' => 'yii\grid\ActionColumn'],
                     ],
-                    'nip',
-                    [
-                        'attribute' => 'nama_pegawai',
-                        'label' => 'Nama Pegawai',
-                        'value' => 'nip0.nama'
-                    ],
-                    [
-                        'attribute' => 'id_instansi',
-                        'label' => 'Id Instansi',
-                        'value' => 'st.id_instansi'
-                    ],
-                    'uang_harian',
-                    'uang_harian_total',
-                    // 'biaya_transportasi',
-                    // 'biaya_penginapan',
-                    
-                    //'jumlah_pdb',
-                    //'hari_inap_riil',
-                    //'biaya_inap_riil',
-                    //'biaya_inap_riil_total',
-                    //'transport_riil',
-                    //'taksi_riil',
-                    //'representasi_riil',
-                    //'representasi_riil_total',
-                    //'jumlah_riil',
-                    //'tanggal_bayar',
-                    //'kwitansi_path',
-                    //'id_st',
-                    //'nip',
-
-                    ['class' => 'yii\grid\ActionColumn'],
-                ],
-            ]); ?>
+                ]); ?>
+            </div>
         </div>
     </div>
 </div>

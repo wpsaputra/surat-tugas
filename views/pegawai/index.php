@@ -20,23 +20,25 @@ $this->params['breadcrumbs'][] = $this->title;
             <p>
                 <?= Html::a('Create Pegawai', ['create'], ['class' => 'btn btn-success']) ?>
             </p>
+            <div style="overflow: auto; overflow-y: hidden; Height:?">
+                <?= GridView::widget([
+                    'dataProvider' => $dataProvider,
+                    'filterModel' => $searchModel,
+                    'columns' => [
+                        ['class' => 'yii\grid\SerialColumn'],
 
-            <?= GridView::widget([
-                'dataProvider' => $dataProvider,
-                'filterModel' => $searchModel,
-                'columns' => [
-                    ['class' => 'yii\grid\SerialColumn'],
+                        'nip',
+                        'nama',
+                        'pangkat',
+                        'jabatan',
+                        'flag_pensiun',
+                        //'id_instansi',
 
-                    'nip',
-                    'nama',
-                    'pangkat',
-                    'jabatan',
-                    'flag_pensiun',
-                    //'id_instansi',
+                        ['class' => 'yii\grid\ActionColumn'],
+                    ],
+                ]); ?>
+            </div>
 
-                    ['class' => 'yii\grid\ActionColumn'],
-                ],
-            ]); ?>
         </div>
     </div>
 </div>
