@@ -6,7 +6,8 @@
     <br>
 </p>
 
-SPD online merupakan project aplikasi web untuk membuat surat tugas secara online di BPS Provinsi Sulawesi Tenggara
+SPD online merupakan project aplikasi web untuk membuat surat tugas secara online di BPS Provinsi Sulawesi Tenggara.
+Aplikasi ini dibuat dengan menggunakan framework yii2.
 
 DIRECTORY STRUCTURE
 -------------------
@@ -39,4 +40,4 @@ INSTALLATION
 1. git clone https://github.com/wpsaputra/surat-tugas.git
 2. composer install
 3. restore database surat tugas (22).sql via phpmyadmin
-4. Sesuaikan setting database pada file yii2
+4. Sesuaikan setting database pada config/db.php
