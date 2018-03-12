@@ -185,20 +185,12 @@ class KwitansiController extends Controller
                 }
 
                 if(StSpd::find()->where(['id' => $value2])->asArray()->one()["id_akun"]==524111){
-                // if(StSpd::findOne($value)->id_akun==524111){
-                    // Luar Kota
-                    // $id_akun = StSpd::find()->where(['id' => $value])->asArray()->one()["nomor_st"];
-                    $id_akun = $value2;
-                    // print_r($value);
                     $isFieldEnabled = true;
                 }else{
-                    // $id_akun = StSpd::find()->where(['id' => $value])->asArray()->one()["nomor_st"];
-                    $id_akun = $value2;
-                    // print_r($value);
                     $isFieldEnabled = false;
                 }
 
-                $arr_response = ['pegawai'=>Html::renderSelectOptions([], $arr_total_pegawai, $tagOptions), 'isFieldEnabled'=>$isFieldEnabled, 'id_akun'=>$id_akun];
+                $arr_response = ['pegawai'=>Html::renderSelectOptions([], $arr_total_pegawai, $tagOptions), 'isFieldEnabled'=>$isFieldEnabled];
                 
                 // return Html::renderSelectOptions([], $arr_total_pegawai, $tagOptions);
                 return json_encode($arr_response);

@@ -28,8 +28,6 @@ $js = '$(".dependent-input").on("change", function() {
             //console.log(data);
             var parsedData = JSON.parse(data);
             console.log(parsedData.isFieldEnabled);
-            console.log(parsedData.id_akun);
-            // console.log(JSON.stringify(parsedData.id_akun));
 
             $("#" + next).html(parsedData.pegawai);
             $("#kwitansi-biaya_transportasi").prop("disabled", !parsedData.isFieldEnabled);
