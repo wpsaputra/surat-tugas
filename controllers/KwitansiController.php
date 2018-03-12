@@ -166,6 +166,7 @@ class KwitansiController extends Controller
         $request = Yii::$app->request;
         $obj = $request->post('obj');
         $value = $request->post('value');
+        $value2 = $request->post('value');
         $tagOptions = ['prompt' => "=== Select ==="];
 
         switch ($obj) {
@@ -183,14 +184,21 @@ class KwitansiController extends Controller
                     $arr_total_pegawai[$value["nip_anggota"]] = Pegawai::find()->where(['nip'=>$value["nip_anggota"]])->asArray()->one()['nama'];
                 }
 
-                if(StSpd::find()->where(['id' => $value])->asArray()->one()["id_akun"]==524111){
+                if(StSpd::find()->where(['id' => $value2])->asArray()->one()["id_akun"]==524111){
+                // if(StSpd::findOne($value)->id_akun==524111){
                     // Luar Kota
+                    // $id_akun = StSpd::find()->where(['id' => $value])->asArray()->one()["nomor_st"];
+                    $id_akun = $value2;
+                    // print_r($value);
                     $isFieldEnabled = true;
                 }else{
+                    // $id_akun = StSpd::find()->where(['id' => $value])->asArray()->one()["nomor_st"];
+                    $id_akun = $value2;
+                    // print_r($value);
                     $isFieldEnabled = false;
                 }
 
-                $arr_response = ['pegawai'=>Html::renderSelectOptions([], $arr_total_pegawai, $tagOptions), 'isFieldEnabled'=>$isFieldEnabled];
+                $arr_response = ['pegawai'=>Html::renderSelectOptions([], $arr_total_pegawai, $tagOptions), 'isFieldEnabled'=>$isFieldEnabled, 'id_akun'=>$id_akun];
                 
                 // return Html::renderSelectOptions([], $arr_total_pegawai, $tagOptions);
                 return json_encode($arr_response);
