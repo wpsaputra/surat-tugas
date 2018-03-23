@@ -62,7 +62,7 @@ class StSpdAnggota extends \yii\db\ActiveRecord
         return $this->hasOne(Pegawai::className(), ['nip' => 'nip_anggota']);
     }
 
-    /**
+    /**`
      * @return \yii\db\ActiveQuery
      */
     public function getStSpd()
