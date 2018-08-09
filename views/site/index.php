@@ -34,8 +34,7 @@ try{
 }
 
 try{
-    $sql = "SELECT s.nip AS NIP, p.nama AS NAMA, COUNT(s.nip) AS JUMLAH, SUM(DATEDIFF(s.tanggal_kembali, s.tanggal_pergi)+1) AS HARI, p.jabatan AS JABATAN
-        FROM su_st_spd s INNER JOIN su_pegawai p ON s.nip=p.nip WHERE s.id_instansi=".Yii::$app->user->identity->id_instansi." AND YEAR(tanggal_terbit)=".Date('Y')." GROUP BY s.nip";
+    $sql = "SELECT * FROM su_st_spd s WHERE s.id_instansi=".Yii::$app->user->identity->id_instansi." AND YEAR(tanggal_terbit)=".Date('Y')."";
     $count_tahunan = Yii::$app->db->createCommand('SELECT COUNT(*) FROM (' . $sql . ') as count_alias')->queryScalar();
 
 }catch(Exception $e){
@@ -43,8 +42,7 @@ try{
 }
 
 try{
-    $sql = "SELECT s.nip AS NIP, p.nama AS NAMA, COUNT(s.nip) AS JUMLAH, SUM(DATEDIFF(s.tanggal_kembali, s.tanggal_pergi)+1) AS HARI, p.jabatan AS JABATAN
-				FROM su_st_spd s INNER JOIN su_pegawai p ON s.nip=p.nip WHERE s.id_instansi=".Yii::$app->user->identity->id_instansi." AND YEAR(tanggal_terbit)=".Date('Y')." AND MONTH(tanggal_terbit)=".Date('m')." GROUP BY s.nip";
+    $sql = "SELECT * FROM su_st_spd s WHERE s.id_instansi=".Yii::$app->user->identity->id_instansi." AND YEAR(tanggal_terbit)=".Date('Y')." AND MONTH(tanggal_terbit)=".Date('m')."";
     $count_bulanan = Yii::$app->db->createCommand('SELECT COUNT(*) FROM (' . $sql . ') as count_alias')->queryScalar();
 
 }catch(Exception $e){
