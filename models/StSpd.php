@@ -369,6 +369,12 @@ class StSpd extends \yii\db\ActiveRecord
             case 4:
                 $templateProcessor = new TemplateProcessor('template/template_st_spd_dengan_anggota_4.docx');
                 break;
+            case 5:
+                $templateProcessor = new TemplateProcessor('template/template_st_spd_dengan_anggota_5.docx');
+                break;
+            case 6:
+                $templateProcessor = new TemplateProcessor('template/template_st_spd_dengan_anggota_6.docx');
+                break;    
             default:
                $templateProcessor = new TemplateProcessor('template/template_st_spd_tanpa_anggota.docx');
         }
