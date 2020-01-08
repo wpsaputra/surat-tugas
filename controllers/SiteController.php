@@ -305,6 +305,11 @@ class SiteController extends Controller
         }
     }
 
+    public function actionMailmerge()
+    {
+        return $this->render('mailmerge');
+    }
+
 
 
 }
