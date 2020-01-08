@@ -399,6 +399,16 @@ $arr_komponen = Yii::$app->db->createCommand("SELECT a.* FROM (SELECT *, CONCAT(
         } 
     ?>
 
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- <?= $form->field($model, 'tingkat_perjalanan_dinas')->textInput(['maxlength' => true]) ?> -->
+            <?= $form->field($model, "flag_with_spd")->dropDownList(
+                [0=>"Cetak Surat Tugas Saja", 1=>"Cetak Surat Tugas & SPD"],
+                ['prompt'=>'Pilih jenis surat tugas ...']
+            )?>
+        </div>
+    </div>
+
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
     </div>

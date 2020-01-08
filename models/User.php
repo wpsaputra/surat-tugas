@@ -82,7 +82,8 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     {
         //mencari user login berdasarkan username dan hanya dicari 1.
         $user = static::find()->where(['username'=>$username])->one(); 
-        if(count($user)){
+        // if(count($user)){
+        if($user){
             return new static($user);
         }
         return null;

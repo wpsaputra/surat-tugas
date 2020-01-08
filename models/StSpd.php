@@ -136,7 +136,7 @@ class StSpd extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['nomor_st', 'tanggal_terbit', 'nip', 'nomor_spd', 'maksud', 'kota_asal', 'kota_tujuan', 'tanggal_pergi', 'tanggal_kembali', 'tingkat_perjalanan_dinas', 'id_kendaraan', 'kode_program', 'kode_kegiatan', 'kode_output', 'kode_komponen', 'nip_kepala', 'nip_ppk', 'nip_bendahara', 'id_akun'], 'required'],
+            [['nomor_st', 'tanggal_terbit', 'nip', 'nomor_spd', 'maksud', 'kota_asal', 'kota_tujuan', 'tanggal_pergi', 'tanggal_kembali', 'tingkat_perjalanan_dinas', 'id_kendaraan', 'kode_program', 'kode_kegiatan', 'kode_output', 'kode_komponen', 'nip_kepala', 'nip_ppk', 'nip_bendahara', 'id_akun', 'flag_with_spd'], 'required'],
             [['tanggal_terbit', 'tanggal_pergi', 'tanggal_kembali', 'id_instansi'], 'safe'],
             [['nip', 'id_kendaraan', 'kode_kegiatan', 'kode_output', 'kode_komponen', 'id_instansi', 'nip_kepala', 'nip_ppk', 'nip_bendahara', 'id_akun'], 'integer'],
             [['maksud'], 'string'],
@@ -231,6 +231,7 @@ class StSpd extends \yii\db\ActiveRecord
             'nip_ppk' => 'PPK',
             'nip_bendahara' => 'Bendahara',
             'id_akun' => 'Id Akun',
+            'flag_with_spd' => 'Flag With SPD',
         ];
     }
 
@@ -377,6 +378,10 @@ class StSpd extends \yii\db\ActiveRecord
                 break;    
             default:
                $templateProcessor = new TemplateProcessor('template/template_st_spd_tanpa_anggota.docx');
+        }
+
+        if($this->flag_with_spd==0){
+            $templateProcessor = new TemplateProcessor('template/template_st_tanpa_spd.docx');
         }
 
         // get attribute key & value for replace from this model 

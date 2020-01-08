@@ -100,6 +100,12 @@ $this->params['breadcrumbs'][] = $this->title;
                     'value' => $model->nipBendahara->nama,
                 ],
                 'id_akun',
+                // 'flag_with_spd',
+                [
+                    'attribute' => 'flag_with_spd',
+                    'label' => 'Cetak Surat Tugas dan SPD',
+                    'value' => (($model->flag_with_spd==1)? "Cetak Surat Tugas & SPD" : "Cetak Surat Tugas Saja"),
+                ],
             ],
         ]) ?>
         </div>
