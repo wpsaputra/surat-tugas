@@ -7,6 +7,7 @@ use yii\web\View;
 use yii\grid\GridView;
 use app\models\Instansi;
 use kartik\date\DatePicker;
+use yii\bootstrap\Dropdown;
 
 $this->title = 'Rekapitulasi Tahunan';
 $this->params['breadcrumbs'][] = $this->title;
@@ -62,11 +63,27 @@ $this->registerJS($js);
             <!-- RECENT PURCHASES -->
             <div class="panel">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Rekapitulasi Tahunan <?= '('.$year.')';?></h3>
+                    <!-- <h3 class="panel-title">Rekapitulasi Tahunan <?= '('.$year.')';?></h3> -->
                     <!-- <div class="right">
                         <button type="button" class="btn-toggle-collapse"><i class="lnr lnr-chevron-up"></i></button>
                         <button type="button" class="btn-remove"><i class="lnr lnr-cross"></i></button>
                     </div> -->
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <h3 class="panel-title">Rekapitulasi Tahunan <?= '('.$year.')';?></h3>
+                        </div>
+                        <div class="col-sm-6">
+                        <?= Html::dropDownList('s_id', null,
+                            [
+                                0=>"Surat Tugas Akun Belanja Perjalanan Dinas Biasa (524111)", 
+                                1=>"Surat Tugas Akun Belanja Perjalanan Dinas Dalam Kota (524113)",
+                                2=>"Surat Tugas Semua Akun (52411 & 524113)"
+                            ],
+                            ['prompt'=>'Pilih jenis surat tugas ...', 'class'=>'form-control pull-right'],
+                            )
+                        ?>
+                        </div>
+                    </div>
                 </div>
                 <div class="panel-body">
                     <div style="overflow: auto; overflow-y: hidden; Height:?">
