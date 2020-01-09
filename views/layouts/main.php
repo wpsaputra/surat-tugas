@@ -138,7 +138,12 @@ $this->registerJS($js);
 								<ul class="nav">
 									<li><a href="<?=Yii::$app->urlManager->createUrl('stspd/index')?>" class="">Kelola Surat Tugas & SPD</a></li>
 									<li><a href="<?=Yii::$app->urlManager->createUrl('kwitansi/index')?>" class="">Kelola Kwitansi</a></li>
-									<li><a href="<?=Yii::$app->urlManager->createUrl('site/mailmerge')?>" class="">Mail Merge</a></li>
+									<!-- <li><a href="<?=Yii::$app->urlManager->createUrl('site/mailmerge')?>" class="">Mail Merge</a></li> -->
+									<?php
+									if(!Yii::$app->user->isGuest&&Yii::$app->user->identity->username=="bps7406"){
+										echo '<li><a href="'.Yii::$app->urlManager->createUrl('site/mailmerge').'">Mail Merge</a></li>';
+									}
+									?>
 								</ul>
 							</div>
 						</li>
