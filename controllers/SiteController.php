@@ -150,9 +150,23 @@ class SiteController extends Controller
         if(is_null($year)){
             $year = Date('Y');
         }
-        
-		$sql = "SELECT s.nip AS NIP, p.nama AS NAMA, COUNT(s.nip) AS JUMLAH, SUM(DATEDIFF(s.tanggal_kembali, s.tanggal_pergi)+1) AS HARI, p.jabatan AS JABATAN
-        FROM su_st_spd s INNER JOIN su_pegawai p ON s.nip=p.nip WHERE s.id_instansi=".Yii::$app->user->identity->id_instansi." AND YEAR(tanggal_terbit)=".$year." GROUP BY s.nip";
+
+        $akun = Yii::$app->request->get('akun');
+        if(is_null($akun)){
+            $akun = "all";
+        }
+        if($akun!=524111&&$akun!=524113&&$akun!="all"){
+            throw new HttpException(403, "Invalid parameters value.");
+        }
+
+        if($akun=="all"){
+            $sql = "SELECT s.nip AS NIP, p.nama AS NAMA, COUNT(s.nip) AS JUMLAH, SUM(DATEDIFF(s.tanggal_kembali, s.tanggal_pergi)+1) AS HARI, p.jabatan AS JABATAN
+            FROM su_st_spd s INNER JOIN su_pegawai p ON s.nip=p.nip WHERE s.id_instansi=".Yii::$app->user->identity->id_instansi." AND YEAR(tanggal_terbit)=".$year." GROUP BY s.nip";
+        }else{
+            $sql = "SELECT s.nip AS NIP, p.nama AS NAMA, COUNT(s.nip) AS JUMLAH, SUM(DATEDIFF(s.tanggal_kembali, s.tanggal_pergi)+1) AS HARI, p.jabatan AS JABATAN
+            FROM su_st_spd s INNER JOIN su_pegawai p ON s.nip=p.nip WHERE s.id_instansi=".Yii::$app->user->identity->id_instansi." AND YEAR(tanggal_terbit)=".$year." AND id_akun=".$akun." GROUP BY s.nip";
+        }
+
 
         $rawData = Yii::$app->db->createCommand($sql)->getRawSql(); //or use ->queryAll(); in CArrayDataProvider
         $count = Yii::$app->db->createCommand('SELECT COUNT(*) FROM (' . $sql . ') as count_alias')->queryScalar(); //the count
@@ -189,8 +203,11 @@ class SiteController extends Controller
             'model' => $model,
             'nama' => $nama,
             'jumlah' => $jumlah,
-            'year' => $year
+            'year' => $year,
+            'akun' => $akun
         ));
+
+        
 
     }
 
@@ -211,7 +228,7 @@ class SiteController extends Controller
             $month_long = Date('F');
             $month_short = Date('M');
         }else{
-            if (!in_array($month, ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Des'])) {
+            if (!in_array($month, ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'])) {
                 throw new HttpException(403, "Invalid parameters value.");
             }
             $month = Date('m', strtotime("2011-".$month."-15"));
@@ -219,8 +236,21 @@ class SiteController extends Controller
             $month_short = Date('M', strtotime("2011-".$month."-15"));
         }
 
-		$sql = "SELECT s.nip AS NIP, p.nama AS NAMA, COUNT(s.nip) AS JUMLAH, SUM(DATEDIFF(s.tanggal_kembali, s.tanggal_pergi)+1) AS HARI, p.jabatan AS JABATAN
-				FROM su_st_spd s INNER JOIN su_pegawai p ON s.nip=p.nip WHERE s.id_instansi=".Yii::$app->user->identity->id_instansi." AND YEAR(tanggal_terbit)=".$year." AND MONTH(tanggal_terbit)=".$month." GROUP BY s.nip";
+        $akun = Yii::$app->request->get('akun');
+        if(is_null($akun)){
+            $akun = "all";
+        }
+        if($akun!=524111&&$akun!=524113&&$akun!="all"){
+            throw new HttpException(403, "Invalid parameters value.");
+        }
+
+        if($akun=="all"){
+            $sql = "SELECT s.nip AS NIP, p.nama AS NAMA, COUNT(s.nip) AS JUMLAH, SUM(DATEDIFF(s.tanggal_kembali, s.tanggal_pergi)+1) AS HARI, p.jabatan AS JABATAN
+                FROM su_st_spd s INNER JOIN su_pegawai p ON s.nip=p.nip WHERE s.id_instansi=".Yii::$app->user->identity->id_instansi." AND YEAR(tanggal_terbit)=".$year." AND MONTH(tanggal_terbit)=".$month." GROUP BY s.nip";
+        }else{
+            $sql = "SELECT s.nip AS NIP, p.nama AS NAMA, COUNT(s.nip) AS JUMLAH, SUM(DATEDIFF(s.tanggal_kembali, s.tanggal_pergi)+1) AS HARI, p.jabatan AS JABATAN
+                FROM su_st_spd s INNER JOIN su_pegawai p ON s.nip=p.nip WHERE s.id_instansi=".Yii::$app->user->identity->id_instansi." AND YEAR(tanggal_terbit)=".$year." AND MONTH(tanggal_terbit)=".$month." AND id_akun=".$akun." GROUP BY s.nip";
+        }
 
         $rawData = Yii::$app->db->createCommand($sql)->getRawSql(); //or use ->queryAll(); in CArrayDataProvider
         $count = Yii::$app->db->createCommand('SELECT COUNT(*) FROM (' . $sql . ') as count_alias')->queryScalar(); //the count
@@ -259,7 +289,8 @@ class SiteController extends Controller
             'jumlah' => $jumlah,
             'year' => $year,
             'month_long' => $month_long,
-            'month_short' => $month_short
+            'month_short' => $month_short,
+            'akun' => $akun
         ));
 
     }

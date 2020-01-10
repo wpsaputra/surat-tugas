@@ -26,13 +26,28 @@ $js = '$(".date").on("change", function() {
         // window.location = window.location.href + "&month=" + arr_date[0] + "&year=" + arr_date[1];
         // window.location = url[0] + "&year=" + date;
         window.location = url[0] + "?year=" + date;
-
     }
+});';
 
-
+$js2 = '$(".dropdown").on("change", function() {
+    var value = $(this).val();
+    console.log(value);
+    var url = window.location.href.split("akun");
+    if(url[0].charAt(url[0].length-1)=="?"||url[0].charAt(url[0].length-1)=="&"){
+        url = url[0].substring(0, url[0].length - 1);
+    }else{
+        url = url[0];
+    }
+    
+    if(url.includes("year")){
+        window.location = url + "&akun=" + value;
+    }else{
+        window.location = url + "?year=" + '.$year.'+ "&akun=" + value;
+    }
 });';
 
 $this->registerJS($js);
+$this->registerJS($js2);
 
 ?>
 <div class="site-rekapt">
@@ -73,14 +88,15 @@ $this->registerJS($js);
                             <h3 class="panel-title">Rekapitulasi Tahunan <?= '('.$year.')';?></h3>
                         </div>
                         <div class="col-sm-6">
-                        <?= Html::dropDownList('s_id', null,
+                        <?= Html::dropDownList('s_id', $akun,
                             [
-                                0=>"Surat Tugas Akun Belanja Perjalanan Dinas Biasa (524111)", 
-                                1=>"Surat Tugas Akun Belanja Perjalanan Dinas Dalam Kota (524113)",
-                                2=>"Surat Tugas Semua Akun (52411 & 524113)"
+                                524111=>"Surat Tugas Akun Belanja Perjalanan Dinas Biasa (524111)", 
+                                524113=>"Surat Tugas Akun Belanja Perjalanan Dinas Dalam Kota (524113)",
+                                'all'=>"Surat Tugas Semua Akun (52411 & 524113)"
                             ],
-                            ['prompt'=>'Pilih jenis surat tugas ...', 'class'=>'form-control pull-right'],
-                            )
+                            // ['prompt'=>'Pilih jenis surat tugas ...', 'class'=>'form-control pull-right dropdown'],
+                            ['class'=>'form-control pull-right dropdown']
+                        );
                         ?>
                         </div>
                     </div>
