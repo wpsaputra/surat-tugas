@@ -15,6 +15,9 @@ use yii\data\Sort;
 use yii\web\HttpException;
 use app\models\User;
 use app\models\PasswordForm;
+use app\models\Rekap;
+use app\models\StSpd;
+use app\models\StSpdSearch;
 
 class SiteController extends Controller
 {
@@ -334,6 +337,22 @@ class SiteController extends Controller
                 'model'=>$model
             ]);
         }
+    }
+
+    public function actionRincian()
+    {
+        $searchModel = new Rekap();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        // Only show pegawai based on curent user instansi
+        if(Yii::$app->user->identity->role!=99){
+            $dataProvider->query->andFilterWhere(['su_st_spd.id_instansi' => Yii::$app->user->identity->id_instansi]);
+        }
+
+        return $this->render('rincian', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
     }
 
 

@@ -105,6 +105,7 @@ $this->registerJS($js);
 								<ul class="nav">
 									<li><a href="<?=Yii::$app->urlManager->createUrl('site/rekapt')?>" class="">Rekap Tahunan</a></li>
 									<li><a href="<?=Yii::$app->urlManager->createUrl('site/rekapb')?>" class="">Rekap Bulanan</a></li>
+									<li><a href="<?=Yii::$app->urlManager->createUrl('site/rincian')?>" class="">Rincian Perjalanan</a></li>
 								</ul>
 							</div>
 						</li>
