@@ -113,7 +113,14 @@ $this->registerJS($js2);
                                 ['class' => 'yii\grid\SerialColumn'],
 
                                 'NIP',
-                                'NAMA',
+                                [
+                                    'attribute' => 'NAMA',
+                                    'format' => 'html',
+                                    'value' => function ($data) {
+                                        return Html::a($data["NAMA"], ['site/rincian', 'Rekap[nama_pegawai]' => $data["NAMA"]]);
+                                    }
+                                ],
+                                // 'NAMA',
                                 'JABATAN',
                                 // 'JUMLAH',
                                 [
@@ -172,7 +179,8 @@ Highcharts.chart('chart1', {
 	},
 	xAxis: {
 		categories: [
-		    <?php echo "'" . implode("','", $nama) . "'"; ?>
+		    <?php //echo "'" . implode("','", $nama) . "'"; ?>
+            <?php echo '"' . implode('","', $nama) . '"'; ?>
 		],
 		crosshair: true
 	},

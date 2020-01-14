@@ -71,7 +71,8 @@ class StSpdSearch extends StSpd
         $query->andFilterWhere([
             'id' => $this->id,
             'tanggal_terbit' => $this->tanggal_terbit,
-            'nip' => $this->nip,
+            // 'nip' => $this->nip,
+            'su_st_spd.nip' => $this->nip,
             'tanggal_pergi' => $this->tanggal_pergi,
             'tanggal_kembali' => $this->tanggal_kembali,
             'id_kendaraan' => $this->id_kendaraan,
