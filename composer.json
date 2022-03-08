@@ -39,7 +39,10 @@
         "codeception/specify": "~0.4.3"
     },
     "config": {
-        "process-timeout": 1800
+        "process-timeout": 1800,
+        "allow-plugins": {
+            "yiisoft/yii2-composer": true
+        }
     },
     "scripts": {
         "post-install-cmd": [
