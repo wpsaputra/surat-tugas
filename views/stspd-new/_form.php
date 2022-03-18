@@ -395,7 +395,6 @@ $arr_output = Yii::$app->db->createCommand("SELECT a.* FROM (SELECT *, CONCAT(th
     ]);
     ?>
 
-    <!-- <?= $form->field($model, 'id_instansi')->textInput() ?> -->
     <?php
         if(Yii::$app->user->identity->role==99){
             echo $form->field($model, 'id_instansi')->dropDownList(
