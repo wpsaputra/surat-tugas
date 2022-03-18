@@ -147,7 +147,7 @@ $this->registerJS($js);
 							<a href="#subPages2" data-toggle="collapse" class="collapsed"><i class="lnr lnr-file-empty"></i> <span>SPD & Kwitansi (New)</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
 							<div id="subPages2" class="collapse ">
 								<ul class="nav">
-									<li><a href="<?=Yii::$app->urlManager->createUrl('stspdnew/index')?>" class="">Kelola Surat Tugas & SPD</a></li>
+									<li><a href="<?=Yii::$app->urlManager->createUrl('stspd-new/index')?>" class="">Kelola Surat Tugas & SPD</a></li>
 									<li><a href="<?=Yii::$app->urlManager->createUrl('kwitansinew/index')?>" class="">Kelola Kwitansi</a></li>
 								</ul>
 							</div>

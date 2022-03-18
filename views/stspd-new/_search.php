@@ -4,11 +4,11 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\StSpdSearch */
+/* @var $model app\models\StSpdNewSearch */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="st-spd-search">
+<div class="st-spd-new-search">
 
     <?php $form = ActiveForm::begin([
         'action' => ['index'],
@@ -43,9 +43,15 @@ use yii\widgets\ActiveForm;
 
     <?php // echo $form->field($model, 'kode_kegiatan') ?>
 
-    <?php // echo $form->field($model, 'kode_output') ?>
+    <?php // echo $form->field($model, 'kode_kro') ?>
+
+    <?php // echo $form->field($model, 'kode_ro') ?>
 
     <?php // echo $form->field($model, 'kode_komponen') ?>
+
+    <?php // echo $form->field($model, 'kode_subkomponen') ?>
+
+    <?php // echo $form->field($model, 'id_akun') ?>
 
     <?php // echo $form->field($model, 'st_path') ?>
 
@@ -55,9 +61,11 @@ use yii\widgets\ActiveForm;
 
     <?php // echo $form->field($model, 'nip_ppk') ?>
 
+    <?php // echo $form->field($model, 'nip_ppk_dukman') ?>
+
     <?php // echo $form->field($model, 'nip_bendahara') ?>
 
-    <?php // echo $form->field($model, 'id_akun') ?>
+    <?php // echo $form->field($model, 'flag_with_spd') ?>
 
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
