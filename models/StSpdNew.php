@@ -145,8 +145,8 @@ class StSpdNew extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['nomor_st', 'tanggal_terbit', 'nip', 'nomor_spd', 'maksud', 'kota_asal', 'kota_tujuan', 'tanggal_pergi', 'tanggal_kembali', 'tingkat_perjalanan_dinas', 'id_kendaraan', 'kode_program', 'kode_kegiatan', 'kode_kro', 'kode_ro', 'kode_komponen', 'kode_subkomponen', 'id_akun', 'id_instansi', 'nip_kepala', 'nip_ppk', 'nip_bendahara', 'flag_with_spd'], 'required'],
-            [['tanggal_terbit', 'tanggal_pergi', 'tanggal_kembali', 'nip_ppk_dukman'], 'safe'],
+            [['nomor_st', 'tanggal_terbit', 'nip', 'nomor_spd', 'maksud', 'kota_asal', 'kota_tujuan', 'tanggal_pergi', 'tanggal_kembali', 'tingkat_perjalanan_dinas', 'id_kendaraan', 'kode_program', 'kode_kegiatan', 'kode_kro', 'kode_ro', 'kode_komponen', 'kode_subkomponen', 'id_akun', 'nip_kepala', 'nip_ppk', 'nip_bendahara', 'flag_with_spd'], 'required'],
+            [['tanggal_terbit', 'tanggal_pergi', 'tanggal_kembali', 'nip_ppk_dukman', 'id_instansi'], 'safe'],
             [['nip', 'id_kendaraan', 'kode_program', 'kode_kegiatan', 'kode_kro', 'kode_ro', 'kode_komponen', 'kode_subkomponen', 'id_akun', 'id_instansi', 'nip_kepala', 'nip_ppk', 'nip_ppk_dukman', 'nip_bendahara', 'flag_with_spd'], 'integer'],
             [['maksud'], 'string'],
             [['nomor_st', 'nomor_spd', 'st_path'], 'string', 'max' => 120],
