@@ -4,6 +4,7 @@ use app\models\FlagKepala;
 use app\models\Instansi;
 use app\models\FlagPpk;
 use app\models\FlagBendahara;
+use app\models\FlagPpkDukman;
 
 /* @var $this yii\web\View */
 
@@ -23,6 +24,12 @@ try{
 
 try{
     $ppk = FlagPpk::find()->select("nip")->where(['id_instansi'=>Yii::$app->user->identity->id_instansi])->one()->nip0->nama;
+}catch(Exception $e){
+    $ppk = "Undefined";
+}
+
+try{
+    $ppk_dukman = FlagPpkDukman::find()->select("nip")->where(['id_instansi'=>Yii::$app->user->identity->id_instansi])->one()->nip0->nama;
 }catch(Exception $e){
     $ppk = "Undefined";
 }
@@ -89,6 +96,15 @@ if($kepala=='Undefined'||$ppk=='Undefined'||$bendahara=='Undefined'){
                     <p>
                         <span class="number">PPK</span>
                         <span class="title"><?= $ppk ?></span>
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="metric">
+                    <span class="icon"><i class="fa fa-id-card"></i></span>
+                    <p>
+                        <span class="number">PPK Dukman</span>
+                        <span class="title"><?= $ppk_dukman ?></span>
                     </p>
                 </div>
             </div>

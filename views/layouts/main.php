@@ -118,6 +118,7 @@ $this->registerJS($js);
 									<li><a href="<?=Yii::$app->urlManager->createUrl('kepala/create')?>" class="">Edit Kepala Kantor</a></li>
 									<li><a href="<?=Yii::$app->urlManager->createUrl('bendahara/create')?>" class="">Edit Bendahara</a></li>
 									<li><a href="<?=Yii::$app->urlManager->createUrl('ppk/create')?>" class="">Edit PPK</a></li>
+									<li><a href="<?=Yii::$app->urlManager->createUrl('ppk-dukman/create')?>" class="">Edit PPK Dukman</a></li>
 								</ul>
 							</div>
 						</li>
