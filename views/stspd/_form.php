@@ -93,40 +93,18 @@ $arr_model_val = array_values($model->attributes);
 $thang = Date('Y');
 $kdsatker = Instansi::find()->where(['id'=> Yii::$app->user->identity->id_instansi])->asArray()->one()['unit_kerja'];
 
-$prg = Yii::$app->db->createCommand("SELECT *, CONCAT(thang, '.', kddept, '.', kdunit, '.', kdprogram) AS prg FROM `su_d_item` WHERE thang='".$thang."' AND kdsatker='".$kdsatker."' GROUP BY prg")->queryAll();
-$imp = "'" . implode( "','", (ArrayHelper::getColumn($prg, 'prg')) ) . "'";
-$arr_prg = Yii::$app->db->createCommand("SELECT a.* FROM (SELECT *, CONCAT(thang, '.', kddept, '.', kdunit, '.', kdprogram) AS prg, 
-    CONCAT('[', kddept, '.', kdunit, '.', kdprogram, '] ', nmprogram) AS nmprogram2 FROM `su_t_program`) a WHERE a.prg IN (".$imp.")")->queryAll();
-// print_r($prg);
-// print_r($imp);
-// print_r($arr_prg);
-
-$keg = Yii::$app->db->createCommand("SELECT *, CONCAT(thang, '.', kddept, '.', kdunit, '.', kdprogram, '.', kdgiat) AS keg FROM `su_d_item` WHERE thang='".$thang."' AND kdsatker='".$kdsatker."' GROUP BY keg")->queryAll();
-$imp = "'" . implode( "','", (ArrayHelper::getColumn($keg, 'keg')) ) . "'";
-$arr_keg = Yii::$app->db->createCommand("SELECT a.* FROM (SELECT *, CONCAT(thang, '.', kddept, '.', kdunit, '.', kdprogram, '.', kdgiat) AS keg,
-    CONCAT('[', kdgiat, '] ', nmgiat) AS nmgiat2 FROM `su_t_giat`) a WHERE a.keg IN (".$imp.")")->queryAll();
-// print_r($keg);
-// print_r($imp);
-// print_r($arr_keg);
-
-$output = Yii::$app->db->createCommand("SELECT *, CONCAT(thang, '.', kdgiat, '.', kdoutput) AS output FROM `su_d_item` WHERE thang='".$thang."' AND kdsatker='".$kdsatker."' GROUP BY output")->queryAll();
-$imp = "'" . implode( "','", (ArrayHelper::getColumn($output, 'output')) ) . "'";
-$arr_output = Yii::$app->db->createCommand("SELECT a.* FROM (SELECT *, CONCAT(thang, '.', kdgiat, '.', kdoutput) AS output,
-    CONCAT('[', kdoutput, '] ', nmoutput) AS nmoutput2 FROM `su_t_output`) a WHERE a.output IN (".$imp.")")->queryAll();
-// print_r($output);
-// print_r($imp);
-// print_r($arr_output);
-
-$komponen = Yii::$app->db->createCommand("SELECT *, CONCAT(thang, '.', kddept, '.', kdunit, '.', kdprogram, '.', kdgiat, '.', kdoutput, '.', kdkmpnen) AS komponen FROM `su_d_item` WHERE thang='".$thang."' AND kdsatker='".$kdsatker."' GROUP BY komponen")->queryAll();
-$imp = "'" . implode( "','", (ArrayHelper::getColumn($komponen, 'komponen')) ) . "'";
-$arr_komponen = Yii::$app->db->createCommand("SELECT a.* FROM (SELECT *, CONCAT(thang, '.', kddept, '.', kdunit, '.', kdprogram, '.', kdgiat, '.', kdoutput, '.', kdkmpnen) AS komponen, 
-    CONCAT('[', kdkmpnen, '] ', nmkmpnen) AS nmkmpnen2 FROM `su_t_komponen`) a WHERE a.komponen IN (".$imp.")")->queryAll();
-// print_r($komponen);
-// print_r($imp);
-// print_r($arr_komponen);
+$arr_prg = Yii::$app->db->createCommand("SELECT *, CONCAT(kode, ' - ', deskripsi) AS prg FROM su_t_new_program WHERE tahun='".$thang."'")->queryAll();
+$arr_keg = Yii::$app->db->createCommand("SELECT *, CONCAT(kode, ' - ', deskripsi) AS keg FROM su_t_new_kegiatan WHERE tahun='".$thang."'")->queryAll();
+$arr_kro = Yii::$app->db->createCommand("SELECT *, CONCAT(kode, ' - ', deskripsi) AS kro FROM su_t_new_kro WHERE tahun='".$thang."'")->queryAll();
+$arr_ro = Yii::$app->db->createCommand("SELECT *, CONCAT(kode, ' - ', deskripsi) AS ro FROM su_t_new_ro WHERE tahun='".$thang."'")->queryAll();
+$arr_komponen = Yii::$app->db->createCommand("SELECT *, CONCAT(kode, ' - ', deskripsi) AS komponen FROM su_t_new_komponen WHERE tahun='".$thang."'")->queryAll();
+$arr_subkomponen = Yii::$app->db->createCommand("SELECT *, CONCAT(kode, ' - ', deskripsi) AS subkomponen FROM su_t_new_sub_komponen WHERE tahun='".$thang."'")->queryAll();
+$arr_akun = Yii::$app->db->createCommand("SELECT *, CONCAT(kode, ' - ', deskripsi) AS akun FROM su_t_new_akun WHERE tahun='".$thang."'")->queryAll();
 
 
 ?>
+
+<?= Html::errorSummary($model, ['encode' => false]) ?>
 
 <div class="st-spd-form">
 
@@ -289,10 +267,10 @@ $arr_komponen = Yii::$app->db->createCommand("SELECT a.* FROM (SELECT *, CONCAT(
 
     <div class="row">
         <div class="col-sm-6">
-            <!-- <?= $form->field($model, 'kode_program')->textInput(['maxlength' => true]) ?> -->
-            <?= $form->field($model, 'kode_program')->widget(Select2::classname(), [
-                // 'data' => ArrayHelper::map(Program::find()->all(),'kode','uraian'),
-                'data' => ArrayHelper::map($arr_prg,'id','nmprogram2'),
+            <!-- <?= $form->field($model, 'xkode_program')->textInput(['maxlength' => true]) ?> -->
+            <?= $form->field($model, 'xkode_program')->widget(Select2::classname(), [
+                // 'data' => ArrayHelper::map(TNewProgram::find()->where(["tahun"=>Date("Y")])->all(),'id','kode'),
+                'data' => ArrayHelper::map($arr_prg,'id','prg'),
                 'options' => ['placeholder' => 'Pilih program ...', 'class' => 'dependent-input form-control', 'data-next' => 'stspd-kode_kegiatan'],
                 'pluginOptions' => [
                     'allowClear' => true
@@ -301,10 +279,10 @@ $arr_komponen = Yii::$app->db->createCommand("SELECT a.* FROM (SELECT *, CONCAT(
             ?>
         </div>
         <div class="col-sm-6">
-            <!-- <?= $form->field($model, 'kode_kegiatan')->textInput() ?> -->
-            <?= $form->field($model, 'kode_kegiatan')->widget(Select2::classname(), [
+            <!-- <?= $form->field($model, 'xkode_kegiatan')->textInput() ?> -->
+            <?= $form->field($model, 'xkode_kegiatan')->widget(Select2::classname(), [
                 // 'data' => ArrayHelper::map(Kegiatan::find()->all(),'kode','uraian'),
-                'data' => ArrayHelper::map($arr_keg,'id','nmgiat2'),
+                'data' => ArrayHelper::map($arr_keg,'id','keg'),
                 'options' => ['placeholder' => 'Pilih kegiatan ...', 'class' => 'dependent-input form-control', 'data-next' => 'stspd-kode_output'],
                 'pluginOptions' => [
                     'allowClear' => true
@@ -316,10 +294,9 @@ $arr_komponen = Yii::$app->db->createCommand("SELECT a.* FROM (SELECT *, CONCAT(
 
     <div class="row">
         <div class="col-sm-6">
-            <!-- <?= $form->field($model, 'kode_output')->textInput() ?> -->
-            <?= $form->field($model, 'kode_output')->widget(Select2::classname(), [
+            <?= $form->field($model, 'xkode_kro')->widget(Select2::classname(), [
                 // 'data' => ArrayHelper::map(Output::find()->all(),'kode','uraian'),
-                'data' => ArrayHelper::map($arr_output,'id','nmoutput2'),
+                'data' => ArrayHelper::map($arr_kro,'id','kro'),
                 'options' => ['placeholder' => 'Pilih Output ...', 'class' => 'dependent-input form-control', 'data-next' => 'stspd-kode_komponen'],
                 'pluginOptions' => [
                     'allowClear' => true
@@ -328,10 +305,10 @@ $arr_komponen = Yii::$app->db->createCommand("SELECT a.* FROM (SELECT *, CONCAT(
             ?>
         </div>
         <div class="col-sm-6">
-            <!-- <?= $form->field($model, 'kode_komponen')->textInput() ?> -->
-            <?= $form->field($model, 'kode_komponen')->widget(Select2::classname(), [
+            <!-- <?= $form->field($model, 'xkode_ro')->textInput() ?> -->
+            <?= $form->field($model, 'xkode_ro')->widget(Select2::classname(), [
                 // 'data' => ArrayHelper::map(Komponen::find()->all(),'id','uraian'),
-                'data' => ArrayHelper::map($arr_komponen,'id','nmkmpnen2'),
+                'data' => ArrayHelper::map($arr_ro,'id','ro'),
                 'options' => ['placeholder' => 'Pilih Komponen ...'],
                 'pluginOptions' => [
                     'allowClear' => true
@@ -340,6 +317,32 @@ $arr_komponen = Yii::$app->db->createCommand("SELECT a.* FROM (SELECT *, CONCAT(
             ?>
         </div>
     </div>
+
+    <div class="row">
+        <div class="col-sm-6">
+            <?= $form->field($model, 'xkode_komponen')->widget(Select2::classname(), [
+                // 'data' => ArrayHelper::map(Output::find()->all(),'kode','uraian'),
+                'data' => ArrayHelper::map($arr_komponen,'id','komponen'),
+                'options' => ['placeholder' => 'Pilih Output ...', 'class' => 'dependent-input form-control', 'data-next' => 'stspd-kode_komponen'],
+                'pluginOptions' => [
+                    'allowClear' => true
+                ],
+            ]);
+            ?>
+        </div>
+        <div class="col-sm-6">
+            <?= $form->field($model, 'xkode_subkomponen')->widget(Select2::classname(), [
+                // 'data' => ArrayHelper::map(Komponen::find()->all(),'id','uraian'),
+                'data' => ArrayHelper::map($arr_subkomponen,'id','subkomponen'),
+                'options' => ['placeholder' => 'Pilih Komponen ...'],
+                'pluginOptions' => [
+                    'allowClear' => true
+                ],
+            ]);
+            ?>
+        </div>
+    </div>
+
 
     <!-- <?= $form->field($model, 'st_path')->textInput(['maxlength' => true]) ?> -->
 
@@ -379,9 +382,9 @@ $arr_komponen = Yii::$app->db->createCommand("SELECT a.* FROM (SELECT *, CONCAT(
         </div>
     </div>
 
-    <!-- <?= $form->field($model, 'id_akun')->textInput() ?> -->
-    <?= $form->field($model, 'id_akun')->widget(Select2::classname(), [
-        'data' => ArrayHelper::map(Akun::find()->all(),'id','uraian'),
+    <!-- <?= $form->field($model, 'xid_akun')->textInput() ?> -->
+    <?= $form->field($model, 'xid_akun')->widget(Select2::classname(), [
+        'data' => ArrayHelper::map($arr_akun,'id','akun'),
         'options' => ['placeholder' => 'Pilih akun ...'],
         'pluginOptions' => [
             'allowClear' => true

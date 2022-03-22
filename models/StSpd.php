@@ -33,6 +33,13 @@ use PhpOffice\PhpWord\TemplateProcessor;
  * @property string $nip_ppk
  * @property string $nip_bendahara
  * @property int $id_akun
+ * @property int $xkode_program
+ * @property int $xkode_kegiatan
+ * @property int $xkode_kro
+ * @property int $xkode_ro
+ * @property int $xkode_komponen
+ * @property int $xkode_subkomponen
+ * @property int $xid_akun
  *
  * @property Instansi $instansi
  * @property Akun $akun
@@ -46,6 +53,14 @@ use PhpOffice\PhpWord\TemplateProcessor;
  * @property Pegawai $nipPpk
  * @property Pegawai $nipBendahara
  * @property StSpdAnggota[] $stSpdAnggotas
+ * @property Pegawai $nipPpkDukman
+ * @property TNewProgram $xkodeProgram
+ * @property TNewKegiatan $xkodeKegiatan
+ * @property TNewKro $xkodeKro
+ * @property TNewRo $xkodeRo
+ * @property TNewKomponen $xkodeKomponen
+ * @property TNewSubKomponen $xkodeSubkomponen
+ * 
  */
 class StSpd extends \yii\db\ActiveRecord
 {
@@ -136,8 +151,8 @@ class StSpd extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['nomor_st', 'tanggal_terbit', 'nip', 'nomor_spd', 'maksud', 'kota_asal', 'kota_tujuan', 'tanggal_pergi', 'tanggal_kembali', 'tingkat_perjalanan_dinas', 'id_kendaraan', 'nip_kepala', 'nip_ppk', 'nip_bendahara', 'id_akun', 'flag_with_spd'], 'required'],
-            [['tanggal_terbit', 'tanggal_pergi', 'tanggal_kembali', 'id_instansi', 'kode_program', 'kode_kegiatan', 'kode_output', 'kode_komponen'], 'safe'],
+            [['nomor_st', 'tanggal_terbit', 'nip', 'nomor_spd', 'maksud', 'kota_asal', 'kota_tujuan', 'tanggal_pergi', 'tanggal_kembali', 'tingkat_perjalanan_dinas', 'id_kendaraan', 'nip_kepala', 'nip_ppk', 'nip_bendahara', 'flag_with_spd', 'xkode_program', 'xkode_kegiatan', 'xkode_kro', 'xkode_ro', 'xkode_komponen', 'xkode_subkomponen', 'xid_akun' ], 'required'],
+            [['tanggal_terbit', 'tanggal_pergi', 'tanggal_kembali', 'id_instansi', 'kode_program', 'kode_kegiatan', 'kode_output', 'kode_komponen', 'id_akun'], 'safe'],
             [['nip', 'id_kendaraan', 'kode_kegiatan', 'kode_output', 'kode_komponen', 'id_instansi', 'nip_kepala', 'nip_ppk', 'nip_bendahara', 'id_akun'], 'integer'],
             [['maksud'], 'string'],
             [['nomor_st', 'nomor_spd', 'st_path'], 'string', 'max' => 120],
@@ -156,6 +171,14 @@ class StSpd extends \yii\db\ActiveRecord
             [['nip_kepala'], 'exist', 'skipOnError' => true, 'targetClass' => Pegawai::className(), 'targetAttribute' => ['nip_kepala' => 'nip']],
             [['nip_ppk'], 'exist', 'skipOnError' => true, 'targetClass' => Pegawai::className(), 'targetAttribute' => ['nip_ppk' => 'nip']],
             [['nip_bendahara'], 'exist', 'skipOnError' => true, 'targetClass' => Pegawai::className(), 'targetAttribute' => ['nip_bendahara' => 'nip']],
+            //tambah manual
+            [['xkode_program'], 'exist', 'skipOnError' => true, 'targetClass' => TNewProgram::className(), 'targetAttribute' => ['xkode_program' => 'id']],
+            [['xkode_kegiatan'], 'exist', 'skipOnError' => true, 'targetClass' => TNewKegiatan::className(), 'targetAttribute' => ['xkode_kegiatan' => 'id']],
+            [['xkode_kro'], 'exist', 'skipOnError' => true, 'targetClass' => TNewKro::className(), 'targetAttribute' => ['xkode_kro' => 'id']],
+            [['xkode_ro'], 'exist', 'skipOnError' => true, 'targetClass' => TNewRo::className(), 'targetAttribute' => ['xkode_ro' => 'id']],
+            [['xkode_komponen'], 'exist', 'skipOnError' => true, 'targetClass' => TNewKomponen::className(), 'targetAttribute' => ['xkode_komponen' => 'id']],
+            [['xid_akun'], 'exist', 'skipOnError' => true, 'targetClass' => TNewAkun::className(), 'targetAttribute' => ['xid_akun' => 'id']],
+            
             // custom
             [['id_instansi'], 'required', 'on'=>self::SCENARIO_ADMIN],
             [['tanggal_pergi'], 'authenticate_t_pergi', 'on'=>self::SCENARIO_INSERT],
@@ -232,6 +255,13 @@ class StSpd extends \yii\db\ActiveRecord
             'nip_bendahara' => 'Bendahara',
             'id_akun' => 'Id Akun',
             'flag_with_spd' => 'Flag With SPD',
+            'xkode_program' => 'Kode Program',
+            'xkode_kegiatan' => 'Kode Kegiatan',
+            'xkode_kro' => 'Kode KRO',
+            'xkode_ro' => 'Kode RO',
+            'xkode_komponen' => 'Kode Komponen',
+            'xkode_subkomponen' => 'Kode Sub Komponen',
+            'xid_akun' => 'Id Akun',
         ];
     }
 
@@ -333,6 +363,46 @@ class StSpd extends \yii\db\ActiveRecord
     public function getStSpdAnggotas()
     {
         return $this->hasMany(StSpdAnggota::className(), ['id_st_spd' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getXkodeProgram()
+    {
+        return $this->hasOne(TNewProgram::className(), ['id' => 'kode_program']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getXkodeKegiatan()
+    {
+        return $this->hasOne(TNewKegiatan::className(), ['id' => 'kode_kegiatan']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getXKodeKro()
+    {
+        return $this->hasOne(TNewKro::className(), ['id' => 'kode_kro']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getXKodeRo()
+    {
+        return $this->hasOne(TNewRo::className(), ['id' => 'kode_ro']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getXkodeKomponen()
+    {
+        return $this->hasOne(TNewKomponen::className(), ['id' => 'kode_komponen']);
     }
     
     // custom, generated pdf before save or insert
