@@ -54,34 +54,22 @@ $this->params['breadcrumbs'][] = $this->title;
                     'attribute' => 'id_kendaraan',
                     'value' => $model->kendaraan->nama_kendaraan,
                 ],
-                // // 'kode_program',
-                // [
-                //     'attribute' => 'kode_program',
-                //     // 'value' => str_pad($model->kode_output, 3, '0', STR_PAD_LEFT),
-                //     'value' => $model->kodeProgram->kddept.'.'.$model->kodeProgram->kdunit.'.'.$model->kodeProgram->kdprogram,
-                // ],
-                // // 'kode_kegiatan',
-                // [
-                //     'attribute' => 'kode_kegiatan',
-                //     // 'value' => str_pad($model->kode_output, 3, '0', STR_PAD_LEFT),
-                //     'value' => $model->kodeKegiatan->kdgiat,
-                // ],
-                // // 'kode_output',
-                // [
-                //     'attribute' => 'kode_output',
-                //     // 'value' => str_pad($model->kode_output, 3, '0', STR_PAD_LEFT),
-                //     'value' => $model->kodeOutput->kdoutput,
-                // ],
-                // // 'kode_komponen',
-                // [
-                //     'attribute' => 'kode_komponen',
-                //     // 'value' => str_pad($model->kode_komponen, 3, '0', STR_PAD_LEFT),
-                //     'value' => $model->kodeKomponen->kdkmpnen,
-                // ],
-                // [
-                //     'attribute' => 'id_instansi',
-                //     'value' => $model->instansi->instansi,
-                // ],
+                // 'kode_program',
+                [
+                    'attribute' => 'xkode_program',
+                    // 'value' => str_pad($model->kode_output, 3, '0', STR_PAD_LEFT),
+                    'value' => $model->xkodeProgram->kode.' - '.$model->xkodeProgram->deskripsi,
+                ],
+
+                // 'kode_kegiatan',
+                [
+                    'attribute' => 'xkode_kegiatan',
+                    // 'value' => str_pad($model->kode_output, 3, '0', STR_PAD_LEFT),
+                    'value' => $model->xkodeKegiatan->kode.' - '.$model->xkodeKegiatan->deskripsi,
+                ],
+
+
+
                 // 'nip_kepala',
                 // 'nip_ppk',
                 // 'nip_bendahara',

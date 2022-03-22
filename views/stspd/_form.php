@@ -101,10 +101,9 @@ $arr_komponen = Yii::$app->db->createCommand("SELECT *, CONCAT(kode, ' - ', desk
 $arr_subkomponen = Yii::$app->db->createCommand("SELECT *, CONCAT(kode, ' - ', deskripsi) AS subkomponen FROM su_t_new_sub_komponen WHERE tahun='".$thang."'")->queryAll();
 $arr_akun = Yii::$app->db->createCommand("SELECT *, CONCAT(kode, ' - ', deskripsi) AS akun FROM su_t_new_akun WHERE tahun='".$thang."'")->queryAll();
 
-
 ?>
 
-<?= Html::errorSummary($model, ['encode' => false]) ?>
+<?= Html::errorSummary($model, ['encode' => false, 'class' => 'alert alert-danger']) ?>
 
 <div class="st-spd-form">
 

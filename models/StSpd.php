@@ -370,7 +370,7 @@ class StSpd extends \yii\db\ActiveRecord
      */
     public function getXkodeProgram()
     {
-        return $this->hasOne(TNewProgram::className(), ['id' => 'kode_program']);
+        return $this->hasOne(TNewProgram::className(), ['id' => 'xkode_program']);
     }
 
     /**
@@ -378,7 +378,7 @@ class StSpd extends \yii\db\ActiveRecord
      */
     public function getXkodeKegiatan()
     {
-        return $this->hasOne(TNewKegiatan::className(), ['id' => 'kode_kegiatan']);
+        return $this->hasOne(TNewKegiatan::className(), ['id' => 'xkode_kegiatan']);
     }
 
     /**
@@ -386,7 +386,7 @@ class StSpd extends \yii\db\ActiveRecord
      */
     public function getXKodeKro()
     {
-        return $this->hasOne(TNewKro::className(), ['id' => 'kode_kro']);
+        return $this->hasOne(TNewKro::className(), ['id' => 'xkode_kro']);
     }
 
     /**
@@ -394,7 +394,7 @@ class StSpd extends \yii\db\ActiveRecord
      */
     public function getXKodeRo()
     {
-        return $this->hasOne(TNewRo::className(), ['id' => 'kode_ro']);
+        return $this->hasOne(TNewRo::className(), ['id' => 'xkode_ro']);
     }
 
     /**
@@ -402,7 +402,7 @@ class StSpd extends \yii\db\ActiveRecord
      */
     public function getXkodeKomponen()
     {
-        return $this->hasOne(TNewKomponen::className(), ['id' => 'kode_komponen']);
+        return $this->hasOne(TNewKomponen::className(), ['id' => 'xkode_komponen']);
     }
     
     // custom, generated pdf before save or insert
@@ -426,32 +426,32 @@ class StSpd extends \yii\db\ActiveRecord
         $count = StSpdAnggota::find()->where(['id_st_spd'=>$this->id])->count();
         switch ($count) {
             case 0:
-                $templateProcessor = new TemplateProcessor('template/template_st_spd_tanpa_anggota.docx');
+                $templateProcessor = new TemplateProcessor('template/template_2022/template_st_spd_tanpa_anggota.docx');
                 break;
             case 1:
-                $templateProcessor = new TemplateProcessor('template/template_st_spd_dengan_anggota_1.docx');
+                $templateProcessor = new TemplateProcessor('template/template_2022/template_st_spd_dengan_anggota_1.docx');
                 break;
             case 2:
-                $templateProcessor = new TemplateProcessor('template/template_st_spd_dengan_anggota_2.docx');
+                $templateProcessor = new TemplateProcessor('template/template_2022/template_st_spd_dengan_anggota_2.docx');
                 break;
             case 3:
-                $templateProcessor = new TemplateProcessor('template/template_st_spd_dengan_anggota_3.docx');
+                $templateProcessor = new TemplateProcessor('template/template_2022/template_st_spd_dengan_anggota_3.docx');
                 break;
             case 4:
-                $templateProcessor = new TemplateProcessor('template/template_st_spd_dengan_anggota_4.docx');
+                $templateProcessor = new TemplateProcessor('template/template_2022/template_st_spd_dengan_anggota_4.docx');
                 break;
             case 5:
-                $templateProcessor = new TemplateProcessor('template/template_st_spd_dengan_anggota_5.docx');
+                $templateProcessor = new TemplateProcessor('template/template_2022/template_st_spd_dengan_anggota_5.docx');
                 break;
             case 6:
-                $templateProcessor = new TemplateProcessor('template/template_st_spd_dengan_anggota_6.docx');
+                $templateProcessor = new TemplateProcessor('template/template_2022/template_st_spd_dengan_anggota_6.docx');
                 break;    
             default:
-               $templateProcessor = new TemplateProcessor('template/template_st_spd_tanpa_anggota.docx');
+               $templateProcessor = new TemplateProcessor('template/template_2022/template_st_spd_tanpa_anggota.docx');
         }
 
         if($this->flag_with_spd==0){
-            $templateProcessor = new TemplateProcessor('template/template_st_tanpa_spd.docx');
+            $templateProcessor = new TemplateProcessor('template/template_2022/template_st_tanpa_spd.docx');
         }
 
         // get attribute key & value for replace from this model 
@@ -466,10 +466,18 @@ class StSpd extends \yii\db\ActiveRecord
         $arr_instansi = Instansi::find()->where(['id'=>$this->instansi])->asArray()->one();
         $arr_kendaraan = Kendaraan::find()->where(['id'=>$this->id_kendaraan])->asArray()->one();
         
-        $arr_program = TProgram::find()->where(['id'=>$this->kode_program])->asArray()->one();
-        $arr_kegiatan = TGiat::find()->where(['id'=>$this->kode_kegiatan])->asArray()->one();
-        $arr_output = TOutput::find()->where(['id'=>$this->kode_output])->asArray()->one();
-        $arr_komponen = TKomponen::find()->where(['id'=>$this->kode_komponen])->asArray()->one();
+        // $arr_program = TProgram::find()->where(['id'=>$this->kode_program])->asArray()->one();
+        // $arr_kegiatan = TGiat::find()->where(['id'=>$this->kode_kegiatan])->asArray()->one();
+        // $arr_output = TOutput::find()->where(['id'=>$this->kode_output])->asArray()->one();
+        // $arr_komponen = TKomponen::find()->where(['id'=>$this->kode_komponen])->asArray()->one();
+
+        $arr_program = TNewProgram::find()->where(['id'=>$this->xkode_program])->asArray()->one();
+        $arr_kegiatan = TNewKegiatan::find()->where(['id'=>$this->xkode_kegiatan])->asArray()->one();
+        $arr_kro = TNewKro::find()->where(['id'=>$this->xkode_kro])->asArray()->one();
+        $arr_ro = TNewRo::find()->where(['id'=>$this->xkode_ro])->asArray()->one();
+        $arr_komponen = TNewKomponen::find()->where(['id'=>$this->xkode_komponen])->asArray()->one();
+        $arr_subkomponen = TNewSubKomponen::find()->where(['id'=>$this->xkode_subkomponen])->asArray()->one();
+        $arr_akun = TNewAkun::find()->where(['id'=>$this->xid_akun])->asArray()->one();
 
 
 
@@ -482,10 +490,21 @@ class StSpd extends \yii\db\ActiveRecord
         // $templateProcessor->setValue('kode_output', str_pad($this->kode_output, 3, '0', STR_PAD_LEFT));
         // $templateProcessor->setValue('kode_komponen', str_pad($this->kode_komponen, 3, '0', STR_PAD_LEFT));
         
-        // $templateProcessor->setValue('kode_program', $arr_program['kddept'].'.'.$arr_program['kdunit'].'.'.$arr_program['kdprogram']);
-        // $templateProcessor->setValue('kode_kegiatan', $arr_kegiatan['kdgiat']);
-        // $templateProcessor->setValue('kode_output', $arr_output['kdoutput']);
-        // $templateProcessor->setValue('kode_komponen', $arr_komponen['kdkmpnen']);
+        $templateProcessor->setValue('kode_program', $arr_program['kode']);
+        $templateProcessor->setValue('kode_kegiatan', $arr_kegiatan['kode']);
+        $templateProcessor->setValue('kode_kro', $arr_kro['kode']);
+        $templateProcessor->setValue('kode_ro', $arr_ro['kode']);
+        $templateProcessor->setValue('kode_komponen', $arr_komponen['kode']);
+        $templateProcessor->setValue('kode_subkomponen', $arr_subkomponen['kode']);
+        $templateProcessor->setValue('kode_akun', $arr_akun['kode']);
+        
+        $templateProcessor->setValue('des_program', htmlspecialchars($arr_program['deskripsi']));
+        $templateProcessor->setValue('des_kegiatan', htmlspecialchars($arr_kegiatan['deskripsi']));
+        $templateProcessor->setValue('des_kro', htmlspecialchars($arr_kro['deskripsi']));
+        $templateProcessor->setValue('des_ro', htmlspecialchars($arr_ro['deskripsi']));
+        $templateProcessor->setValue('des_komponen', htmlspecialchars($arr_komponen['deskripsi']));
+        $templateProcessor->setValue('des_subkomponen', htmlspecialchars($arr_subkomponen['deskripsi']));
+        $templateProcessor->setValue('des_kodeakun', htmlspecialchars($arr_akun['deskripsi']));
         
         $templateProcessor->setValue('tanggal_terbit', (int)Yii::$app->formatter->asDate($this->tanggal_terbit, "dd").' '.self::BULAN[Yii::$app->formatter->asDate($this->tanggal_terbit, "M")].' '.Yii::$app->formatter->asDate($this->tanggal_terbit, "Y"));
         $templateProcessor->setValue('tanggal_pergi', (int)Yii::$app->formatter->asDate($this->tanggal_pergi, "dd").' '.self::BULAN[Yii::$app->formatter->asDate($this->tanggal_pergi, "M")].' '.Yii::$app->formatter->asDate($this->tanggal_terbit, "Y"));
