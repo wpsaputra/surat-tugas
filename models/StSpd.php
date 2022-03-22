@@ -136,8 +136,8 @@ class StSpd extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['nomor_st', 'tanggal_terbit', 'nip', 'nomor_spd', 'maksud', 'kota_asal', 'kota_tujuan', 'tanggal_pergi', 'tanggal_kembali', 'tingkat_perjalanan_dinas', 'id_kendaraan', 'kode_program', 'kode_kegiatan', 'kode_output', 'kode_komponen', 'nip_kepala', 'nip_ppk', 'nip_bendahara', 'id_akun', 'flag_with_spd'], 'required'],
-            [['tanggal_terbit', 'tanggal_pergi', 'tanggal_kembali', 'id_instansi'], 'safe'],
+            [['nomor_st', 'tanggal_terbit', 'nip', 'nomor_spd', 'maksud', 'kota_asal', 'kota_tujuan', 'tanggal_pergi', 'tanggal_kembali', 'tingkat_perjalanan_dinas', 'id_kendaraan', 'nip_kepala', 'nip_ppk', 'nip_bendahara', 'id_akun', 'flag_with_spd'], 'required'],
+            [['tanggal_terbit', 'tanggal_pergi', 'tanggal_kembali', 'id_instansi', 'kode_program', 'kode_kegiatan', 'kode_output', 'kode_komponen'], 'safe'],
             [['nip', 'id_kendaraan', 'kode_kegiatan', 'kode_output', 'kode_komponen', 'id_instansi', 'nip_kepala', 'nip_ppk', 'nip_bendahara', 'id_akun'], 'integer'],
             [['maksud'], 'string'],
             [['nomor_st', 'nomor_spd', 'st_path'], 'string', 'max' => 120],
@@ -411,10 +411,11 @@ class StSpd extends \yii\db\ActiveRecord
 
         // $templateProcessor->setValue('kode_output', str_pad($this->kode_output, 3, '0', STR_PAD_LEFT));
         // $templateProcessor->setValue('kode_komponen', str_pad($this->kode_komponen, 3, '0', STR_PAD_LEFT));
-        $templateProcessor->setValue('kode_program', $arr_program['kddept'].'.'.$arr_program['kdunit'].'.'.$arr_program['kdprogram']);
-        $templateProcessor->setValue('kode_kegiatan', $arr_kegiatan['kdgiat']);
-        $templateProcessor->setValue('kode_output', $arr_output['kdoutput']);
-        $templateProcessor->setValue('kode_komponen', $arr_komponen['kdkmpnen']);
+        
+        // $templateProcessor->setValue('kode_program', $arr_program['kddept'].'.'.$arr_program['kdunit'].'.'.$arr_program['kdprogram']);
+        // $templateProcessor->setValue('kode_kegiatan', $arr_kegiatan['kdgiat']);
+        // $templateProcessor->setValue('kode_output', $arr_output['kdoutput']);
+        // $templateProcessor->setValue('kode_komponen', $arr_komponen['kdkmpnen']);
         
         $templateProcessor->setValue('tanggal_terbit', (int)Yii::$app->formatter->asDate($this->tanggal_terbit, "dd").' '.self::BULAN[Yii::$app->formatter->asDate($this->tanggal_terbit, "M")].' '.Yii::$app->formatter->asDate($this->tanggal_terbit, "Y"));
         $templateProcessor->setValue('tanggal_pergi', (int)Yii::$app->formatter->asDate($this->tanggal_pergi, "dd").' '.self::BULAN[Yii::$app->formatter->asDate($this->tanggal_pergi, "M")].' '.Yii::$app->formatter->asDate($this->tanggal_terbit, "Y"));

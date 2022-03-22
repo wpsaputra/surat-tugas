@@ -76,7 +76,7 @@ class StspdNewController extends Controller
         }
 
         if ($model->loadAll(Yii::$app->request->post()) && $model->saveAll()) {
-            $model->createDocx();
+            // $model->createDocx();
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
@@ -95,15 +95,24 @@ class StspdNewController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        $model = $this->findModel($id);;
+        $modelsAnggota = $model->stSpdAnggotaNews;
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        // Only admin can change pegawai instansi otherwise auto_fill_instansi_with_user
+        if(Yii::$app->user->identity->role==99){
+            $model->setScenario(StSpdNew::SCENARIO_ADMIN);
+            $model->detachBehavior("auto_fill_instansi_with_user");
         }
 
-        return $this->render('update', [
-            'model' => $model,
-        ]);
+        if ($model->loadAll(Yii::$app->request->post()) && $model->saveAll()) {
+            $model->createDocx();
+            return $this->redirect(['view', 'id' => $model->id]);
+        } else {
+            return $this->render('update', [
+                'model' => $model,
+                'modelsAnggota' => (empty($modelsAnggota)) ? [new StSpdAnggotaNew] : $modelsAnggota
+            ]);
+        }
     }
 
     /**
