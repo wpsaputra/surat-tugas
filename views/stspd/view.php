@@ -85,7 +85,13 @@ $this->params['breadcrumbs'][] = $this->title;
                     'attribute' => 'nip_bendahara',
                     'value' => $model->nipBendahara->nama,
                 ],
-                'id_akun',
+                // 'xid_akun',
+                // 'kode_kegiatan',
+                [
+                    'attribute' => 'xid_akun',
+                    // 'value' => str_pad($model->kode_output, 3, '0', STR_PAD_LEFT),
+                    'value' => $model->xidAkun->kode.' - '.$model->xidAkun->deskripsi,
+                ],
                 // 'flag_with_spd',
                 [
                     'attribute' => 'flag_with_spd',

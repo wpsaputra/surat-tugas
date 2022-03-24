@@ -420,6 +420,11 @@ class StSpd extends \yii\db\ActiveRecord
         return true;
     }
 
+    public function getXidAkun()
+    {
+        return $this->hasOne(TNewAkun::className(), ['id' => 'xid_akun']);
+    }
+
     public function createDocx()
     {
         // set template based on anggota count
@@ -486,6 +491,7 @@ class StSpd extends \yii\db\ActiveRecord
         $templateProcessor->setValue('nama_ppk', $arr_ppk['nama']);
         $templateProcessor->setValue('id_instansi', $arr_instansi['instansi']);
         $templateProcessor->setValue('c_id_instansi', strtoupper($arr_instansi['instansi']));
+        $templateProcessor->setValue('d_id_instansi', str_replace("BPS ", "",strtoupper($arr_instansi['instansi'])));
 
         // $templateProcessor->setValue('kode_output', str_pad($this->kode_output, 3, '0', STR_PAD_LEFT));
         // $templateProcessor->setValue('kode_komponen', str_pad($this->kode_komponen, 3, '0', STR_PAD_LEFT));
