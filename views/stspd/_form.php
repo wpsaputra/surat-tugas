@@ -18,6 +18,7 @@ use app\models\Output;
 use app\models\Komponen;
 use app\models\Kendaraan;
 use app\models\Akun;
+use app\models\FlagPpkDukman;
 use app\models\Instansi;
 use app\models\StSpdAnggota;
 use kartik\date\DatePicker;
@@ -56,8 +57,12 @@ $js2 = '$(".dependent-input").on("change", function() {
 	});
 });';
 
+
+
+
 $this->registerJS($js);
 $this->registerJS($js2);
+
 
 $arr_kepala = ArrayHelper::map(FlagKepala::find()->where(["id_instansi" => Yii::$app->user->identity->id_instansi])->all(),'nip','id_instansi');
 foreach ($arr_kepala as $key => $value) {
@@ -69,6 +74,17 @@ foreach ($arr_ppk as $key => $value) {
     $arr_ppk[$key] = Pegawai::findOne($key)->nama;
 }
 
+
+
+$arr_ppk_dukman = ArrayHelper::map(FlagPpkDukman::find()->where(["id_instansi" => Yii::$app->user->identity->id_instansi])->all(),'nip','id_instansi');
+foreach ($arr_ppk_dukman as $key => $value) {
+    $arr_ppk_dukman[$key] = Pegawai::findOne($key)->nama;
+}
+
+$arr_ppk_gabung = array_replace($arr_ppk, $arr_ppk_dukman);
+
+print_r($arr_ppk_gabung);
+
 $arr_bendahara = ArrayHelper::map(FlagBendahara::find()->where(["id_instansi" => Yii::$app->user->identity->id_instansi])->all(),'nip','id_instansi');
 foreach ($arr_bendahara as $key => $value) {
     $arr_bendahara[$key] = Pegawai::findOne($key)->nama;
@@ -76,6 +92,32 @@ foreach ($arr_bendahara as $key => $value) {
 
 $arr_model_attr = array_keys($model->attributes);
 $arr_model_val = array_values($model->attributes);
+
+$js3 = '$("#xkode_program").on("change", function() {
+	var value = $(this).val();
+    console.log("xkode_program", value);
+    $("#nip_ppk").val(null).trigger("change");
+
+    var ppk_ppis ='.json_encode($arr_ppk_gabung).';
+    var data = {
+        id: 1,
+        text: "Barn owl"
+    };
+    
+    var newOption = new Option(data.text, data.id, false, false);
+
+    if(value==1){
+        //PPK PPIS
+        console.log(ppk_ppis);
+        // $("#nip_ppk").select2({data: data});
+        $("#nip_ppk").append(newOption).trigger("change");
+
+    }else{
+        //PPK DUKMAN
+
+    }
+});';
+$this->registerJS($js3);
 
 
 // print_r($arr_model_attr);
@@ -270,7 +312,7 @@ $arr_akun = Yii::$app->db->createCommand("SELECT *, CONCAT(kode, ' - ', deskrips
             <?= $form->field($model, 'xkode_program')->widget(Select2::classname(), [
                 // 'data' => ArrayHelper::map(TNewProgram::find()->where(["tahun"=>Date("Y")])->all(),'id','kode'),
                 'data' => ArrayHelper::map($arr_prg,'id','prg'),
-                'options' => ['placeholder' => 'Pilih program ...', 'class' => 'dependent-input form-control', 'data-next' => 'stspd-kode_kegiatan'],
+                'options' => ['placeholder' => 'Pilih program ...', 'class' => 'dependent-input form-control', 'data-next' => 'stspd-kode_kegiatan', 'id'=>"xkode_program"],
                 'pluginOptions' => [
                     'allowClear' => true
                 ],
@@ -360,8 +402,8 @@ $arr_akun = Yii::$app->db->createCommand("SELECT *, CONCAT(kode, ' - ', deskrips
         <div class="col-sm-4">
             <!-- <?= $form->field($model, 'nip_ppk')->textInput(['maxlength' => true]) ?> -->
             <?= $form->field($model, 'nip_ppk')->widget(Select2::classname(), [
-                'data' => $arr_ppk,
-                'options' => ['placeholder' => 'Pilih pegawai ...'],
+                'data' => $arr_ppk_gabung,
+                'options' => ['placeholder' => 'Pilih pegawai ...', 'id'=>"nip_ppk"],
                 'pluginOptions' => [
                     'allowClear' => true
                 ],
