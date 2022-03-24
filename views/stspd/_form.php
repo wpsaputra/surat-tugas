@@ -83,8 +83,6 @@ foreach ($arr_ppk_dukman as $key => $value) {
 
 $arr_ppk_gabung = array_replace($arr_ppk, $arr_ppk_dukman);
 
-print_r($arr_ppk_gabung);
-
 $arr_bendahara = ArrayHelper::map(FlagBendahara::find()->where(["id_instansi" => Yii::$app->user->identity->id_instansi])->all(),'nip','id_instansi');
 foreach ($arr_bendahara as $key => $value) {
     $arr_bendahara[$key] = Pegawai::findOne($key)->nama;
@@ -96,7 +94,7 @@ $arr_model_val = array_values($model->attributes);
 $js3 = '$("#xkode_program").on("change", function() {
 	var value = $(this).val();
     console.log("xkode_program", value);
-    $("#nip_ppk").val(null).trigger("change");
+    // $("#nip_ppk").val(null).trigger("change");
 
     var ppk_ppis ='.json_encode($arr_ppk_gabung).';
     var data = {
@@ -107,17 +105,42 @@ $js3 = '$("#xkode_program").on("change", function() {
     var newOption = new Option(data.text, data.id, false, false);
 
     if(value==1){
-        //PPK PPIS
+        //SHOW PPK PPIS
         console.log(ppk_ppis);
         // $("#nip_ppk").select2({data: data});
-        $("#nip_ppk").append(newOption).trigger("change");
+        // $("#nip_ppk").empty();
+        // $("#nip_ppk").prepend("<option selected=""></option>").select2({placeholder: "Pilih Pegawai ..."});
+        // $("#nip_ppk").prepend("<option selected></option>").select2({
+        //     placeholder: "Select Month",
+        //     allowClear: true
+        // });
+        // $("#nip_ppk").append(newOption).trigger("change");
+        $("#nip_ppk option[value=\"197907092000121002\"]").prop("disabled",false).trigger("change");
+        // $("#nip_ppk").select2();
+
+        $("#box-ppis").removeClass("hidden");
+        $("#box-dukman").addClass("hidden");
+
+
 
     }else{
         //PPK DUKMAN
+        $("#box-ppis").addClass("hidden");
+        $("#box-dukman").removeClass("hidden");
 
     }
 });';
 $this->registerJS($js3);
+
+$js4 = '$("#nip_ppk_ppis, #nip_ppk_dukman").on("change", function() {
+    console.log("JS 4");
+	var value = $(this).val();
+    console.log(value);
+    $("#nip_ppk").val(value).trigger("change");
+});
+$("#nip_ppk").addClass("hidden");
+';
+$this->registerJS($js4);
 
 
 // print_r($arr_model_attr);
@@ -401,14 +424,46 @@ $arr_akun = Yii::$app->db->createCommand("SELECT *, CONCAT(kode, ' - ', deskrips
         </div>
         <div class="col-sm-4">
             <!-- <?= $form->field($model, 'nip_ppk')->textInput(['maxlength' => true]) ?> -->
-            <?= $form->field($model, 'nip_ppk')->widget(Select2::classname(), [
-                'data' => $arr_ppk_gabung,
-                'options' => ['placeholder' => 'Pilih pegawai ...', 'id'=>"nip_ppk"],
-                'pluginOptions' => [
-                    'allowClear' => true
-                ],
-            ]);
-            ?>
+            <div class="">
+                <?= $form->field($model, 'nip_ppk')->widget(Select2::classname(), [
+                    'data' => $arr_ppk_gabung,
+                    'options' => ['placeholder' => 'Pilih pegawai ...', 'id'=>"nip_ppk"],
+                    'pluginOptions' => [
+                        'allowClear' => true
+                    ],
+                ]);
+                ?>
+            </div>
+            <div id="box-ppis">
+                <?php
+                    
+                    echo '<label class="control-label">PPK PPIS</label>';
+                    echo Select2::widget([
+                        'name' => 'nip_ppk_ppis',
+                        'data' => $arr_ppk,
+                        'options' => ['placeholder' => 'Pilih pegawai ...', 'id'=>"nip_ppk_ppis"],
+                        'pluginOptions' => [
+                            'allowClear' => true
+                        ],
+                    ]);
+
+                ?>
+            </div>
+            <div id="box-dukman" class="hidden">
+                <?php
+                    
+                    echo '<label class="control-label">PPK DUKMAN</label>';
+                    echo Select2::widget([
+                        'name' => 'nip_ppk_dukman',
+                        'data' => $arr_ppk_dukman,
+                        'options' => ['placeholder' => 'Pilih pegawai ...', 'id'=>"nip_ppk_dukman"],
+                        'pluginOptions' => [
+                            'allowClear' => true
+                        ],
+                    ]);
+
+                ?>
+            </div>
         </div>
         <div class="col-sm-4">
             <!-- <?= $form->field($model, 'nip_bendahara')->textInput(['maxlength' => true]) ?> -->
