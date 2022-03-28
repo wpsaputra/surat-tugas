@@ -91,15 +91,15 @@ foreach ($arr_bendahara as $key => $value) {
 $arr_model_attr = array_keys($model->attributes);
 $arr_model_val = array_values($model->attributes);
 
-$js5 = '$("#xkode_program").on("change", function() {
+$js5 = '$("#stspd-xkode_program").on("change", function() {
 	var value = $(this).val();
     console.log("xkode_program", value);
 
     var ppk_ppis ='.json_encode($arr_ppk).';
     var ppk_dukman ='.json_encode($arr_ppk_dukman).';
     
-    $("#nip_ppk option:gt(0)").remove();
-    var $el = $("#nip_ppk");
+    $("#stspd-nip_ppk option:gt(0)").remove();
+    var $el = $("#stspd-nip_ppk");
 
     if(value==1){
         //SHOW PPK PPIS
@@ -312,7 +312,7 @@ $arr_akun = Yii::$app->db->createCommand("SELECT *, CONCAT(kode, ' - ', deskrips
             <?= $form->field($model, 'xkode_program')->widget(Select2::classname(), [
                 // 'data' => ArrayHelper::map(TNewProgram::find()->where(["tahun"=>Date("Y")])->all(),'id','kode'),
                 'data' => ArrayHelper::map($arr_prg,'id','prg'),
-                'options' => ['placeholder' => 'Pilih program ...', 'class' => 'dependent-input form-control', 'data-next' => 'stspd-kode_kegiatan', 'id'=>"xkode_program"],
+                'options' => ['placeholder' => 'Pilih program ...', 'class' => 'dependent-input form-control', 'data-next' => 'stspd-kode_kegiatan', 'id'=>"stspd-xkode_program"],
                 'pluginOptions' => [
                     'allowClear' => true
                 ],
@@ -403,7 +403,7 @@ $arr_akun = Yii::$app->db->createCommand("SELECT *, CONCAT(kode, ' - ', deskrips
             <!-- <?= $form->field($model, 'nip_ppk')->textInput(['maxlength' => true]) ?> -->
             <?= $form->field($model, "nip_ppk")->dropDownList(
                 $arr_ppk_gabung,
-                ['prompt'=>'Pilih pegawai ...', "id"=>"nip_ppk"]
+                ['prompt'=>'Pilih pegawai ...', "id"=>"stspd-nip_ppk"]
             )?>
         </div>
         <div class="col-sm-4">

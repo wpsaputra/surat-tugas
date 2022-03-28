@@ -492,6 +492,11 @@ class StSpd extends \yii\db\ActiveRecord
         $templateProcessor->setValue('id_instansi', $arr_instansi['instansi']);
         $templateProcessor->setValue('c_id_instansi', strtoupper($arr_instansi['instansi']));
         $templateProcessor->setValue('d_id_instansi', str_replace("BPS ", "",strtoupper($arr_instansi['instansi'])));
+        $templateProcessor->setValue('alamat', $arr_instansi['alamat']);
+        $templateProcessor->setValue('telepon', $arr_instansi['telepon']);
+        $templateProcessor->setValue('fax', $arr_instansi['fax']);
+        $templateProcessor->setValue('email', $arr_instansi['email']);
+        $templateProcessor->setValue('homepage', $arr_instansi['homepage']);
 
         // $templateProcessor->setValue('kode_output', str_pad($this->kode_output, 3, '0', STR_PAD_LEFT));
         // $templateProcessor->setValue('kode_komponen', str_pad($this->kode_komponen, 3, '0', STR_PAD_LEFT));
@@ -503,6 +508,7 @@ class StSpd extends \yii\db\ActiveRecord
         $templateProcessor->setValue('kode_komponen', $arr_komponen['kode']);
         $templateProcessor->setValue('kode_subkomponen', $arr_subkomponen['kode']);
         $templateProcessor->setValue('kode_akun', $arr_akun['kode']);
+        $templateProcessor->setValue('pembebanan', $arr_program['kode'].".".$arr_ro['kode'].".".$arr_komponen['kode'].".".$arr_subkomponen['kode'].".".$arr_akun['kode']);
         
         $templateProcessor->setValue('des_program', htmlspecialchars($arr_program['deskripsi']));
         $templateProcessor->setValue('des_kegiatan', htmlspecialchars($arr_kegiatan['deskripsi']));
