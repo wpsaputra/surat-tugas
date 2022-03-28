@@ -184,7 +184,7 @@ class KwitansiController extends Controller
                     $arr_total_pegawai[$value["nip_anggota"]] = Pegawai::find()->where(['nip'=>$value["nip_anggota"]])->asArray()->one()['nama'];
                 }
 
-                if(StSpd::find()->where(['id' => $value2])->asArray()->one()["id_akun"]==524111){
+                if(StSpd::find()->where(['id' => $value2])->asArray()->one()["id_akun"]==524111||StSpd::find()->where(['id' => $value2])->asArray()->one()["xid_akun"]==2){
                     $isFieldEnabled = true;
                 }else{
                     $isFieldEnabled = false;
