@@ -403,7 +403,7 @@ $arr_akun = Yii::$app->db->createCommand("SELECT *, CONCAT(kode, ' - ', deskrips
             <!-- <?= $form->field($model, 'nip_ppk')->textInput(['maxlength' => true]) ?> -->
             <?= $form->field($model, "nip_ppk")->dropDownList(
                 $arr_ppk_gabung,
-                ['prompt'=>'Pilih pegawai ...', "id"=>"nip_ppk"],
+                ['prompt'=>'Pilih pegawai ...', "id"=>"nip_ppk"]
             )?>
         </div>
         <div class="col-sm-4">

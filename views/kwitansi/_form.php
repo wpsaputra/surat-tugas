@@ -109,7 +109,7 @@ $this->registerJS($js2);
         <div class='col-md-6'>
             <!-- <?= $form->field($model, 'nip')->textInput(['maxlength' => true]) ?> -->
             <?= $form->field($model, 'nip')->widget(Select2::classname(), [
-                'data' => ArrayHelper::map(Pegawai::find()->where(["id_instansi" => Yii::$app->user->identity->id_instansi])->all(),'nip','nama'),
+                'data' => ArrayHelper::map(Pegawai::find()->where(["id_instansi" => Yii::$app->user->identity->id_instansi])->andWhere(["flag_pensiun"=>0])->orderBy(["nama"=>"SORT_ASC"])->all(),'nip','nama'),
                 'options' => ['placeholder' => 'Pilih pegawai ...'],
                 'pluginOptions' => [
                     'allowClear' => true
