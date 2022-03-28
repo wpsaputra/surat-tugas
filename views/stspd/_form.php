@@ -91,56 +91,33 @@ foreach ($arr_bendahara as $key => $value) {
 $arr_model_attr = array_keys($model->attributes);
 $arr_model_val = array_values($model->attributes);
 
-$js3 = '$("#xkode_program").on("change", function() {
+$js5 = '$("#xkode_program").on("change", function() {
 	var value = $(this).val();
     console.log("xkode_program", value);
-    // $("#nip_ppk").val(null).trigger("change");
 
-    var ppk_ppis ='.json_encode($arr_ppk_gabung).';
-    var data = {
-        id: 1,
-        text: "Barn owl"
-    };
+    var ppk_ppis ='.json_encode($arr_ppk).';
+    var ppk_dukman ='.json_encode($arr_ppk_dukman).';
     
-    var newOption = new Option(data.text, data.id, false, false);
+    $("#nip_ppk option:gt(0)").remove();
+    var $el = $("#nip_ppk");
 
     if(value==1){
         //SHOW PPK PPIS
-        console.log(ppk_ppis);
-        // $("#nip_ppk").select2({data: data});
-        // $("#nip_ppk").empty();
-        // $("#nip_ppk").prepend("<option selected=""></option>").select2({placeholder: "Pilih Pegawai ..."});
-        // $("#nip_ppk").prepend("<option selected></option>").select2({
-        //     placeholder: "Select Month",
-        //     allowClear: true
-        // });
-        // $("#nip_ppk").append(newOption).trigger("change");
-        $("#nip_ppk option[value=\"197907092000121002\"]").prop("disabled",false).trigger("change");
-        // $("#nip_ppk").select2();
-
-        $("#box-ppis").removeClass("hidden");
-        $("#box-dukman").addClass("hidden");
-
-
+        $.each(ppk_ppis, function(key,value) {
+            $el.append($("<option></option>")
+               .attr("value", key).text(value));
+        });
 
     }else{
         //PPK DUKMAN
-        $("#box-ppis").addClass("hidden");
-        $("#box-dukman").removeClass("hidden");
+        $.each(ppk_dukman, function(key,value) {
+            $el.append($("<option></option>")
+               .attr("value", key).text(value));
+        });
 
     }
 });';
-$this->registerJS($js3);
-
-$js4 = '$("#nip_ppk_ppis, #nip_ppk_dukman").on("change", function() {
-    console.log("JS 4");
-	var value = $(this).val();
-    console.log(value);
-    $("#nip_ppk").val(value).trigger("change");
-});
-$("#nip_ppk").addClass("hidden");
-';
-$this->registerJS($js4);
+$this->registerJS($js5);
 
 
 // print_r($arr_model_attr);
@@ -424,46 +401,10 @@ $arr_akun = Yii::$app->db->createCommand("SELECT *, CONCAT(kode, ' - ', deskrips
         </div>
         <div class="col-sm-4">
             <!-- <?= $form->field($model, 'nip_ppk')->textInput(['maxlength' => true]) ?> -->
-            <div class="">
-                <?= $form->field($model, 'nip_ppk')->widget(Select2::classname(), [
-                    'data' => $arr_ppk_gabung,
-                    'options' => ['placeholder' => 'Pilih pegawai ...', 'id'=>"nip_ppk"],
-                    'pluginOptions' => [
-                        'allowClear' => true
-                    ],
-                ]);
-                ?>
-            </div>
-            <div id="box-ppis">
-                <?php
-                    
-                    echo '<label class="control-label">PPK PPIS</label>';
-                    echo Select2::widget([
-                        'name' => 'nip_ppk_ppis',
-                        'data' => $arr_ppk,
-                        'options' => ['placeholder' => 'Pilih pegawai ...', 'id'=>"nip_ppk_ppis"],
-                        'pluginOptions' => [
-                            'allowClear' => true
-                        ],
-                    ]);
-
-                ?>
-            </div>
-            <div id="box-dukman" class="hidden">
-                <?php
-                    
-                    echo '<label class="control-label">PPK DUKMAN</label>';
-                    echo Select2::widget([
-                        'name' => 'nip_ppk_dukman',
-                        'data' => $arr_ppk_dukman,
-                        'options' => ['placeholder' => 'Pilih pegawai ...', 'id'=>"nip_ppk_dukman"],
-                        'pluginOptions' => [
-                            'allowClear' => true
-                        ],
-                    ]);
-
-                ?>
-            </div>
+            <?= $form->field($model, "nip_ppk")->dropDownList(
+                $arr_ppk_gabung,
+                ['prompt'=>'Pilih pegawai ...', "id"=>"nip_ppk"],
+            )?>
         </div>
         <div class="col-sm-4">
             <!-- <?= $form->field($model, 'nip_bendahara')->textInput(['maxlength' => true]) ?> -->
