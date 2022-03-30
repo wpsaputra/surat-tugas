@@ -39,6 +39,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             'label' => 'Nama Pegawai',
                             'value' => 'nip0.nama'
                         ],
+                        'tanggal_bayar',
                         [
                             'attribute' => 'id_instansi',
                             'label' => 'Id Instansi',
@@ -58,7 +59,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         //'representasi_riil',
                         //'representasi_riil_total',
                         //'jumlah_riil',
-                        //'tanggal_bayar',
+                        
                         //'kwitansi_path',
                         //'id_st',
                         //'nip',

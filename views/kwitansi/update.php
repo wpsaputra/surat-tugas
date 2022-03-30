@@ -22,7 +22,7 @@ $this->registerJsFile(
     ['depends' => [\yii\web\JqueryAsset::className()]]
 );
 
-if(StSpd::find()->where(['id' => $model->id_st])->asArray()->one()["id_akun"]==524111){
+if(StSpd::find()->where(['id' => $model->id_st])->asArray()->one()["id_akun"]==524111||StSpd::find()->where(['id' => $model->id_st])->asArray()->one()["xid_akun"]==2){
     // Luar Kota
     $isFieldEnabled = true;
     $template = json_encode(TemplateNew::find()->where(['nama' => 'kwitansi_luar_kota_new'])->asArray()->one()['html_text']);
