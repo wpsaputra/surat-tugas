@@ -92,7 +92,7 @@ class KwitansiController extends Controller
 
         if ($model->load(Yii::$app->request->post())) {
             $arr_st_spd = StSpd::find()->where(['id'=>$model->id_st])->asArray()->one();
-            if($arr_st_spd['id_akun']==524111){
+            if($arr_st_spd['id_akun']==524111||$arr_st_spd['xid_akun']==2){
                 $model->setScenario(Kwitansi::SCENARIO_LUAR_KOTA);
             }else{
                 $model->detachBehavior("auto_fill_biaya_inap_riil_total");

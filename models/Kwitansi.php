@@ -253,10 +253,10 @@ class Kwitansi extends \yii\db\ActiveRecord
     {
         // prepare array
         $arr_st_spd = StSpd::find()->where(['id'=>$this->id_st])->asArray()->one();
-        if($arr_st_spd['id_akun']==524111){
-            $templateProcessor = new TemplateProcessor('template/template_kwitansi_luar_kota.docx');
+        if($arr_st_spd['id_akun']==524111||$arr_st_spd['xid_akun']==2){
+            $templateProcessor = new TemplateProcessor('template/template_2022/template_kwitansi_luar_kota.docx');
         }else{
-            $templateProcessor = new TemplateProcessor('template/template_kwitansi_dalam_kota.docx');
+            $templateProcessor = new TemplateProcessor('template/template_2022/template_kwitansi_dalam_kota.docx');
         }
         
         // get attribute key & value for replace from this model 
@@ -294,6 +294,28 @@ class Kwitansi extends \yii\db\ActiveRecord
 
         // replace value which need formatting first
         // $templateProcessor->setValue('nama', $arr_pegawai['nama']);
+        $templateProcessor->setValue('c_id_instansi', strtoupper($arr_instansi['instansi']));
+        $templateProcessor->setValue('d_id_instansi', str_replace("BPS ", "",strtoupper($arr_instansi['instansi'])));
+        $templateProcessor->setValue('maksud', $arr_st_spd['maksud']);
+        $templateProcessor->setValue('kota_tujuan', $arr_st_spd['kota_tujuan']);
+        // $templateProcessor->setValue('tanggal_pergi', $arr_st_spd['tanggal_pergi']);
+        // $templateProcessor->setValue('tanggal_kembali', $arr_st_spd['tanggal_kembali']);
+
+        $templateProcessor->setValue('tanggal_pergi', (int)Yii::$app->formatter->asDate($arr_st_spd['tanggal_pergi'], "dd").' '.self::BULAN[Yii::$app->formatter->asDate($arr_st_spd['tanggal_pergi'], "M")].' '.Yii::$app->formatter->asDate($arr_st_spd['tanggal_pergi'], "Y"));
+        $templateProcessor->setValue('tanggal_kembali', (int)Yii::$app->formatter->asDate($arr_st_spd['tanggal_kembali'], "dd").' '.self::BULAN[Yii::$app->formatter->asDate($arr_st_spd['tanggal_kembali'], "M")].' '.Yii::$app->formatter->asDate($arr_st_spd['tanggal_kembali'], "Y"));
+        $templateProcessor->setValue('tahun_anggaran', Yii::$app->formatter->asDate($this->tanggal_bayar, "Y"));
+
+
+        $arr_program = TNewProgram::find()->where(['id'=>$arr_st_spd['xkode_program']])->asArray()->one();
+        // $arr_kegiatan = TNewKegiatan::find()->where(['id'=>$this->xkode_kegiatan])->asArray()->one();
+        // $arr_kro = TNewKro::find()->where(['id'=>$this->xkode_kro])->asArray()->one();
+        $arr_ro = TNewRo::find()->where(['id'=>$arr_st_spd['xkode_ro']])->asArray()->one();
+        $arr_komponen = TNewKomponen::find()->where(['id'=>$arr_st_spd['xkode_komponen']])->asArray()->one();
+        $arr_subkomponen = TNewSubKomponen::find()->where(['id'=>$arr_st_spd['xkode_subkomponen']])->asArray()->one();
+        $arr_akun = TNewAkun::find()->where(['id'=>$arr_st_spd['xid_akun']])->asArray()->one();
+        $templateProcessor->setValue('pembebanan', $arr_program['kode'].".".$arr_ro['kode'].".".$arr_komponen['kode'].".".$arr_subkomponen['kode'].".".$arr_akun['kode']);
+        $templateProcessor->setValue('des_program', htmlspecialchars($arr_program['deskripsi']));
+
 
         $templateProcessor->setValue('nama_ppk', $arr_ppk['nama']);
         $templateProcessor->setValue('nip_ppk', $arr_ppk['nip']);
