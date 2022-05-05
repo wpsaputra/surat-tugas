@@ -126,7 +126,7 @@ class Kwitansi extends \yii\db\ActiveRecord
                     ActiveRecord::EVENT_BEFORE_UPDATE => 'jumlah_riil',
                 ],
                 'value' => function ($event) {
-                    $jumlah_riil = $this->biaya_inap_riil_total + $this->transport_riil + $this->taksi_riil + $this->representasi_riil_total;
+                    $jumlah_riil = $this->biaya_inap_riil_total + $this->transport_riil + $this->taksi_riil;
                     return $jumlah_riil;
                 },
             ],
@@ -138,7 +138,7 @@ class Kwitansi extends \yii\db\ActiveRecord
                     ActiveRecord::EVENT_BEFORE_UPDATE => 'jumlah_pdb',
                 ],
                 'value' => function ($event) {
-                    $jumlah_pdb = $this->uang_harian_total + $this->biaya_transportasi + $this->biaya_penginapan + $this->jumlah_riil;
+                    $jumlah_pdb = $this->uang_harian_total + $this->biaya_transportasi + $this->biaya_penginapan + $this->representasi_riil_total + $this->jumlah_riil;
                     return $jumlah_pdb;
                 },
             ],
@@ -223,8 +223,8 @@ class Kwitansi extends \yii\db\ActiveRecord
             'biaya_inap_riil_total' => 'Biaya Inap Riil Total',
             'transport_riil' => 'Transport Riil',
             'taksi_riil' => 'Taksi Riil',
-            'representasi_riil' => 'Representasi Riil',
-            'representasi_riil_total' => 'Representasi Riil Total',
+            'representasi_riil' => 'Uang Representasi',
+            'representasi_riil_total' => 'Uang Representasi Total',
             'jumlah_riil' => 'Jumlah Riil',
             'tanggal_bayar' => 'Tanggal Bayar',
             'kwitansi_path' => 'Kwitansi Path',

@@ -46,7 +46,7 @@ function replaceCK(){
     str = str.replace(/\$\{representasi_riil_total\}/g, representasi_riil_total);
 
     var jumlah_riil = parseFloat(biaya_inap_riil_total) + parseFloat($("#kwitansi-transport_riil").val()) 
-        + parseFloat($("#kwitansi-taksi_riil").val()) + parseFloat(representasi_riil_total);
+        + parseFloat($("#kwitansi-taksi_riil").val()) ;
     str = str.replace(/\$\{jumlah_riil\}/g, jumlah_riil);
     str = str.replace(/\$\{terbilang_jumlah_riil\}/g, jumlah_riil);
 
@@ -54,7 +54,7 @@ function replaceCK(){
     str = str.replace(/\$\{uang_harian_total\}/g, uang_harian_total);
 
     var jumlah_pdb = parseFloat(uang_harian_total) + parseFloat($("#kwitansi-biaya_transportasi").val()) 
-        + parseFloat($("#kwitansi-biaya_penginapan").val()) + parseFloat(jumlah_riil);
+        + parseFloat($("#kwitansi-biaya_penginapan").val()) + parseFloat(jumlah_riil) + parseFloat(representasi_riil_total);
     str = str.replace(/\$\{jumlah_pdb\}/g, jumlah_pdb);
     str = str.replace(/\$\{terbilang_jumlah_pdb\}/g, jumlah_pdb);
 

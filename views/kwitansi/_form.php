@@ -167,13 +167,14 @@ $this->registerJS($js2);
             ]); ?>
         </div>
         <div class='col-sm-6'>
-            <!-- <?= $form->field($model, 'transport_riil')->textInput(['maxlength' => true]) ?> -->
-            <?= $form->field($model, 'transport_riil', [
+            <!-- <?= $form->field($model, 'representasi_riil')->textInput(['maxlength' => true]) ?> -->
+            <?= $form->field($model, 'representasi_riil', [
                 'addon' => [ 
                     'prepend' => ['content' => 'Rp.', 'options'=>['class'=>'alert-success']],
                     'append' => ['content' => ',-', 'options'=>['style' => 'font-family: Monaco, Consolas, monospace;']],
                 ]
             ]); ?>
+            
         </div>
     </div>
 
@@ -188,8 +189,8 @@ $this->registerJS($js2);
             ]); ?>
         </div>
         <div class='col-sm-6'>
-            <!-- <?= $form->field($model, 'representasi_riil')->textInput(['maxlength' => true]) ?> -->
-            <?= $form->field($model, 'representasi_riil', [
+            <!-- <?= $form->field($model, 'transport_riil')->textInput(['maxlength' => true]) ?> -->
+            <?= $form->field($model, 'transport_riil', [
                 'addon' => [ 
                     'prepend' => ['content' => 'Rp.', 'options'=>['class'=>'alert-success']],
                     'append' => ['content' => ',-', 'options'=>['style' => 'font-family: Monaco, Consolas, monospace;']],
