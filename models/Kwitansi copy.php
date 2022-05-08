@@ -34,9 +34,6 @@ use NumberToWords\NumberToWords;
  *
  * @property StSpd $st
  * @property Pegawai $nip0
- * 
- * @property int $hari_penginapan
- * @property string $biaya_penginapan_total
  */
 class Kwitansi extends \yii\db\ActiveRecord
 {
@@ -98,18 +95,6 @@ class Kwitansi extends \yii\db\ActiveRecord
                 },
             ],
 
-            "auto_fill_biaya_penginapan_total"=>[
-                'class' => AttributeBehavior::className(),
-                'attributes' => [
-                    ActiveRecord::EVENT_BEFORE_INSERT => 'biaya_penginapan_total',
-                    ActiveRecord::EVENT_BEFORE_UPDATE => 'biaya_penginapan_total',
-                ],
-                'value' => function ($event) {
-                    $biaya_penginapan_total = $this->hari_penginapan * $this->biaya_penginapan;
-                    return $biaya_penginapan_total;
-                },
-            ],
-
             "auto_fill_biaya_inap_riil_total"=>[
                 'class' => AttributeBehavior::className(),
                 'attributes' => [
@@ -153,7 +138,7 @@ class Kwitansi extends \yii\db\ActiveRecord
                     ActiveRecord::EVENT_BEFORE_UPDATE => 'jumlah_pdb',
                 ],
                 'value' => function ($event) {
-                    $jumlah_pdb = $this->uang_harian_total + $this->biaya_transportasi + $this->biaya_penginapan_total + $this->representasi_riil_total + $this->jumlah_riil;
+                    $jumlah_pdb = $this->uang_harian_total + $this->biaya_transportasi + $this->biaya_penginapan + $this->representasi_riil_total + $this->jumlah_riil;
                     return $jumlah_pdb;
                 },
             ],
@@ -180,10 +165,10 @@ class Kwitansi extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['jumlah_hari', 'id_st', 'nip', 'hari_inap_riil', 'hari_penginapan'], 'integer'],
+            [['jumlah_hari', 'id_st', 'nip', 'hari_inap_riil'], 'integer'],
             [['uang_harian', 'tanggal_bayar', 'id_st', 'nip'], 'required'],
-            [['uang_harian', 'biaya_transportasi', 'biaya_penginapan', 'biaya_inap_riil', 'transport_riil', 'taksi_riil', 'representasi_riil', 'tanggal_bayar', 'id_st', 'nip', 'hari_inap_riil', 'hari_penginapan'], 'required', 'on'=>self::SCENARIO_LUAR_KOTA],
-            [['uang_harian', 'uang_harian_total', 'biaya_transportasi', 'biaya_penginapan', 'jumlah_pdb', 'biaya_inap_riil', 'biaya_inap_riil_total', 'transport_riil', 'taksi_riil', 'representasi_riil', 'representasi_riil_total', 'jumlah_riil', 'biaya_penginapan_total'], 'number'],
+            [['uang_harian', 'biaya_transportasi', 'biaya_penginapan', 'biaya_inap_riil', 'transport_riil', 'taksi_riil', 'representasi_riil', 'tanggal_bayar', 'id_st', 'nip', 'hari_inap_riil'], 'required', 'on'=>self::SCENARIO_LUAR_KOTA],
+            [['uang_harian', 'uang_harian_total', 'biaya_transportasi', 'biaya_penginapan', 'jumlah_pdb', 'biaya_inap_riil', 'biaya_inap_riil_total', 'transport_riil', 'taksi_riil', 'representasi_riil', 'representasi_riil_total', 'jumlah_riil'], 'number'],
             [['tanggal_bayar'], 'safe'],
             [['kwitansi_path'], 'string', 'max' => 120],
             [['id_st', 'nip'], 'unique', 'targetAttribute' => ['id_st', 'nip']],
@@ -245,8 +230,6 @@ class Kwitansi extends \yii\db\ActiveRecord
             'kwitansi_path' => 'Kwitansi Path',
             'id_st' => 'Id St',
             'nip' => 'Nip',
-            'hari_penginapan' => 'Hari Penginapan',
-            'biaya_penginapan_total' => 'Biaya Penginapan Total',
         ];
     }
 

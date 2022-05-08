@@ -31,6 +31,7 @@ $js = '$(".dependent-input").on("change", function() {
 
             $("#" + next).html(parsedData.pegawai);
             $("#kwitansi-biaya_transportasi").prop("disabled", !parsedData.isFieldEnabled);
+            $("#kwitansi-hari_penginapan").prop("disabled", !parsedData.isFieldEnabled);
             $("#kwitansi-biaya_penginapan").prop("disabled", !parsedData.isFieldEnabled);
             $("#kwitansi-transport_riil").prop("disabled", !parsedData.isFieldEnabled);
             $("#kwitansi-transport_riil").prop("disabled", !parsedData.isFieldEnabled);
@@ -68,6 +69,7 @@ $js2 = '$( document ).ready(function() {
 
             $("#" + next).html(parsedData.pegawai);
             $("#kwitansi-biaya_transportasi").prop("disabled", !parsedData.isFieldEnabled);
+            $("#kwitansi-hari_penginapan").prop("disabled", !parsedData.isFieldEnabled);
             $("#kwitansi-biaya_penginapan").prop("disabled", !parsedData.isFieldEnabled);
             $("#kwitansi-transport_riil").prop("disabled", !parsedData.isFieldEnabled);
             $("#kwitansi-transport_riil").prop("disabled", !parsedData.isFieldEnabled);
@@ -158,6 +160,14 @@ $this->registerJS($js2);
 
     <div class='row'>
         <div class='col-sm-6'>
+            <!-- <?= $form->field($model, 'representasi_riil')->textInput(['maxlength' => true]) ?> -->
+            <?= $form->field($model, 'hari_penginapan', [
+                'addon' => [ 
+                    'append' => ['content' => 'Hari', 'options'=>['style' => 'font-family: Monaco, Consolas, monospace;']],
+                ]
+            ]); ?>
+        </div>
+        <div class='col-sm-6'>
             <!-- <?= $form->field($model, 'biaya_penginapan')->textInput(['maxlength' => true]) ?> -->
             <?= $form->field($model, 'biaya_penginapan', [
                 'addon' => [ 
@@ -166,7 +176,11 @@ $this->registerJS($js2);
                 ]
             ]); ?>
         </div>
-        <div class='col-sm-6'>
+        
+    </div>
+
+    <div class='row'>
+        <div class='col-sm-12'>
             <!-- <?= $form->field($model, 'representasi_riil')->textInput(['maxlength' => true]) ?> -->
             <?= $form->field($model, 'representasi_riil', [
                 'addon' => [ 

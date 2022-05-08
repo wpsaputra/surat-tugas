@@ -30,6 +30,7 @@ function replaceCK(){
     str = str.replace(/\$\{nomor_spd\}/g, $("#kwitansi-id_st").find("option:selected").text());
     str = str.replace(/\$\{uang_harian\}/g, $("#kwitansi-uang_harian").val());
     str = str.replace(/\$\{biaya_transportasi\}/g, $("#kwitansi-biaya_transportasi").val());
+    str = str.replace(/\$\{hari_penginapan\}/g, $("#kwitansi-hari_penginapan").val());
     str = str.replace(/\$\{biaya_penginapan\}/g, $("#kwitansi-biaya_penginapan").val());
     str = str.replace(/\$\{hari_inap_riil\}/g, $("#kwitansi-hari_inap_riil").val());
     str = str.replace(/\$\{biaya_inap_riil\}/g, $("#kwitansi-biaya_inap_riil").val());
@@ -39,6 +40,9 @@ function replaceCK(){
     str = str.replace(/\$\{tanggal_bayar\}/g, $("#kwitansi-tanggal_bayar").val());
     str = str.replace(/\$\{jumlah_hari\}/g, x_hari);
 
+    var biaya_penginapan_total = parseFloat($("#kwitansi-hari_penginapan").val()) * parseFloat($("#kwitansi-biaya_penginapan").val());
+    str = str.replace(/\$\{biaya_penginapan_total\}/g, biaya_penginapan_total);
+    
     var biaya_inap_riil_total = 0.3 * $("#kwitansi-hari_inap_riil").val() * $("#kwitansi-biaya_inap_riil").val();
     str = str.replace(/\$\{biaya_inap_riil_total\}/g, biaya_inap_riil_total);
 
@@ -54,7 +58,7 @@ function replaceCK(){
     str = str.replace(/\$\{uang_harian_total\}/g, uang_harian_total);
 
     var jumlah_pdb = parseFloat(uang_harian_total) + parseFloat($("#kwitansi-biaya_transportasi").val()) 
-        + parseFloat($("#kwitansi-biaya_penginapan").val()) + parseFloat(jumlah_riil) + parseFloat(representasi_riil_total);
+        + biaya_penginapan_total + parseFloat(jumlah_riil) + parseFloat(representasi_riil_total);
     str = str.replace(/\$\{jumlah_pdb\}/g, jumlah_pdb);
     str = str.replace(/\$\{terbilang_jumlah_pdb\}/g, jumlah_pdb);
 
@@ -122,6 +126,9 @@ $(document).ready(function () {
         replaceCK();
     });
     $("#kwitansi-biaya_transportasi").change(function () {
+        replaceCK();
+    });
+    $("#kwitansi-hari_penginapan").change(function () {
         replaceCK();
     });
     $("#kwitansi-biaya_penginapan").change(function () {
